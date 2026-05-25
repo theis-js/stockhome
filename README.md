@@ -1,2 +1,2 @@
-# stockhome
+# StockHome
 
