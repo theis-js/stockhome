@@ -1,37 +1,39 @@
 USE stockhome;
 
 CREATE TABLE IF NOT EXISTS users (
-    uuid BINARY(16) PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    is_admin BOOLEAN DEFAULT FALSE,
-    is_active BOOLEAN DEFAULT TRUE,
-    last_login TIMESTAMP NULL,
+    uuid        BINARY(16)   PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    username    VARCHAR(255) NOT NULL UNIQUE,
+    first_name  VARCHAR(255) NOT NULL,
+    last_name   VARCHAR(255) NOT NULL,
+    email       VARCHAR(255) NOT NULL UNIQUE,
+    password    VARCHAR(255) NOT NULL,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_admin    BOOLEAN      DEFAULT FALSE,
+    is_active   BOOLEAN      DEFAULT TRUE,
+    last_login  TIMESTAMP    NULL,
     profile_picture VARCHAR(500) NULL
 );
 
 CREATE TABLE IF NOT EXISTS storage_locations (
-    uuid BINARY(16) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    description TEXT DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    uuid        BINARY(16)   PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    name        VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT         DEFAULT NULL,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS products (
-    uuid BINARY(16) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT DEFAULT NULL,
-    price VARCHAR(10) DEFAULT NULL,
-    amount INT NOT NULL,
-    storage_location BINARY(16) NOT NULL,
-    expiry_date DATE DEFAULT NULL,
-    bottling_date DATE DEFAULT NULL,
-    picture VARCHAR(500) DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    uuid             BINARY(16)   PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+    name             VARCHAR(255) NOT NULL,
+    description      TEXT         DEFAULT NULL,
+    price            VARCHAR(10)  DEFAULT NULL,
+    amount           INT          NOT NULL,
+    storage_location BINARY(16)   NOT NULL,
+    expiry_date      DATE         DEFAULT NULL,
+    bottling_date    DATE         DEFAULT NULL,
+    picture          VARCHAR(500) DEFAULT NULL,
+    created_at       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    updated_at       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (storage_location) REFERENCES storage_locations(uuid) ON DELETE CASCADE
 );

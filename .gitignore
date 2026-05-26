@@ -44,3 +44,6 @@ Temporary Items
 .apdisk
 
 ToDo.txt
+
+.env
+.docker/volumes

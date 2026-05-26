@@ -1,7 +1,7 @@
 services:
   database:
     container_name: stockhome-mysql
-    image: mysql:latest
+    image: mysql:8.0
     restart: unless-stopped
     ports:
       - "3312:3306"
@@ -10,7 +10,7 @@ services:
       MYSQL_DATABASE: stockhome
       TZ: Europe/Berlin
     volumes:
-      - stockhome_mysql:/var/lib/mysql
+      - ./.docker/volumes/stockhome_mysql:/var/lib/mysql
       - ./mysql-timezone.cnf:/etc/mysql/conf.d/timezone.cnf:ro
 
   backend:
@@ -20,11 +20,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8004:8004"
-    entrypoint:
+    environment:
       NODE_ENV: production
     depends_on:
       - database
     restart: unless-stopped
-
-volumes:
-  stockhome_mysql:
