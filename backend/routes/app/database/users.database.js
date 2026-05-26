@@ -18,14 +18,14 @@ export const findUser = async (username, password) => {
   );
 
   if (result.length <= 0) {
-    return { code: "e001" }; // username or password is wrong
+    return { code: "eu001" }; // username or password is wrong
   }
 
   if (!result[0].is_active) {
-    return { code: "e002" }; // user is deactivated
+    return { code: "eu002" }; // user is deactivated
   }
 
-  return { code: "s001", data: result[0] }; // user found
+  return { code: "su001", data: result[0] }; // user found
 };
 
 export const loginUser = async (username) => {
@@ -35,8 +35,8 @@ export const loginUser = async (username) => {
   );
 
   if (result.affectedRows > 0) {
-    return { code: "s002" };
+    return { code: "su002" };
   } else {
-    return { code: "e003" };
+    return { code: "eu003" };
   }
 };

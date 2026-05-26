@@ -18,6 +18,9 @@ app.use("/users", userRouter);
 import productRouter from "./routes/app/products.route.js";
 app.use("/products", productRouter);
 
+import storageRouter from "./routes/app/storage.route.js";
+app.use("/storage", storageRouter);
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

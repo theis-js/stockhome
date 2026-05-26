@@ -11,32 +11,32 @@ router.post("/login", async (req, res) => {
 
   const result = await findUser(username, password);
 
-  if (result.code === "e001") {
+  if (result.code === "eu001") {
     res.status(404).json({
       success: false,
-      code: "e001",
+      code: "eu001",
       data: null,
       message: "username oder password is wrong",
     });
   }
 
-  if (result.code === "e002") {
+  if (result.code === "eu002") {
     res.status(403).json({
       success: false,
-      code: "e002",
+      code: "eu002",
       data: null,
       message: "user is deactivated",
     });
   }
 
-  if (result.code === "s001") {
+  if (result.code === "su001") {
     const token = await generateToken(result.data);
     const login = await loginUser(result.data.username);
 
     if (login.code === "e003") {
       res.status(500).json({
         success: false,
-        code: "e003",
+        code: "eu003",
         data: null,
         message: "Unexpected server error. Please contact system admin.",
       });
@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
 
     res.status(202).json({
       success: true,
-      code: "s001",
+      code: "su001",
       data: {
         token,
       },
