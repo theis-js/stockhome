@@ -6,7 +6,7 @@ dotenv.config();
 const router = express.Router();
 
 router.post("/verify-token", authenticate, async (req, res) => {
-  res.status(200);
+  res.sendStatus(200);
 });
 
 router.post("/login", async (req, res) => {

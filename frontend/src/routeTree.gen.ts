@@ -11,9 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppViewProductRouteImport } from './routes/app/view-product'
-import { Route as AppInventoryRouteImport } from './routes/app/inventory'
-import { Route as AppAddProductRouteImport } from './routes/app/add-product'
+import { Route as AppHiddenLayoutRouteImport } from './routes/app/_hiddenLayout'
+import { Route as AppHiddenLayoutViewProductRouteImport } from './routes/app/_hiddenLayout/view-product'
+import { Route as AppHiddenLayoutInventoryRouteImport } from './routes/app/_hiddenLayout/inventory'
+import { Route as AppHiddenLayoutAddProductRouteImport } from './routes/app/_hiddenLayout/add-product'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -25,49 +26,61 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppViewProductRoute = AppViewProductRouteImport.update({
-  id: '/app/view-product',
-  path: '/app/view-product',
+const AppHiddenLayoutRoute = AppHiddenLayoutRouteImport.update({
+  id: '/app/_hiddenLayout',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppInventoryRoute = AppInventoryRouteImport.update({
-  id: '/app/inventory',
-  path: '/app/inventory',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppAddProductRoute = AppAddProductRouteImport.update({
-  id: '/app/add-product',
-  path: '/app/add-product',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const AppHiddenLayoutViewProductRoute =
+  AppHiddenLayoutViewProductRouteImport.update({
+    id: '/view-product',
+    path: '/view-product',
+    getParentRoute: () => AppHiddenLayoutRoute,
+  } as any)
+const AppHiddenLayoutInventoryRoute =
+  AppHiddenLayoutInventoryRouteImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => AppHiddenLayoutRoute,
+  } as any)
+const AppHiddenLayoutAddProductRoute =
+  AppHiddenLayoutAddProductRouteImport.update({
+    id: '/add-product',
+    path: '/add-product',
+    getParentRoute: () => AppHiddenLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/app/add-product': typeof AppAddProductRoute
-  '/app/inventory': typeof AppInventoryRoute
-  '/app/view-product': typeof AppViewProductRoute
+  '/app': typeof AppHiddenLayoutRouteWithChildren
+  '/app/add-product': typeof AppHiddenLayoutAddProductRoute
+  '/app/inventory': typeof AppHiddenLayoutInventoryRoute
+  '/app/view-product': typeof AppHiddenLayoutViewProductRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/app/add-product': typeof AppAddProductRoute
-  '/app/inventory': typeof AppInventoryRoute
-  '/app/view-product': typeof AppViewProductRoute
+  '/app': typeof AppHiddenLayoutRouteWithChildren
+  '/app/add-product': typeof AppHiddenLayoutAddProductRoute
+  '/app/inventory': typeof AppHiddenLayoutInventoryRoute
+  '/app/view-product': typeof AppHiddenLayoutViewProductRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/app/add-product': typeof AppAddProductRoute
-  '/app/inventory': typeof AppInventoryRoute
-  '/app/view-product': typeof AppViewProductRoute
+  '/app/_hiddenLayout': typeof AppHiddenLayoutRouteWithChildren
+  '/app/_hiddenLayout/add-product': typeof AppHiddenLayoutAddProductRoute
+  '/app/_hiddenLayout/inventory': typeof AppHiddenLayoutInventoryRoute
+  '/app/_hiddenLayout/view-product': typeof AppHiddenLayoutViewProductRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/login'
+    | '/app'
     | '/app/add-product'
     | '/app/inventory'
     | '/app/view-product'
@@ -75,6 +88,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/app'
     | '/app/add-product'
     | '/app/inventory'
     | '/app/view-product'
@@ -82,17 +96,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login'
-    | '/app/add-product'
-    | '/app/inventory'
-    | '/app/view-product'
+    | '/app/_hiddenLayout'
+    | '/app/_hiddenLayout/add-product'
+    | '/app/_hiddenLayout/inventory'
+    | '/app/_hiddenLayout/view-product'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
-  AppAddProductRoute: typeof AppAddProductRoute
-  AppInventoryRoute: typeof AppInventoryRoute
-  AppViewProductRoute: typeof AppViewProductRoute
+  AppHiddenLayoutRoute: typeof AppHiddenLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -111,36 +124,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/view-product': {
-      id: '/app/view-product'
-      path: '/app/view-product'
+    '/app/_hiddenLayout': {
+      id: '/app/_hiddenLayout'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppHiddenLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/_hiddenLayout/view-product': {
+      id: '/app/_hiddenLayout/view-product'
+      path: '/view-product'
       fullPath: '/app/view-product'
-      preLoaderRoute: typeof AppViewProductRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppHiddenLayoutViewProductRouteImport
+      parentRoute: typeof AppHiddenLayoutRoute
     }
-    '/app/inventory': {
-      id: '/app/inventory'
-      path: '/app/inventory'
+    '/app/_hiddenLayout/inventory': {
+      id: '/app/_hiddenLayout/inventory'
+      path: '/inventory'
       fullPath: '/app/inventory'
-      preLoaderRoute: typeof AppInventoryRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppHiddenLayoutInventoryRouteImport
+      parentRoute: typeof AppHiddenLayoutRoute
     }
-    '/app/add-product': {
-      id: '/app/add-product'
-      path: '/app/add-product'
+    '/app/_hiddenLayout/add-product': {
+      id: '/app/_hiddenLayout/add-product'
+      path: '/add-product'
       fullPath: '/app/add-product'
-      preLoaderRoute: typeof AppAddProductRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppHiddenLayoutAddProductRouteImport
+      parentRoute: typeof AppHiddenLayoutRoute
     }
   }
 }
 
+interface AppHiddenLayoutRouteChildren {
+  AppHiddenLayoutAddProductRoute: typeof AppHiddenLayoutAddProductRoute
+  AppHiddenLayoutInventoryRoute: typeof AppHiddenLayoutInventoryRoute
+  AppHiddenLayoutViewProductRoute: typeof AppHiddenLayoutViewProductRoute
+}
+
+const AppHiddenLayoutRouteChildren: AppHiddenLayoutRouteChildren = {
+  AppHiddenLayoutAddProductRoute: AppHiddenLayoutAddProductRoute,
+  AppHiddenLayoutInventoryRoute: AppHiddenLayoutInventoryRoute,
+  AppHiddenLayoutViewProductRoute: AppHiddenLayoutViewProductRoute,
+}
+
+const AppHiddenLayoutRouteWithChildren = AppHiddenLayoutRoute._addFileChildren(
+  AppHiddenLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
-  AppAddProductRoute: AppAddProductRoute,
-  AppInventoryRoute: AppInventoryRoute,
-  AppViewProductRoute: AppViewProductRoute,
+  AppHiddenLayoutRoute: AppHiddenLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
