@@ -35,36 +35,60 @@ export const LoginCard = () => {
   });
 
   return (
-    <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
-        }}
-      >
-        <form.Field name="username">
-          {(field) => (
-            <Input
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              placeholder={t("username")}
-            />
-          )}
-        </form.Field>
-        <form.Field name="password">
-          {(field) => (
-            <Input
-              value={field.state.value}
-              type="password"
-              onChange={(e) => field.handleChange(e.target.value)}
-              placeholder={t("password")}
-            />
-          )}
-        </form.Field>
-        <Button type="submit" loading={isPending}>
-          {t("login")}
-        </Button>
-      </form>
-    </>
+    <div className="flex min-h-screen w-full items-center justify-center bg-[radial-gradient(1200px_circle_at_20%_10%,#e6f2ff_0%,#f7f9fc_40%,#f1f5fb_100%)] px-6 py-10">
+      <div className="mx-auto flex w-full max-w-4xl items-center justify-center">
+        <div className="w-full max-w-md rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_24px_60px_rgba(12,38,78,0.18)] backdrop-blur">
+          <div className="mb-8 space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#0b6bcb]">
+              Stockhome
+            </p>
+            <h1 className="text-3xl font-semibold text-slate-900">
+              {t("login")}
+            </h1>
+          </div>
+          <form
+            className="space-y-5"
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
+            <form.Field name="username">
+              {(field) => (
+                <Input
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder={t("username")}
+                  variant="outlined"
+                  size="lg"
+                  className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                />
+              )}
+            </form.Field>
+            <form.Field name="password">
+              {(field) => (
+                <Input
+                  value={field.state.value}
+                  type="password"
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder={t("password")}
+                  variant="outlined"
+                  size="lg"
+                  className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                />
+              )}
+            </form.Field>
+            <Button
+              type="submit"
+              loading={isPending}
+              size="lg"
+              className="w-full rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+            >
+              {t("login")}
+            </Button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
