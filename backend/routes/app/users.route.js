@@ -1,9 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
-import { generateToken } from "../../services/tokenService.js";
+import { authenticate, generateToken } from "../../services/tokenService.js";
 import { findUser, loginUser } from "./database/users.database.js";
 dotenv.config();
 const router = express.Router();
+
+router.post("/verify-token", authenticate, async (req, res) => {
+  res.status(200);
+});
 
 router.post("/login", async (req, res) => {
   const username = req.body.username;

@@ -47,3 +47,4 @@ ToDo.txt
 
 .env
 .docker/volumes
+.tanstack/tmp
