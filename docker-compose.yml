@@ -1,0 +1,30 @@
+services:
+  database:
+    container_name: stockhome-mysql
+    image: mysql:latest
+    restart: unless-stopped
+    ports:
+      - "3312:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: stockhome
+      TZ: Europe/Berlin
+    volumes:
+      - stockhome_mysql:/var/lib/mysql
+      - ./mysql-timezone.cnf:/etc/mysql/conf.d/timezone.cnf:ro
+
+  backend:
+    container_name: stockhome-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    entrypoint:
+      NODE_ENV: production
+    depends_on:
+      - database
+    restart: unless-stopped
+
+volumes:
+  stockhome_mysql:
