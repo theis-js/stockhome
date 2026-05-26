@@ -1,5 +1,5 @@
-// routes/app/_layout.tsx (oder app.tsx als Parent)
 import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Sidebar } from "../../components/Sidebar";
 
 export const Route = createFileRoute("/app/_hiddenLayout")({
   component: AppLayout,
@@ -7,9 +7,11 @@ export const Route = createFileRoute("/app/_hiddenLayout")({
 
 function AppLayout() {
   return (
-    <div>
-      <h1>Layout</h1>
-      <Outlet />
+    <div className="flex min-h-screen w-full bg-[#f7f9fc]">
+      <Sidebar />
+      <main className="flex-1 px-8 py-6">
+        <Outlet />
+      </main>
     </div>
   );
 }

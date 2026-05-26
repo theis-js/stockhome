@@ -1,5 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { z } from "zod";
 import { isAuthenticated } from "../../../utils/auth";
+import { ViewProduct } from "../../../pages/ViewProduct";
 
 export const Route = createFileRoute("/app/_hiddenLayout/view-product")({
   beforeLoad: async () => {
@@ -9,9 +11,13 @@ export const Route = createFileRoute("/app/_hiddenLayout/view-product")({
       });
     }
   },
+  validateSearch: z.object({
+    product: z.string(),
+  }),
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>Hello "/app/view-product"!</div>;
+  const { product } = Route.useSearch();
+  return <ViewProduct uuid={product} />;
 }

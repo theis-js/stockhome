@@ -40,6 +40,32 @@ export const newProduct = async (
   }
 };
 
+export const productDetails = async (uuid) => {
+  const [result] = await pool.query(
+    `SELECT 
+      BIN_TO_UUID(p.uuid)         AS uuid,
+      p.name,
+      p.description,
+      p.price,
+      p.amount,
+      BIN_TO_UUID(s.uuid)         AS storage_location_uuid,
+      s.name                      AS storage_location_name,
+      p.expiry_date,
+      p.bottling_date,
+      p.picture
+     FROM products p
+     JOIN storage_locations s ON p.storage_location = s.uuid
+     WHERE p.uuid = UUID_TO_BIN(?)`,
+    [uuid],
+  );
+
+  if (result.length > 0) {
+    return { code: "sp003", data: result[0] };
+  } else {
+    return { code: "ep003" };
+  }
+};
+
 export const allProducts = async () => {
   const [result] = await pool.query(`
     SELECT 
