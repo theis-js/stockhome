@@ -10,9 +10,10 @@ import {
   Chip,
   Divider,
   Box,
+  Alert,
 } from "@mui/joy";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { mutateProduct } from "../utils/uxFncs";
 import { toInputDate } from "../utils/uxFncs";
@@ -27,6 +28,7 @@ export const ViewProduct = (props: ViewProductProps) => {
   const uuid = props.uuid;
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const [success, setSuccess] = useState(false);
 
   const {
     data: productDetails,
@@ -70,6 +72,7 @@ export const ViewProduct = (props: ViewProductProps) => {
       uuid: string;
     }) => mutateProduct(values, uuid),
     onSuccess: (_data, variables) => {
+      setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ["product", variables.uuid] });
     },
   });
@@ -299,6 +302,19 @@ export const ViewProduct = (props: ViewProductProps) => {
                 {t("save")}
               </Button>
             </div>
+            {success && (
+              <Alert
+                color="success"
+                variant="soft"
+                className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 text-emerald-700 shadow-[0_14px_30px_rgba(16,185,129,0.18)]"
+              >
+                <div className="flex w-full items-center justify-between">
+                  <Typography level="body-sm" className="text-emerald-700">
+                    {t("success")}
+                  </Typography>
+                </div>
+              </Alert>
+            )}
           </form>
         </Box>
       )}
