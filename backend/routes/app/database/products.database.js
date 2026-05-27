@@ -91,3 +91,42 @@ export const allProducts = async () => {
     return { code: "ep002" };
   }
 };
+
+export const setAmount = async (itemUUID, amount) => {
+  const [result] = await pool.query(
+    `
+    UPDATE products SET amount = ? WHERE uuid = UUID_TO_BIN(?)
+    `,
+    [amount, itemUUID],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "sp004" }; // success
+  } else {
+    return { code: "ep004" }; // error
+  }
+};
+
+export const updateItem = async (itemUUID, newValues) => {
+  const [result] = await pool.query(
+    `
+    UPDATE products SET name = ?, description = ?, price = ?, amount = ?, storage_location = UUID_TO_BIN(?), expiry_date = ?, bottling_date = ? WHERE uuid = UUID_TO_BIN(?);
+    `,
+    [
+      newValues.name,
+      newValues.description,
+      newValues.price,
+      newValues.amount,
+      newValues.storage_location_uuid,
+      newValues.expiry_date,
+      newValues.bottling_date,
+      itemUUID,
+    ],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "sp005" }; // success
+  } else {
+    return { code: "ep005" }; // error
+  }
+};

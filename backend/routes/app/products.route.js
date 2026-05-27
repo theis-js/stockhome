@@ -5,6 +5,8 @@ import {
   allProducts,
   newProduct,
   productDetails,
+  setAmount,
+  updateItem,
 } from "./database/products.database.js";
 dotenv.config();
 const router = express.Router();
@@ -90,6 +92,56 @@ router.get("/view", authenticate, async (req, res) => {
       success: true,
       code: "sp003",
       data: result.data,
+      message: "",
+    });
+  }
+});
+
+router.put("/mutate/set-amount", authenticate, async (req, res) => {
+  const amount = req.query.amount;
+  const itemUUID = req.query.item;
+
+  const result = await setAmount(itemUUID, amount);
+
+  if (result.code === "ep004") {
+    res.status(406).json({
+      success: false,
+      code: "ep004",
+      data: null,
+      message: "Error while updating product amount",
+    });
+  }
+
+  if (result.code === "sp004") {
+    res.status(200).json({
+      success: true,
+      code: "sp004",
+      data: null,
+      message: "",
+    });
+  }
+});
+
+router.post("/mutate/update-item", authenticate, async (req, res) => {
+  const itemUUID = req.query.item;
+  const newValues = req.body;
+
+  const result = await updateItem(itemUUID, newValues);
+
+  if (result.code === "ep005") {
+    res.status(406).json({
+      success: false,
+      code: "ep005",
+      data: null,
+      message: "Error while updating product",
+    });
+  }
+
+  if (result.code === "sp005") {
+    res.status(200).json({
+      success: true,
+      code: "sp005",
+      data: null,
       message: "",
     });
   }
