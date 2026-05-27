@@ -361,7 +361,7 @@ export const InventoryPage = () => {
         <Table
           aria-labelledby="tableTitle"
           hoverRow
-          className="min-w-[960px] text-slate-700"
+          className="min-w-240 text-slate-700"
           sx={{
             "--TableCell-headBackground": "transparent",
             "--TableCell-selectedBackground": (theme) =>
