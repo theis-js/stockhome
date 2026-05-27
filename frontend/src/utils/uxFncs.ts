@@ -111,3 +111,35 @@ export const getStorages = async () => {
     return response.data;
   }
 };
+
+export const createProduct = async (values: ProductFormValues) => {
+  const payload = {
+    name: values.name,
+    description: values.description,
+    price: values.price,
+    amount: values.amount,
+    storage_location: values.storage_location_uuid,
+    expiry_date: values.expiry_date || null,
+    bottling_date: values.bottling_date || null,
+  };
+
+  const result = await fetch(`${API_BASE}/products/new-product`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token") || ""}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+
+  const response = await result.json();
+
+  if (response.code === "ep001") {
+    return { success: false, code: response.code };
+  }
+
+  if (response.code === "sp001") {
+    return response.data;
+  }
+};

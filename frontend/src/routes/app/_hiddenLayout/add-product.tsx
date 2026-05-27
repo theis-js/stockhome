@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { isAuthenticated } from "../../../utils/auth";
+import { AddProduct } from "../../../pages/AddProduct";
 
 export const Route = createFileRoute("/app/_hiddenLayout/add-product")({
   beforeLoad: async () => {
@@ -13,5 +14,5 @@ export const Route = createFileRoute("/app/_hiddenLayout/add-product")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/app/add-product"!</div>;
+  return <AddProduct />;
 }

@@ -20,12 +20,19 @@ export const newProduct = async (
   expiry_date,
   bottling_date,
 ) => {
+  let newPrice;
+  if (price == "") {
+    newPrice = null;
+  } else {
+    newPrice = price;
+  }
+
   const [result] = await pool.query(
     "INSERT INTO products (name, description, price, amount, storage_location, expiry_date, bottling_date) VALUES (?, ?, ?, ?, UUID_TO_BIN(?), ?, ?)",
     [
       name,
       description,
-      price,
+      newPrice,
       amount,
       storage_location,
       expiry_date,
