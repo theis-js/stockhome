@@ -20,3 +20,11 @@ export type ProductFormValues = {
   price: string;
   storage_location_uuid: string;
 };
+
+export interface Storage {
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+  uuid: string;
+}

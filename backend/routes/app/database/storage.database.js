@@ -35,3 +35,16 @@ export const newStorage = async (name, description) => {
     return { code: "es002" };
   }
 };
+
+export const updateStorage = async (uuid, values) => {
+  const [result] = await pool.query(
+    "UPDATE storage_locations SET name = ?, description = ? WHERE uuid = UUID_TO_BIN(?);",
+    [values.name, values.description, uuid],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "ss003" };
+  } else {
+    return { code: "es003" };
+  }
+};

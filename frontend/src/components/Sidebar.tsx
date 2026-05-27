@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Typography } from "@mui/joy";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import StorageIcon from "@mui/icons-material/Storage";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useNavigate, useMatchRoute } from "@tanstack/react-router";
 
@@ -49,6 +50,14 @@ export const Sidebar = () => {
           className={btnClass}
         >
           {t("add")}
+        </Button>
+        <Button
+          onClick={() => navigate({ to: "/app/storages" })}
+          variant={variant("/app/storages")}
+          startDecorator={<StorageIcon />}
+          className={btnClass}
+        >
+          {t("storages")}
         </Button>
         <Button
           onClick={() => navigate({ to: "/app/profile" })}

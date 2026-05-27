@@ -1,7 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import { authenticate } from "../../services/tokenService.js";
-import { allStorages, newStorage } from "./database/storage.database.js";
+import {
+  allStorages,
+  newStorage,
+  updateStorage,
+} from "./database/storage.database.js";
 dotenv.config();
 const router = express.Router();
 
@@ -45,6 +49,31 @@ router.post("/new-storage", authenticate, async (req, res) => {
     res.status(201).json({
       success: true,
       code: "ss002",
+      data: null,
+      message: "",
+    });
+  }
+});
+
+router.post("/update-storage", authenticate, async (req, res) => {
+  const storageUUID = req.query.storageUUID;
+  const values = req.body;
+
+  const result = await updateStorage(storageUUID, values);
+
+  if (result.code === "es003") {
+    res.status(500).json({
+      success: false,
+      code: "es003",
+      data: null,
+      message: "unexpected server error",
+    });
+  }
+
+  if (result.code === "ss003") {
+    res.status(201).json({
+      success: true,
+      code: "ss003",
       data: null,
       message: "",
     });

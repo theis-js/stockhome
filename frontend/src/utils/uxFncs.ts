@@ -1,6 +1,6 @@
 import { API_BASE } from "../config/api.config";
 import Cookies from "js-cookie";
-import type { ProductFormValues } from "../misc/interfaces";
+import type { ProductFormValues, Storage } from "../misc/interfaces";
 
 export const getProducts = async () => {
   const result = await fetch(`${API_BASE}/products/all-products`, {
@@ -142,4 +142,43 @@ export const createProduct = async (values: ProductFormValues) => {
   if (response.code === "sp001") {
     return response.data;
   }
+};
+
+export const updateStorage = async (
+  uuid: string,
+  values: Pick<Storage, "name" | "description">,
+) => {
+  const result = await fetch(
+    `${API_BASE}/storage/update-storage?storageUUID=${uuid}`,
+    {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token") || ""}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    },
+  );
+
+  const response = await result.json();
+
+  if (response.code === "ep001") {
+    return { success: false, code: response.code };
+  }
+
+  if (response.code === "sp001") {
+    return response.data;
+  }
+};
+
+export const formatDate = (value?: string | null) => {
+  if (!value) {
+    return "-";
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+  return date.toLocaleDateString("de-DE");
 };

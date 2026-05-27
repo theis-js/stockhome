@@ -28,6 +28,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../utils/uxFncs";
 import { visuallyHidden } from "@mui/utils";
+import { formatDate } from "../utils/uxFncs";
 
 type Order = "asc" | "desc";
 
@@ -45,17 +46,6 @@ type ProductRow = {
   locationDetail: string;
   expiryDate: string;
   refillDate: string;
-};
-
-const formatDate = (value?: string | null) => {
-  if (!value) {
-    return "-";
-  }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return "-";
-  }
-  return date.toLocaleDateString("de-DE");
 };
 
 const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T) => {
