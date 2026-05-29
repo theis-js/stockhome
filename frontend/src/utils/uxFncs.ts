@@ -208,3 +208,24 @@ export const mutateNewStorage = async (values: NewStorage) => {
     return response.data;
   }
 };
+
+export const deleteStorage = async (uuid: string) => {
+  const result = await fetch(`${API_BASE}/storage/delete?uuid=${uuid}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token") || ""}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+
+  const response = await result.json();
+
+  if (response.code === "es004") {
+    return { success: false, code: response.code };
+  }
+
+  if (response.code === "ss004") {
+    return { success: true, code: response.code };
+  }
+};

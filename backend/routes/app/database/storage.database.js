@@ -48,3 +48,16 @@ export const updateStorage = async (uuid, values) => {
     return { code: "es003" };
   }
 };
+
+export const deleteStorage = async (uuid) => {
+  const [result] = await pool.query(
+    "DELETE FROM storage_locations WHERE uuid = UUID_TO_BIN(?);",
+    [uuid],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "ss004" };
+  } else {
+    return { code: "es004" };
+  }
+};

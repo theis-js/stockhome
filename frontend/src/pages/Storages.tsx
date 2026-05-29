@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStorages } from "../utils/uxFncs";
-import { Sheet, Table, Button, CircularProgress } from "@mui/joy";
+import { Sheet, Table, Button, CircularProgress, Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import type { Storage } from "../misc/interfaces";
 import { StorageRow } from "../components/StorageRow";
@@ -24,6 +24,9 @@ export const Storages = () => {
         <>
           <AddStorageModal isOpen={modal} setOpen={setModal} />
           <Button onClick={() => setModal(true)}>+</Button>
+          <Typography level="body-md" color="warning" fontWeight={"bold"}>
+            {t("storage-delete-info")}
+          </Typography>
           <Table
             borderAxis="x"
             color="neutral"

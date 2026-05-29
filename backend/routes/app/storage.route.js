@@ -5,6 +5,7 @@ import {
   allStorages,
   newStorage,
   updateStorage,
+  deleteStorage,
 } from "./database/storage.database.js";
 dotenv.config();
 const router = express.Router();
@@ -34,7 +35,9 @@ router.get("/all-storages", authenticate, async (req, res) => {
 router.post("/new-storage", authenticate, async (req, res) => {
   const { name, description } = req.body;
 
-  if (!name || !description) {
+  let desc = description;
+
+  if (!name) {
     res.status(400).json({
       success: false,
       code: "es000",
@@ -44,7 +47,11 @@ router.post("/new-storage", authenticate, async (req, res) => {
     return;
   }
 
-  const result = await newStorage(name, description);
+  if (description == "") {
+    desc = null;
+  }
+
+  const result = await newStorage(name, desc);
 
   if (result.code === "es002") {
     res.status(500).json({
@@ -84,6 +91,30 @@ router.post("/update-storage", authenticate, async (req, res) => {
     res.status(201).json({
       success: true,
       code: "ss003",
+      data: null,
+      message: "",
+    });
+  }
+});
+
+router.delete("/delete", authenticate, async (req, res) => {
+  const uuid = req.query.uuid;
+
+  const result = await deleteStorage(uuid);
+
+  if (result.code === "es004") {
+    res.status(500).json({
+      success: false,
+      code: "es004",
+      data: null,
+      message: "unexpected server error",
+    });
+  }
+
+  if (result.code === "ss004") {
+    res.status(201).json({
+      success: true,
+      code: "ss004",
       data: null,
       message: "",
     });

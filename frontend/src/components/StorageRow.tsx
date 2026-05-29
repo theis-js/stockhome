@@ -1,5 +1,5 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { updateStorage } from "../utils/uxFncs";
+import { deleteStorage, updateStorage } from "../utils/uxFncs";
 import { useForm } from "@tanstack/react-form";
 import { useStore } from "@tanstack/react-store";
 import { Input, Button } from "@mui/joy";
@@ -16,6 +16,13 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
   const mutation = useMutation({
     mutationFn: (values: Pick<Storage, "name" | "description">) =>
       updateStorage(storage.uuid, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["storages"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (uuid: string) => deleteStorage(uuid),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["storages"] });
     },
@@ -68,15 +75,16 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
         <Button
           color="primary"
           onClick={form.handleSubmit}
-          disabled={!isDirty || mutation.isPending}
+          disabled={!isDirty || mutation.isPending || deleteMutation.isPending}
         >
           {mutation.isPending ? "..." : "Save"}
         </Button>
         <Button
           color="danger"
-          onClick={() => console.log("Delete Storage: " + storage.uuid)}
+          onClick={() => deleteMutation.mutateAsync(storage.uuid)}
+          disabled={mutation.isPending || deleteMutation.isPending}
         >
-          {mutation.isPending ? "..." : "Delete"}
+          {deleteMutation.isPending ? "..." : "Delete"}
         </Button>
       </td>
     </tr>
