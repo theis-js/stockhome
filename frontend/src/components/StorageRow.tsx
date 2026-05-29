@@ -44,7 +44,7 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
     (values.description ?? "") !== (storage.description ?? "");
 
   return (
-    <tr key={storage.uuid}>
+    <tr key={storage.uuid} className="align-top">
       <td>
         <form.Field name="name">
           {(field) => (
@@ -53,6 +53,8 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               size="sm"
+              variant="outlined"
+              className="rounded-xl bg-white/90 shadow-[0_8px_18px_rgba(15,23,42,0.06)]"
             />
           )}
         </form.Field>
@@ -65,27 +67,41 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               size="sm"
+              variant="outlined"
+              className="rounded-xl bg-white/90 shadow-[0_8px_18px_rgba(15,23,42,0.06)]"
             />
           )}
         </form.Field>
       </td>
-      <td>{formatDate(storage.created_at)}</td>
-      <td>{formatDate(storage.updated_at)}</td>
+      <td className="text-sm text-slate-500">
+        {formatDate(storage.created_at)}
+      </td>
+      <td className="text-sm text-slate-500">
+        {formatDate(storage.updated_at)}
+      </td>
       <td>
-        <Button
-          color="primary"
-          onClick={form.handleSubmit}
-          disabled={!isDirty || mutation.isPending || deleteMutation.isPending}
-        >
-          {mutation.isPending ? "..." : "Save"}
-        </Button>
-        <Button
-          color="danger"
-          onClick={() => deleteMutation.mutateAsync(storage.uuid)}
-          disabled={mutation.isPending || deleteMutation.isPending}
-        >
-          {deleteMutation.isPending ? "..." : "Delete"}
-        </Button>
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button
+            color="primary"
+            onClick={form.handleSubmit}
+            disabled={
+              !isDirty || mutation.isPending || deleteMutation.isPending
+            }
+            size="sm"
+            className="rounded-xl"
+          >
+            {mutation.isPending ? "..." : "Save"}
+          </Button>
+          <Button
+            color="danger"
+            onClick={() => deleteMutation.mutateAsync(storage.uuid)}
+            disabled={mutation.isPending || deleteMutation.isPending}
+            size="sm"
+            className="rounded-xl"
+          >
+            {deleteMutation.isPending ? "..." : "Delete"}
+          </Button>
+        </div>
       </td>
     </tr>
   );
