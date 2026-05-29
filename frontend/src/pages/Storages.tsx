@@ -67,7 +67,7 @@ export const Storages = () => {
           >
             <thead>
               <tr>
-                <th>{t("name")}</th>
+                <th>{t("storage-name")}</th>
                 <th>{t("description")}</th>
                 <th>{t("created-at")}</th>
                 <th>{t("updated-at")}</th>

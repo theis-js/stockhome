@@ -5,12 +5,15 @@ import { useStore } from "@tanstack/react-store";
 import { Input, Button } from "@mui/joy";
 import type { Storage } from "../misc/interfaces";
 import { formatDate } from "../utils/uxFncs";
+import { useTranslation } from "react-i18next";
 
 interface StorageRowProps {
   storage: Storage;
 }
 
 export const StorageRow = ({ storage }: StorageRowProps) => {
+  const { t } = useTranslation();
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -90,7 +93,7 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
             size="sm"
             className="rounded-xl"
           >
-            {mutation.isPending ? "..." : "Save"}
+            {mutation.isPending ? "..." : t("save")}
           </Button>
           <Button
             color="danger"
@@ -99,7 +102,7 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
             size="sm"
             className="rounded-xl"
           >
-            {deleteMutation.isPending ? "..." : "Delete"}
+            {deleteMutation.isPending ? "..." : t("delete")}
           </Button>
         </div>
       </td>

@@ -104,7 +104,7 @@ const EnhancedTableHead = (props: EnhancedTableHeadProps) => {
     { id: "stock", label: t("stock"), numeric: true },
     { id: "location", label: t("storage-place"), numeric: false },
     { id: "expiryDate", label: t("expiry-date"), numeric: false },
-    { id: "refillDate", label: t("refill-date"), numeric: false },
+    { id: "refillDate", label: t("bottling-date"), numeric: false },
   ];
 
   return (
@@ -175,7 +175,7 @@ const EnhancedTableHead = (props: EnhancedTableHeadProps) => {
             </th>
           );
         })}
-        <th className="px-6 py-4 text-right">Aktionen</th>
+        <th className="px-6 py-4 text-right">{t("actions")}</th>
       </tr>
     </thead>
   );
@@ -251,13 +251,11 @@ export const InventoryPage = () => {
     (product: any, index: number) => ({
       id: String(product?.uuid ?? index),
       uuid: String(product?.uuid ?? ""),
-      name: product?.name ?? "Produktname",
+      name: product?.name ?? t("product-name"),
       description: product?.description ?? "",
       imageUrl: product?.picture ?? undefined,
       price: product?.price ?? "-",
       stock: `${product?.amount ?? 0} Stk.`,
-      stockLabel: product?.amount === 0 ? "FEHLT" : "OK",
-      stockStatus: product?.amount === 0 ? "missing" : "ok",
       location: product?.storage_location_name ?? "-",
       locationDetail: "",
       expiryDate: formatDate(product?.expiry_date),
@@ -272,7 +270,7 @@ export const InventoryPage = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _event: React.MouseEvent<unknown>,
     property: keyof ProductRow,
   ) => {
     const isAsc = orderBy === property && order === "asc";
@@ -289,7 +287,7 @@ export const InventoryPage = () => {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+  const handleClick = (_event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly string[] = [];
     if (selectedIndex === -1) {
@@ -311,7 +309,7 @@ export const InventoryPage = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: any, newValue: number | null) => {
+  const handleChangeRowsPerPage = (_event: any, newValue: number | null) => {
     setRowsPerPage(parseInt(newValue!.toString(), 10));
     setPage(0);
   };
@@ -330,8 +328,8 @@ export const InventoryPage = () => {
 
   return (
     <>
-      <Typography level="h2">{t("inventory-subtitle")}</Typography>
-      <Typography level="body-lg">{t("inventory-header")}</Typography>
+      <Typography level="h2">{t("inventory")}</Typography>
+      <Typography level="body-lg">{t("inventory-subtitle")}</Typography>
       <div className="mt-4 flex items-center gap-3">
         <Button
           startDecorator={<AddIcon />}
@@ -435,23 +433,11 @@ export const InventoryPage = () => {
                     <td className="px-6 py-5">
                       <Chip
                         variant="soft"
-                        color={
-                          row.stockStatus === "low" ? "warning" : "success"
-                        }
+                        color={"neutral"}
                         size="lg"
                         className="px-3"
                       >
                         {row.stock}
-                      </Chip>
-                      <Chip
-                        variant="soft"
-                        color={
-                          row.stockStatus === "missing" ? "danger" : "success"
-                        }
-                        size="md"
-                        className="ml-2 mt-2"
-                      >
-                        {row.stockLabel}
                       </Chip>
                     </td>
                     <td className="px-6 py-5">

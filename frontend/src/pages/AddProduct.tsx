@@ -57,7 +57,7 @@ export const AddProduct = () => {
               {t("add-product")}
             </Typography>
             <Typography level="body-lg" className="text-slate-500">
-              {t("inventory-header")}
+              {t("add-product-subtitle")}
             </Typography>
           </div>
           <Chip
