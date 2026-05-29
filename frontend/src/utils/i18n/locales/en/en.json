@@ -29,5 +29,14 @@
     "amount": "Amount",
     "inventory-subtitle": "Here you can inspect all of your stored items.",
     "add-product": "Add product",
-    "add-product-subtitle": "Here you can enter information for a new product."
+    "add-product-subtitle": "Here you can enter information for a new product.",
+    "app-name": "App name",
+    "app-name-sub": "Displayed in the sidebar and login screen.",
+    "currency": "Currency",
+    "currency-sub": "Used for pricing across inventory views.",
+    "quick-tips": "Quick tips",
+    "quick-tips-1": "Update the app name to personalize the sidebar and login header.",
+    "quick-tips-2": "Choose a currency code that matches your pricing display, e.g. EUR, CHF, or USD.",
+    "settings-sub": "Manage your app preferences and store defaults.",
+    "preferences": "Preferences"
 }
