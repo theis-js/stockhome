@@ -40,5 +40,6 @@
     "settings-sub": "Manage your app preferences and store defaults.",
     "preferences": "Preferences",
     "selected": "selected",
-    "logout": "Logout"
+    "logout": "Logout",
+    "pcs": "pcs."
 }

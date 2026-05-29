@@ -74,7 +74,7 @@ export const Sidebar = () => {
             Cookies.remove("token");
             navigate({ to: "/login" });
           }}
-          variant={variant("/login")}
+          color="danger"
           startDecorator={<ExitToAppIcon />}
           className={btnClass}
         >

@@ -2,5 +2,6 @@
     "username": "Benutzername",
     "password": "Passwort",
     "eu001": "Falscher Benutzername oder Passwort!",
-    "login": "Login"
+    "login": "Login",
+    "pcs": "Stk."
 }

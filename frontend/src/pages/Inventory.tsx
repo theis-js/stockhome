@@ -280,7 +280,7 @@ export const InventoryPage = () => {
       description: product?.description ?? "",
       imageUrl: product?.picture ?? undefined,
       price: product?.price ?? "-",
-      stock: `${product?.amount ?? 0} Stk.`,
+      stock: `${product?.amount ?? 0} ${t("pcs")}`,
       location: product?.storage_location_name ?? "-",
       locationDetail: "",
       expiryDate: formatDate(product?.expiry_date),
