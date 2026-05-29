@@ -21,7 +21,6 @@
 node_modules
 
 # Icon must end with two \r
-Icon
 
 
 # Thumbnails
@@ -48,3 +47,4 @@ ToDo.txt
 .env
 .docker/volumes
 .tanstack/tmp
+local/

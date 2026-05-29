@@ -82,8 +82,13 @@ export const Sidebar = () => {
         </Button>
       </div>
 
-      <div className="rounded-2xl border border-white/70 bg-white/80 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#0b6bcb] shadow-[0_12px_30px_rgba(12,38,78,0.12)]">
-        Stockhome
+      <div className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/80 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#0b6bcb] shadow-[0_12px_30px_rgba(12,38,78,0.12)]">
+        <img
+          src="/favicon.png"
+          alt="Stockhome"
+          className="h-7 w-7 rounded-lg"
+        />
+        <span>Stockhome</span>
       </div>
     </aside>
   );
