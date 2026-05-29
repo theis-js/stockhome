@@ -4,6 +4,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import StorageIcon from "@mui/icons-material/Storage";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate, useMatchRoute } from "@tanstack/react-router";
 import Cookies from "js-cookie";
 
@@ -67,6 +68,17 @@ export const Sidebar = () => {
           className={btnClass}
         >
           {t("settings")}
+        </Button>
+        <Button
+          onClick={() => {
+            Cookies.remove("token");
+            navigate({ to: "/login" });
+          }}
+          variant={variant("/login")}
+          startDecorator={<ExitToAppIcon />}
+          className={btnClass}
+        >
+          {t("logout")}
         </Button>
       </div>
 
