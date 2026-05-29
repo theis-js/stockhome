@@ -28,3 +28,15 @@ export interface Storage {
   updated_at: string;
   uuid: string;
 }
+
+export interface NewStorage {
+  name: string;
+  description: string | null;
+}
+
+export interface AlertInterface {
+  isAlert: boolean;
+  type: "success" | "warning" | "danger" | "neutral" | "primary";
+  header: string;
+  text: string;
+}

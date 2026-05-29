@@ -66,10 +66,17 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
       <td>{formatDate(storage.updated_at)}</td>
       <td>
         <Button
+          color="primary"
           onClick={form.handleSubmit}
           disabled={!isDirty || mutation.isPending}
         >
           {mutation.isPending ? "..." : "Save"}
+        </Button>
+        <Button
+          color="danger"
+          onClick={() => console.log("Delete Storage: " + storage.uuid)}
+        >
+          {mutation.isPending ? "..." : "Delete"}
         </Button>
       </td>
     </tr>

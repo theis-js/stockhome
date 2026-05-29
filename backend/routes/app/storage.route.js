@@ -34,6 +34,16 @@ router.get("/all-storages", authenticate, async (req, res) => {
 router.post("/new-storage", authenticate, async (req, res) => {
   const { name, description } = req.body;
 
+  if (!name || !description) {
+    res.status(400).json({
+      success: false,
+      code: "es000",
+      data: null,
+      message: "invalid request body",
+    });
+    return;
+  }
+
   const result = await newStorage(name, description);
 
   if (result.code === "es002") {
