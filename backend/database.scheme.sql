@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS products (
     picture          VARCHAR(500) DEFAULT NULL,
     created_at       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     updated_at       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted          BOOLEAN      DEFAULT FALSE NOT NULL,
     FOREIGN KEY (storage_location) REFERENCES storage_locations(uuid) ON DELETE CASCADE
 );
 

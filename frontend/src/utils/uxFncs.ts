@@ -273,3 +273,19 @@ export const fetchSettings = async () => {
     return { success: true, data: response.data, code: response.code };
   }
 };
+
+export const deleteSelectedProducts = async (uuids: string[]) => {
+  const result = await fetch(`${API_BASE}/products/delete-selection`, {
+    method: "POST",
+    body: JSON.stringify(uuids),
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token") || ""}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+
+  const response = await result.json();
+
+  console.log(response);
+};

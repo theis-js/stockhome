@@ -25,8 +25,8 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../utils/uxFncs";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProducts, deleteSelectedProducts } from "../utils/uxFncs";
 import { visuallyHidden } from "@mui/utils";
 import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";
@@ -182,8 +182,22 @@ const EnhancedTableHead = (props: EnhancedTableHeadProps) => {
   );
 };
 
-const EnhancedTableToolbar = ({ numSelected }: { numSelected: number }) => {
+const EnhancedTableToolbar = ({
+  numSelected,
+  selected,
+}: {
+  numSelected: number;
+  selected: readonly string[];
+}) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (values: string[]) => deleteSelectedProducts(values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
   return (
     <Box
@@ -205,16 +219,26 @@ const EnhancedTableToolbar = ({ numSelected }: { numSelected: number }) => {
     >
       {numSelected > 0 ? (
         <Typography sx={{ flex: "1 1 100%" }} component="div">
-          {numSelected} ausgewahlt
+          {numSelected} {t("selected")}
         </Typography>
       ) : (
-        <Typography level="body-lg" sx={{ flex: "1 1 100%" }} component="div">
+        <Typography
+          level="body-lg"
+          fontWeight={"bold"}
+          sx={{ flex: "1 1 100%" }}
+          component="div"
+        >
           {t("inventory")}
         </Typography>
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton size="sm" color="danger" variant="solid">
+          <IconButton
+            onClick={() => mutate([...selected])}
+            size="sm"
+            color="danger"
+            variant="solid"
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -346,7 +370,10 @@ export const InventoryPage = () => {
         variant="outlined"
         className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm"
       >
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selected={selected}
+        />
         <Table
           aria-labelledby="tableTitle"
           hoverRow

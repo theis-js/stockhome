@@ -38,5 +38,6 @@
     "quick-tips-1": "Update the app name to personalize the sidebar and login header.",
     "quick-tips-2": "Choose a currency code that matches your pricing display, e.g. EUR, CHF, or USD.",
     "settings-sub": "Manage your app preferences and store defaults.",
-    "preferences": "Preferences"
+    "preferences": "Preferences",
+    "selected": "selected"
 }

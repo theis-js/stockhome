@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { authenticate } from "../../services/tokenService.js";
 import {
   allProducts,
+  deleteProduct,
   newProduct,
   productDetails,
   setAmount,
@@ -141,6 +142,35 @@ router.post("/mutate/update-item", authenticate, async (req, res) => {
     res.status(200).json({
       success: true,
       code: "sp005",
+      data: null,
+      message: "",
+    });
+  }
+});
+
+router.post("/delete-selection", authenticate, async (req, res) => {
+  let isError = false;
+  const uuidArray = req.body;
+
+  for (const uuid of uuidArray) {
+    const response = await deleteProduct(uuid);
+    if (response.code === "ep006" || !response) {
+      isError = true;
+      break;
+    }
+  }
+
+  if (isError === false) {
+    res.status(202).json({
+      success: true,
+      code: "sp006",
+      data: null,
+      message: "",
+    });
+  } else {
+    res.status(500).json({
+      success: false,
+      code: "ep006",
       data: null,
       message: "",
     });

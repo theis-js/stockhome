@@ -90,6 +90,7 @@ export const allProducts = async () => {
   p.updated_at
   FROM products p
   JOIN storage_locations s ON p.storage_location = s.uuid
+  WHERE p.deleted = 0
   `);
 
   if (result.length > 0) {
@@ -135,5 +136,18 @@ export const updateItem = async (itemUUID, newValues) => {
     return { code: "sp005" }; // success
   } else {
     return { code: "ep005" }; // error
+  }
+};
+
+export const deleteProduct = async (uuid) => {
+  const [result] = await pool.query(
+    `UPDATE products SET deleted = 1 WHERE uuid = UUID_TO_BIN(?);`,
+    [uuid],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "sp006" }; // success
+  } else {
+    return { code: "ep006" }; // error
   }
 };
