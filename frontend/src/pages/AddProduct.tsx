@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { createProduct, getStorages } from "../utils/uxFncs";
 import type { ProductFormValues } from "../misc/interfaces";
+import Cookies from "js-cookie";
 
 export const AddProduct = () => {
   const { t } = useTranslation();
@@ -205,7 +206,7 @@ export const AddProduct = () => {
                       )}
                     </form.Field>
                     <Typography level="body-sm" className="text-slate-500">
-                      {t("currency")}
+                      {Cookies.get("currency")}
                     </Typography>
                   </div>
                   <div className="space-y-1">

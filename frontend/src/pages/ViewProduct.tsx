@@ -19,6 +19,7 @@ import { mutateProduct } from "../utils/uxFncs";
 import { toInputDate } from "../utils/uxFncs";
 import type { ProductFormValues } from "../misc/interfaces";
 import type { productDetailsInterface } from "../misc/interfaces";
+import Cookies from "js-cookie";
 
 interface ViewProductProps {
   uuid: string;
@@ -256,7 +257,7 @@ export const ViewProduct = (props: ViewProductProps) => {
                         )}
                       </form.Field>
                       <Typography level="body-sm" className="text-slate-500">
-                        {t("currency")}
+                        {Cookies.get("currency")}
                       </Typography>
                     </div>
                     <div className="space-y-1">

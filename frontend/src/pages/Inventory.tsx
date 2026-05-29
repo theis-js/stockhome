@@ -29,6 +29,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../utils/uxFncs";
 import { visuallyHidden } from "@mui/utils";
 import { formatDate } from "../utils/uxFncs";
+import Cookies from "js-cookie";
 
 type Order = "asc" | "desc";
 
@@ -427,7 +428,7 @@ export const InventoryPage = () => {
                     <td className="px-6 py-5">
                       <Typography level="title-md">{row.price}</Typography>
                       <Typography level="body-sm" className="text-slate-400">
-                        {t("currency")}
+                        {Cookies.get("currency")}
                       </Typography>
                     </td>
                     <td className="px-6 py-5">

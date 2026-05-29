@@ -2,6 +2,7 @@ import { API_BASE } from "../config/api.config";
 import Cookies from "js-cookie";
 import type { TFunction } from "i18next";
 import { toast } from "react-toastify";
+import { fetchSettings } from "./uxFncs";
 
 export async function isAuthenticated() {
   if (Cookies.get("token")) {
@@ -39,10 +40,14 @@ export async function signInUser(
   });
 
   const response = await result.json();
-  console.log(response);
 
   if (result.status === 202) {
     Cookies.set("token", response.data.token);
+
+    const settings = await fetchSettings();
+    Cookies.set("app-name", settings?.data[0].value);
+    Cookies.set("currency", settings?.data[1].value);
+
     return { ok: true as const };
   }
 

@@ -37,3 +37,13 @@ CREATE TABLE IF NOT EXISTS products (
     updated_at       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (storage_location) REFERENCES storage_locations(uuid) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS app_settings (
+    id              INT           AUTO_INCREMENT PRIMARY KEY,
+    name            VARCHAR(255)  NOT NULL UNIQUE,
+    value           VARCHAR(500)  DEFAULT NULL,
+    created_at      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO app_settings (name, value) VALUES ("app-name", null), ("currency", null);

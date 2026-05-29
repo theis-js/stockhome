@@ -1,12 +1,66 @@
 import express from "express";
 import dotenv from "dotenv";
 import { authenticate, generateToken } from "../../services/tokenService.js";
-import { findUser, loginUser } from "./database/users.database.js";
+import {
+  findUser,
+  loginUser,
+  updateSettings,
+  getSettings,
+} from "./database/users.database.js";
 dotenv.config();
 const router = express.Router();
 
 router.post("/verify-token", authenticate, async (req, res) => {
   res.sendStatus(200);
+});
+
+router.post("/update-app-settings", authenticate, async (req, res) => {
+  const appName = req.body.appName;
+  const currency = req.body.currency;
+
+  console.log(req.body);
+
+  const result = await updateSettings(req.body);
+
+  if (result.code === "su003") {
+    res.status(201).json({
+      success: true,
+      code: "su003",
+      data: result.data,
+      message: null,
+    });
+  }
+
+  if (result.code === "eu004") {
+    res.status(500).json({
+      success: false,
+      code: "eu004",
+      data: null,
+      message: "Unexpected server error",
+    });
+  }
+});
+
+router.get("/settings", authenticate, async (req, res) => {
+  const result = await getSettings();
+
+  if (result.code === "su004") {
+    res.status(201).json({
+      success: true,
+      code: "su004",
+      data: result.result,
+      message: null,
+    });
+  }
+
+  if (result.code === "eu005") {
+    res.status(500).json({
+      success: false,
+      code: "eu005",
+      data: null,
+      message: "Unexpected server error",
+    });
+  }
 });
 
 router.post("/login", async (req, res) => {

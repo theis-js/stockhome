@@ -40,3 +40,8 @@ export interface AlertInterface {
   header: string;
   text: string;
 }
+
+export interface SettingsIntf {
+  ["app-name"]: string;
+  currency: string;
+}

@@ -40,3 +40,35 @@ export const loginUser = async (username) => {
     return { code: "eu003" };
   }
 };
+
+export const updateSettings = async (payload) => {
+  const appName = payload["app-name"];
+  const currency = payload.currency;
+
+  const [result] = await pool.query(
+    `UPDATE app_settings
+     SET value = CASE name
+       WHEN "app-name" THEN ?
+       WHEN "currency" THEN ?
+       ELSE value
+     END
+     WHERE name IN ("app-name", "currency");`,
+    [appName, currency],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "su003" };
+  } else {
+    return { code: "eu004" };
+  }
+};
+
+export const getSettings = async () => {
+  const [result] = await pool.query(`SELECT * FROM app_settings;`);
+
+  if (result.length > 0) {
+    return { code: "su004", result };
+  } else {
+    return { code: "eu005" };
+  }
+};

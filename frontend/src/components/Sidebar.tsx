@@ -3,8 +3,9 @@ import { Button, Typography } from "@mui/joy";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import StorageIcon from "@mui/icons-material/Storage";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate, useMatchRoute } from "@tanstack/react-router";
+import Cookies from "js-cookie";
 
 export const Sidebar = () => {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ export const Sidebar = () => {
           level="body-lg"
           className="text-sm font-medium text-slate-500"
         >
-          {t("app-subtitle")}
+          {Cookies.get("app-name") ? Cookies.get("app-name") : ""}
         </Typography>
       </div>
 
@@ -60,12 +61,12 @@ export const Sidebar = () => {
           {t("storages")}
         </Button>
         <Button
-          onClick={() => navigate({ to: "/app/profile" })}
-          variant={variant("/app/profile")}
-          startDecorator={<AccountBoxIcon />}
+          onClick={() => navigate({ to: "/app/app-settings" })}
+          variant={variant("/app/app-settings")}
+          startDecorator={<SettingsIcon />}
           className={btnClass}
         >
-          {t("profile")}
+          {t("settings")}
         </Button>
       </div>
 
