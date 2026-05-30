@@ -12,7 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import type { SettingsIntf } from "../misc/interfaces";
-import { mutateSettings, fetchSettings } from "../utils/uxFncs";
+import { mutateSettings, fetchSettings } from "../utils/api/settings";
 import { useEffect } from "react";
 
 export const Settings = () => {

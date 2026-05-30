@@ -26,7 +26,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProducts, deleteSelectedProducts } from "../utils/uxFncs";
+import { getProducts, deleteSelectedProducts } from "../utils/api/products";
 import { visuallyHidden } from "@mui/utils";
 import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";

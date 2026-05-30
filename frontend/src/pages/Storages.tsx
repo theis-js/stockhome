@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getStorages } from "../utils/uxFncs";
+import { getStorages } from "../utils/api/storages";
 import { Sheet, Table, Button, CircularProgress, Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import type { Storage } from "../misc/interfaces";

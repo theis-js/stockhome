@@ -12,7 +12,7 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import type { NewStorage, AlertInterface } from "../../misc/interfaces";
-import { mutateNewStorage } from "../../utils/uxFncs";
+import { mutateNewStorage } from "../../utils/api/storages";
 import { useState } from "react";
 
 interface AddStorageModalProps {

@@ -1,4 +1,4 @@
-import { isAuthenticated } from "../utils/auth";
+import { isAuthenticated } from "../utils/api/auth";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({

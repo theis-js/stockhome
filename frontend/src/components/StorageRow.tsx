@@ -1,5 +1,5 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { deleteStorage, updateStorage } from "../utils/uxFncs";
+import { deleteStorage, updateStorage } from "../utils/api/storages";
 import { useForm } from "@tanstack/react-form";
 import { useStore } from "@tanstack/react-store";
 import { Input, Button } from "@mui/joy";

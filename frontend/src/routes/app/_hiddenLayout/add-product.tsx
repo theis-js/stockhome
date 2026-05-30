@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthenticated } from "../../../utils/auth";
+import { isAuthenticated } from "../../../utils/api/auth";
 import { AddProduct } from "../../../pages/AddProduct";
 
 export const Route = createFileRoute("/app/_hiddenLayout/add-product")({

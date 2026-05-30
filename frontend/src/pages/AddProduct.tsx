@@ -13,7 +13,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { createProduct, getStorages } from "../utils/uxFncs";
+import { createProduct } from "../utils/api/products";
+import { getStorages } from "../utils/api/storages";
 import type { ProductFormValues } from "../misc/interfaces";
 import Cookies from "js-cookie";
 

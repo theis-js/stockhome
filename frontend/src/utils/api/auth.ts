@@ -1,8 +1,8 @@
-import { API_BASE } from "../config/api.config";
+import { API_BASE } from "../../config/api.config";
 import Cookies from "js-cookie";
 import type { TFunction } from "i18next";
 import { toast } from "react-toastify";
-import { fetchSettings } from "./uxFncs";
+import { fetchSettings } from "./settings";
 
 export async function isAuthenticated() {
   if (Cookies.get("token")) {

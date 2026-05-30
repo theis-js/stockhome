@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthenticated } from "../../../utils/auth";
+import { isAuthenticated } from "../../../utils/api/auth";
 import { Storages } from "../../../pages/Storages";
 
 export const Route = createFileRoute("/app/_hiddenLayout/storages")({

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProductDetails, getStorages } from "../utils/uxFncs";
+import { getStorages } from "../utils/api/storages.ts";
 import {
   CircularProgress,
   Typography,
@@ -15,7 +15,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { mutateProduct } from "../utils/uxFncs";
+import { mutateProduct, getProductDetails } from "../utils/api/products.ts";
 import { toInputDate } from "../utils/uxFncs";
 import type { ProductFormValues } from "../misc/interfaces";
 import type { productDetailsInterface } from "../misc/interfaces";

@@ -1,7 +1,7 @@
 import { useForm } from "@tanstack/react-form";
 import { Input, Button } from "@mui/joy";
 import { useMutation } from "@tanstack/react-query";
-import { signInUser } from "../utils/auth";
+import { signInUser } from "../utils/api/auth";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
 

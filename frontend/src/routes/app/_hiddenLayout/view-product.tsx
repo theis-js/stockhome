@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
-import { isAuthenticated } from "../../../utils/auth";
+import { isAuthenticated } from "../../../utils/api/auth";
 import { ViewProduct } from "../../../pages/ViewProduct";
 
 export const Route = createFileRoute("/app/_hiddenLayout/view-product")({
