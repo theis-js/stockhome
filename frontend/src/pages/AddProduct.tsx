@@ -89,6 +89,7 @@ export const AddProduct = () => {
                   {(field) => (
                     <Input
                       type="text"
+                      required
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                       onBlur={field.handleBlur}
@@ -217,6 +218,7 @@ export const AddProduct = () => {
                     <form.Field name="storage_location_uuid">
                       {(field) => (
                         <Select
+                          required
                           value={field.state.value}
                           onChange={(_event, value) =>
                             field.handleChange(value ?? "")

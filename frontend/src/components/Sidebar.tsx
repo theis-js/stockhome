@@ -84,7 +84,7 @@ export const Sidebar = () => {
         </Button>
         <Button
           onClick={() => {
-            changeTranslation;
+            changeTranslation();
           }}
           color="neutral"
           startDecorator={<TranslateIcon />}
