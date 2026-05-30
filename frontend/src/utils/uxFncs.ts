@@ -6,25 +6,9 @@ import type {
   SettingsIntf,
   Storage,
 } from "../misc/interfaces";
+import i18n from "./i18n";
 
-export const getProducts = async () => {
-  const result = await fetch(`${API_BASE}/products/all-products`, {
-    headers: {
-      Authorization: `Bearer ${Cookies.get("token") || ""}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  });
-  const response = await result.json();
 
-  if (response.code === "ep002") {
-    return { success: false, code: response.code };
-  }
-
-  if (response.code === "sp002") {
-    return response.data;
-  }
-};
 
 export const getProductDetails = async (uuid: string) => {
   const result = await fetch(`${API_BASE}/products/view?uuid=${uuid}`, {
@@ -288,4 +272,18 @@ export const deleteSelectedProducts = async (uuids: string[]) => {
   const response = await result.json();
 
   console.log(response);
+};
+
+export const changeTranslation = () => {
+  const clientLng = i18n.language;
+
+  if (clientLng === "en") {
+    i18n.changeLanguage("de");
+    Cookies.set("language", "de");
+  } else if (clientLng === "de") {
+    i18n.changeLanguage("en");
+    Cookies.set("language", "en");
+  } else {
+    alert("Cannot change language.");
+  }
 };

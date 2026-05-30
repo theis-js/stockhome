@@ -5,8 +5,10 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import StorageIcon from "@mui/icons-material/Storage";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import TranslateIcon from "@mui/icons-material/Translate";
 import { useNavigate, useMatchRoute } from "@tanstack/react-router";
 import Cookies from "js-cookie";
+import { changeTranslation } from "../utils/uxFncs";
 
 export const Sidebar = () => {
   const { t } = useTranslation();
@@ -79,6 +81,16 @@ export const Sidebar = () => {
           className={btnClass}
         >
           {t("logout")}
+        </Button>
+        <Button
+          onClick={() => {
+            changeTranslation;
+          }}
+          color="neutral"
+          startDecorator={<TranslateIcon />}
+          className={btnClass}
+        >
+          {t("change-translation")}
         </Button>
       </div>
 
