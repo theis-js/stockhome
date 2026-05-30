@@ -45,3 +45,19 @@ export interface SettingsIntf {
   ["app-name"]: string;
   currency: string;
 }
+
+export type ProductRow = {
+  id: string;
+  uuid: string;
+  name: string;
+  description: string;
+  imageUrl?: string;
+  price: string;
+  stock: string;
+  stockLabel: string;
+  stockStatus: "ok" | "low" | "missing";
+  location: string;
+  locationDetail: string;
+  expiryDate: string;
+  refillDate: string;
+};

@@ -1,271 +1,27 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Typography,
   Button,
   CircularProgress,
   Sheet,
   Table,
-  Chip,
   Avatar,
-  Box,
-  IconButton,
+  Chip,
   Checkbox,
-  FormControl,
-  FormLabel,
-  Link,
-  Tooltip,
-  Select,
-  Option,
 } from "@mui/joy";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProducts, deleteSelectedProducts } from "../utils/api/products";
-import { visuallyHidden } from "@mui/utils";
+import { deleteSelectedProducts, getProducts } from "../utils/api/products";
 import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";
-
-type Order = "asc" | "desc";
-
-type ProductRow = {
-  id: string;
-  uuid: string;
-  name: string;
-  description: string;
-  imageUrl?: string;
-  price: string;
-  stock: string;
-  stockLabel: string;
-  stockStatus: "ok" | "low" | "missing";
-  location: string;
-  locationDetail: string;
-  expiryDate: string;
-  refillDate: string;
-};
-
-const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T) => {
-  const aValue = (a[orderBy] ?? "") as string | number;
-  const bValue = (b[orderBy] ?? "") as string | number;
-  if (bValue < aValue) {
-    return -1;
-  }
-  if (bValue > aValue) {
-    return 1;
-  }
-  return 0;
-};
-
-const getComparator = (order: Order, orderBy: keyof ProductRow) => {
-  return order === "desc"
-    ? (a: ProductRow, b: ProductRow) => descendingComparator(a, b, orderBy)
-    : (a: ProductRow, b: ProductRow) => -descendingComparator(a, b, orderBy);
-};
-
-type EnhancedTableHeadProps = {
-  numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof ProductRow,
-  ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-};
-
-const EnhancedTableHead = (props: EnhancedTableHeadProps) => {
-  const { t } = useTranslation();
-
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler =
-    (property: keyof ProductRow) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
-  const headCells: readonly {
-    id: keyof ProductRow;
-    label: string;
-    numeric: boolean;
-  }[] = [
-    { id: "name", label: t("product-name"), numeric: false },
-    { id: "price", label: t("price"), numeric: true },
-    { id: "stock", label: t("stock"), numeric: true },
-    { id: "location", label: t("storage-place"), numeric: false },
-    { id: "expiryDate", label: t("expiry-date"), numeric: false },
-    { id: "refillDate", label: t("bottling-date"), numeric: false },
-  ];
-
-  return (
-    <thead>
-      <tr className="bg-slate-50 text-slate-600">
-        <th className="px-4 py-4">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            slotProps={{ input: { "aria-label": "select all products" } }}
-            sx={{ verticalAlign: "sub" }}
-          />
-        </th>
-        {headCells.map((headCell) => {
-          const active = orderBy === headCell.id;
-          return (
-            <th
-              key={headCell.id}
-              className="px-6 py-4"
-              aria-sort={
-                active
-                  ? ({ asc: "ascending", desc: "descending" } as const)[order]
-                  : undefined
-              }
-            >
-              <Link
-                underline="none"
-                color="neutral"
-                textColor={active ? "primary.plainColor" : undefined}
-                component="button"
-                onClick={createSortHandler(headCell.id)}
-                startDecorator={
-                  headCell.numeric ? (
-                    <ArrowDownwardIcon
-                      sx={[active ? { opacity: 1 } : { opacity: 0 }]}
-                    />
-                  ) : null
-                }
-                endDecorator={
-                  !headCell.numeric ? (
-                    <ArrowDownwardIcon
-                      sx={[active ? { opacity: 1 } : { opacity: 0 }]}
-                    />
-                  ) : null
-                }
-                sx={{
-                  fontWeight: "lg",
-                  "& svg": {
-                    transition: "0.2s",
-                    transform:
-                      active && order === "desc"
-                        ? "rotate(0deg)"
-                        : "rotate(180deg)",
-                  },
-                  "&:hover": { "& svg": { opacity: 1 } },
-                }}
-              >
-                {headCell.label}
-                {active ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </Link>
-            </th>
-          );
-        })}
-        <th className="px-6 py-4 text-right">{t("actions")}</th>
-      </tr>
-    </thead>
-  );
-};
-
-const EnhancedTableToolbar = ({
-  numSelected,
-  selected,
-}: {
-  numSelected: number;
-  selected: readonly string[];
-}) => {
-  const { t } = useTranslation();
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationFn: (values: string[]) => deleteSelectedProducts(values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-    },
-  });
-
-  return (
-    <Box
-      sx={[
-        {
-          display: "flex",
-          alignItems: "center",
-          py: 1,
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-          borderTopLeftRadius: "var(--unstable_actionRadius)",
-          borderTopRightRadius: "var(--unstable_actionRadius)",
-        },
-        numSelected > 0 && {
-          bgcolor: "background.level1",
-        },
-      ]}
-      className="text-slate-700"
-    >
-      {numSelected > 0 ? (
-        <Typography sx={{ flex: "1 1 100%" }} component="div">
-          {numSelected} {t("selected")}
-        </Typography>
-      ) : (
-        <Typography
-          level="body-lg"
-          fontWeight={"bold"}
-          sx={{ flex: "1 1 100%" }}
-          component="div"
-        >
-          {t("inventory")}
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton
-            onClick={() => mutate([...selected])}
-            size="sm"
-            color="danger"
-            variant="solid"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton size="sm" variant="outlined" color="neutral">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Box>
-  );
-};
+import type { ProductRow } from "../misc/interfaces";
 
 export const InventoryPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
-  const labelDisplayedRows = ({
-    from,
-    to,
-    count,
-  }: {
-    from: number;
-    to: number;
-    count: number;
-  }) => `${from}-${to} ${t("of")} ${count}`;
+  const queryClient = useQueryClient();
 
   const { data: productsData, isLoading: productsIsLoading } = useQuery({
     queryKey: ["products"],
@@ -279,7 +35,7 @@ export const InventoryPage = () => {
       name: product?.name ?? t("product-name"),
       description: product?.description ?? "",
       imageUrl: product?.picture ?? undefined,
-      price: product?.price ?? "-",
+      price: product?.price ? String(product.price) : "-",
       stock: `${product?.amount ?? 0} ${t("pcs")}`,
       location: product?.storage_location_name ?? "-",
       locationDetail: "",
@@ -288,25 +44,19 @@ export const InventoryPage = () => {
     }),
   );
 
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof ProductRow>("name");
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [selected, setSelected] = useState<readonly string[]>([]);
 
-  const handleRequestSort = (
-    _event: React.MouseEvent<unknown>,
-    property: keyof ProductRow,
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  const { mutate: deleteSelection, isPending: isDeleting } = useMutation({
+    mutationFn: (values: string[]) => deleteSelectedProducts(values),
+    onSuccess: () => {
+      setSelected([]);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((row) => row.id);
-      setSelected(newSelected);
+      setSelected(rows.map((row) => row.id));
       return;
     }
     setSelected([]);
@@ -330,27 +80,6 @@ export const InventoryPage = () => {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (_event: any, newValue: number | null) => {
-    setRowsPerPage(parseInt(newValue!.toString(), 10));
-    setPage(0);
-  };
-
-  const getLabelDisplayedRowsTo = () => {
-    if (rows.length === -1) {
-      return (page + 1) * rowsPerPage;
-    }
-    return rowsPerPage === -1
-      ? rows.length
-      : Math.min(rows.length, (page + 1) * rowsPerPage);
-  };
-
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   return (
     <>
       <Typography level="h2">{t("inventory")}</Typography>
@@ -368,63 +97,90 @@ export const InventoryPage = () => {
 
       <Sheet
         variant="outlined"
-        className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm"
+        className="mt-6 flex h-[calc(100vh-260px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm"
       >
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          selected={selected}
-        />
-        <Table
-          aria-labelledby="tableTitle"
-          hoverRow
-          className="min-w-240 text-slate-700"
-          sx={{
-            "--TableCell-headBackground": "transparent",
-            "--TableCell-selectedBackground": (theme) =>
-              theme.vars.palette.success.softBg,
-            "& thead th:nth-child(1)": {
-              width: "40px",
-            },
-            "& thead th:nth-child(2)": {
-              width: "30%",
-            },
-            "& tr > *:nth-child(n+3)": { textAlign: "left" },
-          }}
-        >
-          <EnhancedTableHead
-            numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={rows.length}
-          />
-          <tbody>
-            {[...rows]
-              .sort(getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
+        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 text-slate-700">
+          <Typography level="body-lg" fontWeight="bold">
+            {t("inventory")}
+          </Typography>
+          <Button
+            size="sm"
+            color="danger"
+            variant="solid"
+            disabled={selected.length === 0 || isDeleting}
+            onClick={() => deleteSelection([...selected])}
+          >
+            Delete
+          </Button>
+        </div>
+        <div className="flex-1 overflow-auto">
+          <Table
+            aria-labelledby="tableTitle"
+            stickyHeader
+            stripe="odd"
+            variant="plain"
+            hoverRow
+            className="min-w-240 text-slate-700"
+            sx={{
+              "--TableCell-headBackground":
+                "var(--joy-palette-background-surface)",
+              "& thead": {
+                position: "sticky",
+                top: 0,
+                zIndex: 3,
+                backgroundColor: "rgb(248 250 252)",
+              },
+              "& thead tr": {
+                backgroundColor: "rgb(248 250 252)",
+              },
+              "& thead th:nth-child(2)": {
+                width: "40%",
+              },
+              "& thead th:nth-child(3)": {
+                width: "14%",
+              },
+              "& thead th": {
+                zIndex: 2,
+                backgroundColor: "rgb(248 250 252)",
+                backgroundImage: "none",
+              },
+              "& tr > *:nth-child(n+4)": { textAlign: "left" },
+            }}
+          >
+            <thead>
+              <tr className="text-slate-600">
+                <th className="px-4 py-4">
+                  <Checkbox
+                    checked={rows.length > 0 && selected.length === rows.length}
+                    indeterminate={
+                      selected.length > 0 && selected.length < rows.length
+                    }
+                    onChange={handleSelectAllClick}
+                    slotProps={{ input: { "aria-label": "select all" } }}
+                    sx={{ verticalAlign: "sub" }}
+                  />
+                </th>
+                <th className="px-6 py-4">{t("product-name")}</th>
+                <th className="px-6 py-4">{t("price")}</th>
+                <th className="px-6 py-4">{t("stock")}</th>
+                <th className="px-6 py-4">{t("storage-place")}</th>
+                <th className="px-6 py-4">{t("expiry-date")}</th>
+                <th className="px-6 py-4">{t("bottling-date")}</th>
+                <th className="px-6 py-4 text-right">{t("actions")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, index) => {
                 const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
+                const labelId = `inventory-checkbox-${index}`;
                 return (
                   <tr
                     key={row.id}
+                    className="border-t border-slate-200"
                     onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    className="border-t border-slate-200"
-                    style={
-                      isItemSelected
-                        ? ({
-                            "--TableCell-dataBackground":
-                              "var(--TableCell-selectedBackground)",
-                            "--TableCell-headBackground":
-                              "var(--TableCell-selectedBackground)",
-                          } as React.CSSProperties)
-                        : {}
-                    }
                   >
                     <th scope="row" className="px-4 py-5">
                       <Checkbox
@@ -436,7 +192,7 @@ export const InventoryPage = () => {
                     <th id={labelId} scope="row" className="px-6 py-5">
                       <div className="flex items-center gap-4">
                         <Avatar size="lg" variant="soft" src={row.imageUrl} />
-                        <div>
+                        <div className="min-w-0">
                           <Typography
                             level="title-md"
                             className="text-slate-900"
@@ -461,7 +217,7 @@ export const InventoryPage = () => {
                     <td className="px-6 py-5">
                       <Chip
                         variant="soft"
-                        color={"neutral"}
+                        color="neutral"
                         size="lg"
                         className="px-3"
                       >
@@ -496,80 +252,9 @@ export const InventoryPage = () => {
                   </tr>
                 );
               })}
-            {emptyRows > 0 && (
-              <tr
-                style={
-                  {
-                    height: `calc(${emptyRows} * 40px)`,
-                    "--TableRow-hoverBackground": "transparent",
-                  } as React.CSSProperties
-                }
-              >
-                <td colSpan={8} aria-hidden />
-              </tr>
-            )}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={8}>
-                <Box
-                  className="px-6 py-4 text-slate-600"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <FormControl orientation="horizontal" size="sm">
-                    <FormLabel>{t("rows-per-page")}</FormLabel>
-                    <Select
-                      onChange={handleChangeRowsPerPage}
-                      value={rowsPerPage}
-                    >
-                      <Option value={5}>5</Option>
-                      <Option value={10}>10</Option>
-                      <Option value={25}>25</Option>
-                    </Select>
-                  </FormControl>
-                  <Typography sx={{ textAlign: "center", minWidth: 120 }}>
-                    {labelDisplayedRows({
-                      from: rows.length === 0 ? 0 : page * rowsPerPage + 1,
-                      to: getLabelDisplayedRowsTo(),
-                      count: rows.length === -1 ? -1 : rows.length,
-                    })}
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <IconButton
-                      size="sm"
-                      color="neutral"
-                      variant="outlined"
-                      disabled={page === 0}
-                      onClick={() => handleChangePage(page - 1)}
-                      sx={{ bgcolor: "background.surface" }}
-                    >
-                      <KeyboardArrowLeftIcon />
-                    </IconButton>
-                    <IconButton
-                      size="sm"
-                      color="neutral"
-                      variant="outlined"
-                      disabled={
-                        rows.length !== -1
-                          ? page >= Math.ceil(rows.length / rowsPerPage) - 1
-                          : false
-                      }
-                      onClick={() => handleChangePage(page + 1)}
-                      sx={{ bgcolor: "background.surface" }}
-                    >
-                      <KeyboardArrowRightIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
-              </td>
-            </tr>
-          </tfoot>
-        </Table>
+            </tbody>
+          </Table>
+        </div>
       </Sheet>
     </>
   );
