@@ -19,7 +19,9 @@ import { mutateProduct, getProductDetails } from "../utils/api/products.ts";
 import { toInputDate } from "../utils/uxFncs";
 import type { ProductFormValues } from "../misc/interfaces";
 import type { productDetailsInterface } from "../misc/interfaces";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 import Cookies from "js-cookie";
+import QRCode from "qrcode";
 
 interface ViewProductProps {
   uuid: string;
@@ -98,6 +100,21 @@ export const ViewProduct = (props: ViewProductProps) => {
     );
   }, [form, productDetails]);
 
+  const downloadQRcode = async () => {
+    const baseUrl: string = `${window.location.protocol}//${window.location.host}`;
+    const url = `${baseUrl}/app/quick-view/product?uuid=${uuid}`;
+
+    const dataUrl = await QRCode.toDataURL(url, {
+      width: 300,
+      margin: 2,
+    });
+
+    const link = document.createElement("a");
+    link.download = "qrcode.png";
+    link.href = dataUrl;
+    link.click();
+  };
+
   return (
     <>
       <div className="space-y-6">
@@ -105,9 +122,6 @@ export const ViewProduct = (props: ViewProductProps) => {
           <div className="space-y-1">
             <Typography level="h2" className="text-slate-900">
               {t("product-details")}
-            </Typography>
-            <Typography level="body-lg" className="text-slate-500">
-              {t("inventory-header")}
             </Typography>
           </div>
           <Chip
@@ -208,7 +222,7 @@ export const ViewProduct = (props: ViewProductProps) => {
               </div>
               <div className="space-y-4">
                 <div className="rounded-2xl border border-white/70 bg-linear-to-br from-[#f7fbff] via-[#f2f6fb] to-[#eef3f9] p-5 shadow-[0_16px_40px_rgba(12,38,78,0.08)]">
-                  <Typography level="title-md" className="text-slate-900">
+                  <Typography level="title-lg" className="text-slate-900">
                     {t("inventory")}
                   </Typography>
                   <Divider className="my-3" />
@@ -294,6 +308,15 @@ export const ViewProduct = (props: ViewProductProps) => {
               <Typography level="body-sm" className="text-slate-500">
                 {t("product-details")}
               </Typography>
+              <Button
+                startDecorator={<QrCodeIcon />}
+                loading={isPending}
+                onClick={() => downloadQRcode()}
+                size="lg"
+                className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+              >
+                {t("download-qr-code")}
+              </Button>
               <Button
                 type="submit"
                 loading={isPending}

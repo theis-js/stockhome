@@ -17,6 +17,7 @@ import { Route as AppHiddenLayoutStoragesRouteImport } from './routes/app/_hidde
 import { Route as AppHiddenLayoutInventoryRouteImport } from './routes/app/_hiddenLayout/inventory'
 import { Route as AppHiddenLayoutAppSettingsRouteImport } from './routes/app/_hiddenLayout/app-settings'
 import { Route as AppHiddenLayoutAddProductRouteImport } from './routes/app/_hiddenLayout/add-product'
+import { Route as AppHiddenLayoutQuickViewProductRouteImport } from './routes/app/_hiddenLayout/quick-view/product'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -62,6 +63,12 @@ const AppHiddenLayoutAddProductRoute =
     path: '/add-product',
     getParentRoute: () => AppHiddenLayoutRoute,
   } as any)
+const AppHiddenLayoutQuickViewProductRoute =
+  AppHiddenLayoutQuickViewProductRouteImport.update({
+    id: '/quick-view/product',
+    path: '/quick-view/product',
+    getParentRoute: () => AppHiddenLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/app/inventory': typeof AppHiddenLayoutInventoryRoute
   '/app/storages': typeof AppHiddenLayoutStoragesRoute
   '/app/view-product': typeof AppHiddenLayoutViewProductRoute
+  '/app/quick-view/product': typeof AppHiddenLayoutQuickViewProductRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
   '/app/inventory': typeof AppHiddenLayoutInventoryRoute
   '/app/storages': typeof AppHiddenLayoutStoragesRoute
   '/app/view-product': typeof AppHiddenLayoutViewProductRoute
+  '/app/quick-view/product': typeof AppHiddenLayoutQuickViewProductRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,6 +102,7 @@ export interface FileRoutesById {
   '/app/_hiddenLayout/inventory': typeof AppHiddenLayoutInventoryRoute
   '/app/_hiddenLayout/storages': typeof AppHiddenLayoutStoragesRoute
   '/app/_hiddenLayout/view-product': typeof AppHiddenLayoutViewProductRoute
+  '/app/_hiddenLayout/quick-view/product': typeof AppHiddenLayoutQuickViewProductRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/app/inventory'
     | '/app/storages'
     | '/app/view-product'
+    | '/app/quick-view/product'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/app/inventory'
     | '/app/storages'
     | '/app/view-product'
+    | '/app/quick-view/product'
   id:
     | '__root__'
     | '/'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
     | '/app/_hiddenLayout/inventory'
     | '/app/_hiddenLayout/storages'
     | '/app/_hiddenLayout/view-product'
+    | '/app/_hiddenLayout/quick-view/product'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHiddenLayoutAddProductRouteImport
       parentRoute: typeof AppHiddenLayoutRoute
     }
+    '/app/_hiddenLayout/quick-view/product': {
+      id: '/app/_hiddenLayout/quick-view/product'
+      path: '/quick-view/product'
+      fullPath: '/app/quick-view/product'
+      preLoaderRoute: typeof AppHiddenLayoutQuickViewProductRouteImport
+      parentRoute: typeof AppHiddenLayoutRoute
+    }
   }
 }
 
@@ -200,6 +220,7 @@ interface AppHiddenLayoutRouteChildren {
   AppHiddenLayoutInventoryRoute: typeof AppHiddenLayoutInventoryRoute
   AppHiddenLayoutStoragesRoute: typeof AppHiddenLayoutStoragesRoute
   AppHiddenLayoutViewProductRoute: typeof AppHiddenLayoutViewProductRoute
+  AppHiddenLayoutQuickViewProductRoute: typeof AppHiddenLayoutQuickViewProductRoute
 }
 
 const AppHiddenLayoutRouteChildren: AppHiddenLayoutRouteChildren = {
@@ -208,6 +229,7 @@ const AppHiddenLayoutRouteChildren: AppHiddenLayoutRouteChildren = {
   AppHiddenLayoutInventoryRoute: AppHiddenLayoutInventoryRoute,
   AppHiddenLayoutStoragesRoute: AppHiddenLayoutStoragesRoute,
   AppHiddenLayoutViewProductRoute: AppHiddenLayoutViewProductRoute,
+  AppHiddenLayoutQuickViewProductRoute: AppHiddenLayoutQuickViewProductRoute,
 }
 
 const AppHiddenLayoutRouteWithChildren = AppHiddenLayoutRoute._addFileChildren(
