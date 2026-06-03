@@ -74,7 +74,7 @@ router.get("/all-products", authenticate, async (req, res) => {
   }
 });
 
-router.get("/view", authenticate, async (req, res) => {
+router.get("/view", async (req, res) => {
   const uuid = req.query.uuid;
 
   const result = await productDetails(uuid);
@@ -123,7 +123,7 @@ router.put("/mutate/set-amount", authenticate, async (req, res) => {
   }
 });
 
-router.post("/mutate/update-item", authenticate, async (req, res) => {
+router.post("/mutate/update-item", async (req, res) => {
   const itemUUID = req.query.item;
   const newValues = req.body;
 
