@@ -40,31 +40,72 @@ export const Storages = () => {
         </div>
       </div>
 
-      <Sheet className="mt-6 rounded-3xl border border-slate-200/70 bg-white/90 p-6 shadow-[0_24px_60px_rgba(12,38,78,0.12)] backdrop-blur">
+      <Sheet
+        variant="outlined"
+        className="mt-6 flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
+      >
         <AddStorageModal isOpen={modal} setOpen={setModal} />
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
             <CircularProgress size="lg" />
           </div>
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white">
-            <Table hoverRow className="min-w-240 text-slate-700">
-              <thead className="bg-slate-50/80 text-slate-500">
-                <tr className="text-sm uppercase tracking-wide">
-                  <th className="px-5 py-3 text-left">{t("storage-name")}</th>
-                  <th className="px-5 py-3 text-left">{t("description")}</th>
-                  <th className="px-5 py-3 text-left">{t("created-at")}</th>
-                  <th className="px-5 py-3 text-left">{t("updated-at")}</th>
-                  <th className="px-5 py-3 text-right"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {storages?.map((storage: Storage) => (
-                  <StorageRow key={storage.uuid} storage={storage} />
-                ))}
-              </tbody>
-            </Table>
-          </div>
+          <>
+            <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 text-slate-700">
+              <Typography level="body-lg" fontWeight="bold">
+                {t("storages")}
+              </Typography>
+            </div>
+            <div className="flex-1 overflow-auto">
+              <Table
+                stickyHeader
+                stripe="odd"
+                variant="plain"
+                hoverRow
+                className="min-w-240 text-slate-700"
+                sx={{
+                  "--TableCell-headBackground":
+                    "var(--joy-palette-background-surface)",
+                  "& thead": {
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 3,
+                    backgroundColor: "rgb(248 250 252)",
+                  },
+                  "& thead tr": {
+                    backgroundColor: "rgb(248 250 252)",
+                  },
+                  "& thead th:nth-child(2)": {
+                    width: "40%",
+                  },
+                  "& thead th:nth-child(3)": {
+                    width: "14%",
+                  },
+                  "& thead th": {
+                    zIndex: 2,
+                    backgroundColor: "rgb(248 250 252)",
+                    backgroundImage: "none",
+                  },
+                  "& tr > *:nth-child(n+4)": { textAlign: "left" },
+                }}
+              >
+                <thead>
+                  <tr className="text-slate-600">
+                    <th className="px-6 py-4">{t("storage-name")}</th>
+                    <th className="px-6 py-4">{t("description")}</th>
+                    <th className="px-6 py-4">{t("created-at")}</th>
+                    <th className="px-6 py-4">{t("updated-at")}</th>
+                    <th className="px-6 py-4 text-right"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {storages?.map((storage: Storage) => (
+                    <StorageRow key={storage.uuid} storage={storage} />
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          </>
         )}
       </Sheet>
     </>

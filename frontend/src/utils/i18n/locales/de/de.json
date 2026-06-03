@@ -42,5 +42,10 @@
     "selected": "ausgewählt",
     "logout": "Abmelden",
     "pcs": "Stk.",
-    "change-translation": "English"
+    "change-translation": "English",
+    "new-storage-title": "Neuer Lagerort",
+    "new-storage-content": "Geben Sie hier die Daten für einen neuen Lagerort ein.",
+    "menu": "Menü",
+    "close": "Schließen",
+    "product-details-quick": "Schnelle Produktdetails"
 }

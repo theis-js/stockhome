@@ -47,8 +47,8 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
     (values.description ?? "") !== (storage.description ?? "");
 
   return (
-    <tr key={storage.uuid} className="align-top">
-      <td>
+    <tr key={storage.uuid} className="border-t border-slate-200 align-top">
+      <td className="px-6 py-5">
         <form.Field name="name">
           {(field) => (
             <Input
@@ -57,12 +57,12 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
               onBlur={field.handleBlur}
               size="sm"
               variant="outlined"
-              className="rounded-xl bg-white/90 shadow-[0_8px_18px_rgba(15,23,42,0.06)]"
+              className="rounded-xl bg-slate-50/80 text-slate-700 shadow-none ring-1 ring-inset ring-slate-200 focus-within:ring-2 focus-within:ring-slate-300"
             />
           )}
         </form.Field>
       </td>
-      <td>
+      <td className="px-6 py-5">
         <form.Field name="description">
           {(field) => (
             <Input
@@ -71,18 +71,18 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
               onBlur={field.handleBlur}
               size="sm"
               variant="outlined"
-              className="rounded-xl bg-white/90 shadow-[0_8px_18px_rgba(15,23,42,0.06)]"
+              className="rounded-xl bg-slate-50/80 text-slate-700 shadow-none ring-1 ring-inset ring-slate-200 focus-within:ring-2 focus-within:ring-slate-300"
             />
           )}
         </form.Field>
       </td>
-      <td className="text-sm text-slate-500">
+      <td className="px-6 py-5 text-sm text-slate-500">
         {formatDate(storage.created_at)}
       </td>
-      <td className="text-sm text-slate-500">
+      <td className="px-6 py-5 text-sm text-slate-500">
         {formatDate(storage.updated_at)}
       </td>
-      <td>
+      <td className="px-6 py-5 text-right">
         <div className="flex flex-wrap justify-end gap-2">
           <Button
             color="primary"

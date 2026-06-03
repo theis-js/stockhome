@@ -20,6 +20,7 @@ import { toInputDate } from "../utils/uxFncs";
 import type { ProductFormValues } from "../misc/interfaces";
 import type { productDetailsInterface } from "../misc/interfaces";
 import Cookies from "js-cookie";
+import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 
 export const ProductQuickView = () => {
   const uuid = window.location.search.split("uuid=")[1];
@@ -99,8 +100,10 @@ export const ProductQuickView = () => {
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <div className="space-y-1">
-            <Typography level="h2" className="text-slate-900">
-              {t("product-details")}
+            <Typography level="h2" fontWeight="1000" className="text-slate-900">
+              <ElectricBoltIcon color="primary" />
+              {t("product-details-quick")}
+              <ElectricBoltIcon color="primary" />
             </Typography>
           </div>
           <Chip

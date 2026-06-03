@@ -42,5 +42,10 @@
     "selected": "selected",
     "logout": "Logout",
     "pcs": "pcs.",
-    "change-translation": "Deutsch"
+    "change-translation": "Deutsch",
+    "new-storage-title": "New Storage location",
+    "new-storage-content": "Enter the details for a new storage location here.",
+    "menu": "Menu",
+    "close": "Close",
+    "product-details-quick": "Fast product details"
 }

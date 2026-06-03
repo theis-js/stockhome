@@ -97,7 +97,7 @@ export const InventoryPage = () => {
 
       <Sheet
         variant="outlined"
-        className="mt-6 flex h-[calc(100vh-260px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm"
+        className="mt-6 flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
       >
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 text-slate-700">
           <Typography level="body-lg" fontWeight="bold">
