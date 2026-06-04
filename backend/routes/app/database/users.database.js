@@ -72,3 +72,20 @@ export const getSettings = async () => {
     return { code: "eu005" };
   }
 };
+
+export const changePassword = async (
+  username,
+  currentPasswordUser,
+  newPassword,
+) => {
+  const [result] = await pool.query(
+    `UPDATE users SET password = ? WHERE username = ? AND password = ?;`,
+    [newPassword, username, currentPasswordUser],
+  );
+
+  if (result.affectedRows > 0) {
+    return { code: "su005" };
+  } else {
+    return { code: "eu006" };
+  }
+};

@@ -1,8 +1,9 @@
 import { API_BASE } from "../../config/api.config";
 import Cookies from "js-cookie";
 import type { TFunction } from "i18next";
-import { toast } from "react-toastify";
 import { fetchSettings } from "./settings";
+import type { ChangePasswordIntf } from "../../misc/interfaces";
+import { createApiError } from "./apiError";
 
 export async function isAuthenticated() {
   if (Cookies.get("token")) {
@@ -52,11 +53,33 @@ export async function signInUser(
   }
 
   Cookies.remove("token");
-  toast.error(t(response.code));
-  return { ok: false as const };
+  throw createApiError(response.code, t(response.code || "unknown-error"));
 }
 
 export function signOutUser() {
   Cookies.remove("token");
   return { ok: true as const };
 }
+
+export const mutatePassword = async (payload: ChangePasswordIntf) => {
+  const result = await fetch(`${API_BASE}/users/change-password`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${Cookies.get("token") || ""}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      currentPassword: payload.currentPassword,
+      newPassword: payload.newPassword,
+    }),
+  });
+
+  const response = await result.json();
+
+  if (response.code === "su005") {
+    return { code: response.code };
+  }
+
+  throw createApiError(response.code, "Change password failed");
+};

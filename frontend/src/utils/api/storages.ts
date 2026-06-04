@@ -1,6 +1,7 @@
 import { API_BASE } from "../../config/api.config";
 import Cookies from "js-cookie";
 import type { NewStorage, Storage } from "../../misc/interfaces";
+import { createApiError } from "./apiError";
 
 export const getStorages = async () => {
   const result = await fetch(`${API_BASE}/storage/all-storages`, {
@@ -13,13 +14,11 @@ export const getStorages = async () => {
 
   const response = await result.json();
 
-  if (response.code === "es001") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "ss001") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Get storages failed");
 };
 
 export const mutateNewStorage = async (values: NewStorage) => {
@@ -35,13 +34,11 @@ export const mutateNewStorage = async (values: NewStorage) => {
 
   const response = await result.json();
 
-  if (response.code === "es002") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "ss002") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Create storage failed");
 };
 
 export const updateStorage = async (
@@ -63,13 +60,11 @@ export const updateStorage = async (
 
   const response = await result.json();
 
-  if (response.code === "ep001") {
-    return { success: false, code: response.code };
-  }
-
-  if (response.code === "sp001") {
+  if (response.code === "ss003") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Update storage failed");
 };
 
 export const deleteStorage = async (uuid: string) => {
@@ -84,11 +79,9 @@ export const deleteStorage = async (uuid: string) => {
 
   const response = await result.json();
 
-  if (response.code === "es004") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "ss004") {
     return { success: true, code: response.code };
   }
+
+  throw createApiError(response.code, "Delete storage failed");
 };

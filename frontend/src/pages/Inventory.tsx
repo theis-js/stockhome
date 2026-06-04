@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Typography,
   Button,
@@ -8,6 +8,7 @@ import {
   Avatar,
   Chip,
   Checkbox,
+  Alert,
 } from "@mui/joy";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -17,16 +18,45 @@ import { deleteSelectedProducts, getProducts } from "../utils/api/products";
 import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";
 import type { ProductRow } from "../misc/interfaces";
+import type { AlertInterface } from "../misc/interfaces";
+import type { ApiError } from "../utils/api/apiError";
 
 export const InventoryPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [alert, setAlert] = useState<AlertInterface>({
+    isAlert: false,
+    type: "neutral",
+    header: "",
+    text: "",
+  });
 
-  const { data: productsData, isLoading: productsIsLoading } = useQuery({
+  const showError = (error: unknown) => {
+    const errorCode = (error as { code?: string })?.code;
+    setAlert({
+      isAlert: true,
+      type: "danger",
+      header: t("error"),
+      text: errorCode ? t(errorCode) : t("unknown-error"),
+    });
+  };
+
+  const {
+    data: productsData,
+    isLoading: productsIsLoading,
+    isError: productsError,
+    error: productsErrorObj,
+  } = useQuery<any[], ApiError>({
     queryKey: ["products"],
     queryFn: getProducts,
   });
+
+  useEffect(() => {
+    if (productsError && productsErrorObj) {
+      showError(productsErrorObj);
+    }
+  }, [productsError, productsErrorObj]);
 
   const rows: ProductRow[] = (productsData ?? []).map(
     (product: any, index: number) => ({
@@ -37,6 +67,8 @@ export const InventoryPage = () => {
       imageUrl: product?.picture ?? undefined,
       price: product?.price ? String(product.price) : "-",
       stock: `${product?.amount ?? 0} ${t("pcs")}`,
+      stockLabel: String(product?.amount ?? 0),
+      stockStatus: (product?.amount ?? 0) > 0 ? "ok" : "missing",
       location: product?.storage_location_name ?? "-",
       locationDetail: "",
       expiryDate: formatDate(product?.expiry_date),
@@ -52,6 +84,7 @@ export const InventoryPage = () => {
       setSelected([]);
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
+    onError: showError,
   });
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +127,17 @@ export const InventoryPage = () => {
         </Button>
         {productsIsLoading && <CircularProgress size="sm" />}
       </div>
+      {alert.isAlert && (
+        <Alert
+          variant="soft"
+          color={alert.type}
+          className="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
+        >
+          {alert.header}
+          <br />
+          {alert.text}
+        </Alert>
+      )}
 
       <Sheet
         variant="outlined"

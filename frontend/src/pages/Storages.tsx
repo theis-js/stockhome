@@ -1,21 +1,57 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages";
-import { Sheet, Table, Button, CircularProgress, Typography } from "@mui/joy";
+import {
+  Sheet,
+  Table,
+  Button,
+  CircularProgress,
+  Typography,
+  Alert,
+} from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import type { Storage } from "../misc/interfaces";
+import type { AlertInterface } from "../misc/interfaces";
+import type { ApiError } from "../utils/api/apiError";
 import { StorageRow } from "../components/StorageRow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddStorageModal } from "../components/modals/AddStorageModal";
 import AddIcon from "@mui/icons-material/Add";
 
 export const Storages = () => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
+  const [alert, setAlert] = useState<AlertInterface>({
+    isAlert: false,
+    type: "neutral",
+    header: "",
+    text: "",
+  });
 
-  const { data: storages, isLoading } = useQuery({
+  const showError = (error: unknown) => {
+    const errorCode = (error as { code?: string })?.code;
+    setAlert({
+      isAlert: true,
+      type: "danger",
+      header: t("error"),
+      text: errorCode ? t(errorCode) : t("unknown-error"),
+    });
+  };
+
+  const {
+    data: storages,
+    isLoading,
+    isError: storagesError,
+    error: storagesErrorObj,
+  } = useQuery<Storage[], ApiError>({
     queryKey: ["storages"],
     queryFn: () => getStorages(),
   });
+
+  useEffect(() => {
+    if (storagesError && storagesErrorObj) {
+      showError(storagesErrorObj);
+    }
+  }, [storagesError, storagesErrorObj]);
 
   return (
     <>
@@ -38,6 +74,17 @@ export const Storages = () => {
             {t("add")}
           </Button>
         </div>
+        {alert.isAlert && (
+          <Alert
+            variant="soft"
+            color={alert.type}
+            className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
+          >
+            {alert.header}
+            <br />
+            {alert.text}
+          </Alert>
+        )}
       </div>
 
       <Sheet
@@ -100,7 +147,11 @@ export const Storages = () => {
                 </thead>
                 <tbody>
                   {storages?.map((storage: Storage) => (
-                    <StorageRow key={storage.uuid} storage={storage} />
+                    <StorageRow
+                      key={storage.uuid}
+                      storage={storage}
+                      onError={showError}
+                    />
                   ))}
                 </tbody>
               </Table>

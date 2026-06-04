@@ -6,31 +6,68 @@ import {
   Sheet,
   Chip,
   Divider,
+  Alert,
 } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import type { SettingsIntf } from "../misc/interfaces";
+import type { AlertInterface } from "../misc/interfaces";
+import type { ApiError } from "../utils/api/apiError";
 import { mutateSettings, fetchSettings } from "../utils/api/settings";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ChangePasswordModal } from "../components/modals/ChangePasswordModal";
 
 export const Settings = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const [modal, setModal] = useState(false);
+  const [alert, setAlert] = useState<AlertInterface>({
+    isAlert: false,
+    type: "neutral",
+    header: "",
+    text: "",
+  });
+
+  const showError = (error: unknown) => {
+    const errorCode = (error as { code?: string })?.code;
+    setAlert({
+      isAlert: true,
+      type: "danger",
+      header: t("error"),
+      text: errorCode ? t(errorCode) : t("unknown-error"),
+    });
+  };
 
   const {
     data: settings,
     isPending: settingsPending,
     isSuccess: settingsSuccess,
-  } = useQuery({
+    isError: settingsError,
+    error: settingsErrorObj,
+  } = useQuery<{ data: { value: string }[] }, ApiError>({
     queryKey: ["settings"],
     queryFn: fetchSettings,
   });
 
   useEffect(() => {
-    Cookies.set("app-name", settings?.data[0].value);
-    Cookies.set("currency", settings?.data[1].value);
+    if (settingsError && settingsErrorObj) {
+      showError(settingsErrorObj);
+    }
+  }, [settingsError, settingsErrorObj]);
+
+  useEffect(() => {
+    const appName = settings?.data?.[0]?.value;
+    const currency = settings?.data?.[1]?.value;
+
+    if (appName) {
+      Cookies.set("app-name", appName);
+    }
+
+    if (currency) {
+      Cookies.set("currency", currency);
+    }
   }, [settingsSuccess]);
 
   const form = useForm({
@@ -48,10 +85,12 @@ export const Settings = () => {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["settings"] });
     },
+    onError: showError,
   });
 
   return (
     <>
+      <ChangePasswordModal isOpen={modal} setOpen={setModal} />
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <div className="space-y-1">
@@ -73,6 +112,17 @@ export const Settings = () => {
       </div>
 
       <Sheet className="mt-6 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(12,38,78,0.12)] backdrop-blur">
+        {alert.isAlert && (
+          <Alert
+            variant="soft"
+            color={alert.type}
+            className="mb-6 rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
+          >
+            {alert.header}
+            <br />
+            {alert.text}
+          </Alert>
+        )}
         {settingsPending ? (
           <div className="flex items-center justify-center py-16">
             <CircularProgress size="lg" />
@@ -143,9 +193,18 @@ export const Settings = () => {
               <Button
                 type="submit"
                 size="lg"
-                className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                color="primary"
+                className="rounded-2xl text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
               >
                 {t("save")}
+              </Button>
+              <Button
+                onClick={() => setModal(true)}
+                size="lg"
+                color="warning"
+                className="rounded-2xl text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+              >
+                {t("change-password")}
               </Button>
             </div>
           </form>

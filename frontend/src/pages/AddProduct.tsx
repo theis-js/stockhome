@@ -11,21 +11,52 @@ import {
   Typography,
 } from "@mui/joy";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { createProduct } from "../utils/api/products";
 import { getStorages } from "../utils/api/storages";
-import type { ProductFormValues } from "../misc/interfaces";
+import type {
+  ProductFormValues,
+  AlertInterface,
+  Storage,
+} from "../misc/interfaces";
+import type { ApiError } from "../utils/api/apiError";
 import Cookies from "js-cookie";
 
 export const AddProduct = () => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
+  const [alert, setAlert] = useState<AlertInterface>({
+    isAlert: false,
+    type: "neutral",
+    header: "",
+    text: "",
+  });
 
-  const { data: storages } = useQuery({
+  const showError = (error: unknown) => {
+    const errorCode = (error as { code?: string })?.code;
+    setAlert({
+      isAlert: true,
+      type: "danger",
+      header: t("error"),
+      text: errorCode ? t(errorCode) : t("unknown-error"),
+    });
+  };
+
+  const {
+    data: storages,
+    isError: storagesError,
+    error: storagesErrorObj,
+  } = useQuery<Storage[], ApiError>({
     queryKey: ["storages"],
     queryFn: () => getStorages(),
   });
+
+  useEffect(() => {
+    if (storagesError && storagesErrorObj) {
+      showError(storagesErrorObj);
+    }
+  }, [storagesError, storagesErrorObj]);
 
   const form = useForm({
     defaultValues: {
@@ -48,6 +79,7 @@ export const AddProduct = () => {
     onSuccess: () => {
       setSuccess(true);
     },
+    onError: showError,
   });
 
   return (
@@ -227,13 +259,11 @@ export const AddProduct = () => {
                           variant="outlined"
                           className="rounded-2xl bg-white/90"
                         >
-                          {storages?.map(
-                            (storage: { uuid: string; name: string }) => (
-                              <Option key={storage.uuid} value={storage.uuid}>
-                                {storage.name}
-                              </Option>
-                            ),
-                          )}
+                          {storages?.map((storage) => (
+                            <Option key={storage.uuid} value={storage.uuid}>
+                              {storage.name}
+                            </Option>
+                          ))}
                         </Select>
                       )}
                     </form.Field>
@@ -255,6 +285,17 @@ export const AddProduct = () => {
               {t("save")}
             </Button>
           </div>
+          {alert.isAlert && (
+            <Alert
+              color={alert.type}
+              variant="soft"
+              className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
+            >
+              {alert.header}
+              <br />
+              {alert.text}
+            </Alert>
+          )}
           {success && (
             <Alert
               color="success"

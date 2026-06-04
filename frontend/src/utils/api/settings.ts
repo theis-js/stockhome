@@ -1,6 +1,7 @@
 import { API_BASE } from "../../config/api.config";
 import Cookies from "js-cookie";
 import type { SettingsIntf } from "../../misc/interfaces";
+import { createApiError } from "./apiError";
 
 export const fetchSettings = async () => {
   const result = await fetch(`${API_BASE}/users/settings`, {
@@ -14,13 +15,11 @@ export const fetchSettings = async () => {
 
   const response = await result.json();
 
-  if (response.code === "eu005") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "su004") {
     return { success: true, data: response.data, code: response.code };
   }
+
+  throw createApiError(response.code, "Fetch settings failed");
 };
 
 export const mutateSettings = async (payload: SettingsIntf) => {
@@ -36,11 +35,9 @@ export const mutateSettings = async (payload: SettingsIntf) => {
 
   const response = await result.json();
 
-  if (response.code === "eu004") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "su003") {
     return { success: true, code: response.code };
   }
+
+  throw createApiError(response.code, "Update settings failed");
 };

@@ -61,3 +61,8 @@ export type ProductRow = {
   expiryDate: string;
   refillDate: string;
 };
+
+export type ChangePasswordIntf = {
+  currentPassword: string;
+  newPassword: string;
+};

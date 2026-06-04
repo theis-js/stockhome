@@ -6,6 +6,7 @@ import {
   loginUser,
   updateSettings,
   getSettings,
+  changePassword,
 } from "./database/users.database.js";
 dotenv.config();
 const router = express.Router();
@@ -17,8 +18,6 @@ router.post("/verify-token", authenticate, async (req, res) => {
 router.post("/update-app-settings", authenticate, async (req, res) => {
   const appName = req.body.appName;
   const currency = req.body.currency;
-
-  console.log(req.body);
 
   const result = await updateSettings(req.body);
 
@@ -91,7 +90,7 @@ router.post("/login", async (req, res) => {
     const token = await generateToken(result.data);
     const login = await loginUser(result.data.username);
 
-    if (login.code === "e003") {
+    if (login.code === "eu003") {
       res.status(500).json({
         success: false,
         code: "eu003",
@@ -107,6 +106,28 @@ router.post("/login", async (req, res) => {
         token,
       },
       message: "User token generated successfully",
+    });
+  }
+});
+
+router.post("/change-password", authenticate, async (req, res) => {
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+  const username = req.user.username;
+
+  const result = await changePassword(username, currentPassword, newPassword);
+
+  if (result.code === "su005") {
+    res.status(202).json({
+      success: true,
+      code: result.code,
+    });
+  }
+
+  if (result.code === "eu006") {
+    res.status(406).json({
+      success: false,
+      code: result.code,
     });
   }
 });

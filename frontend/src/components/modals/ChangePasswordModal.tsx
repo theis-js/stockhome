@@ -2,27 +2,25 @@ import {
   Modal,
   ModalDialog,
   DialogTitle,
-  DialogContent,
   Stack,
   Input,
   Button,
   Alert,
 } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import type { NewStorage, AlertInterface } from "../../misc/interfaces";
-import { mutateNewStorage } from "../../utils/api/storages";
+import type { ChangePasswordIntf, AlertInterface } from "../../misc/interfaces";
+import { mutatePassword } from "../../utils/api/auth";
 import { useState } from "react";
 
-interface AddStorageModalProps {
+interface ChangePasswordProps {
   isOpen: boolean;
   setOpen: (value: boolean) => void;
 }
 
-export const AddStorageModal = (props: AddStorageModalProps) => {
+export const ChangePasswordModal = (props: ChangePasswordProps) => {
   const { t } = useTranslation();
-  const queryClient = useQueryClient();
   const [alert, setAlert] = useState<AlertInterface>({
     isAlert: false,
     type: "neutral",
@@ -32,8 +30,9 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
 
   const form = useForm({
     defaultValues: {
-      name: "",
-      description: "",
+      currentPassword: "",
+      newPassword: "",
+      newPasswordRep: "",
     },
     onSubmit: async ({ value }) => {
       mutate(value);
@@ -41,7 +40,7 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
   });
 
   const { mutate } = useMutation({
-    mutationFn: (values: NewStorage) => mutateNewStorage(values),
+    mutationFn: (values: ChangePasswordIntf) => mutatePassword(values),
     onError: (error: { code?: string }) => {
       setAlert({
         isAlert: true,
@@ -51,7 +50,6 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["storages"] });
       props.setOpen(false);
     },
   });
@@ -61,11 +59,8 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
       <Modal open={props.isOpen} onClose={() => props.setOpen(false)}>
         <ModalDialog className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-[0_30px_70px_rgba(12,38,78,0.2)] backdrop-blur">
           <DialogTitle className="text-slate-900">
-            {t("new-storage-title")}
+            {t("new-password-title")}
           </DialogTitle>
-          <DialogContent className="text-slate-500">
-            {t("new-storage-content")}
-          </DialogContent>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -73,24 +68,39 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
             }}
           >
             <Stack spacing={2} className="mt-4">
-              <form.Field name="name">
+              <form.Field name="currentPassword">
                 {(field) => (
                   <Input
+                    type="password"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder={t("storage-name")}
+                    placeholder={t("current-password")}
                     variant="outlined"
                     size="lg"
                     className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
                   />
                 )}
               </form.Field>
-              <form.Field name="description">
+              <form.Field name="newPassword">
                 {(field) => (
                   <Input
+                    type="password"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder={t("description")}
+                    placeholder={t("new-password")}
+                    variant="outlined"
+                    size="lg"
+                    className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                  />
+                )}
+              </form.Field>
+              <form.Field name="newPasswordRep">
+                {(field) => (
+                  <Input
+                    type="password"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder={t("new-password-rep")}
                     variant="outlined"
                     size="lg"
                     className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
@@ -102,7 +112,7 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
                 size="lg"
                 className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
               >
-                {t("submit")}
+                {t("change")}
               </Button>
             </Stack>
           </form>

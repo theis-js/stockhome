@@ -17,8 +17,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { mutateProduct, getProductDetails } from "../utils/api/products.ts";
 import { toInputDate } from "../utils/uxFncs";
-import type { ProductFormValues } from "../misc/interfaces";
-import type { productDetailsInterface } from "../misc/interfaces";
+import type {
+  ProductFormValues,
+  productDetailsInterface,
+  AlertInterface,
+  Storage,
+} from "../misc/interfaces";
+import type { ApiError } from "../utils/api/apiError";
 import Cookies from "js-cookie";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 
@@ -27,20 +32,54 @@ export const ProductQuickView = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [success, setSuccess] = useState(false);
+  const [alert, setAlert] = useState<AlertInterface>({
+    isAlert: false,
+    type: "neutral",
+    header: "",
+    text: "",
+  });
+
+  const showError = (error: unknown) => {
+    const errorCode = (error as { code?: string })?.code;
+    setAlert({
+      isAlert: true,
+      type: "danger",
+      header: t("error"),
+      text: errorCode ? t(errorCode) : t("unknown-error"),
+    });
+  };
 
   const {
     data: productDetails,
     isLoading: productDetailsLoading,
     isSuccess,
-  } = useQuery<productDetailsInterface>({
+    isError: productDetailsError,
+    error: productDetailsErrorObj,
+  } = useQuery<productDetailsInterface, ApiError>({
     queryKey: ["product", uuid],
     queryFn: () => getProductDetails(uuid),
   });
 
-  const { data: storages } = useQuery({
+  const {
+    data: storages,
+    isError: storagesError,
+    error: storagesErrorObj,
+  } = useQuery<Storage[], ApiError>({
     queryKey: ["storages"],
     queryFn: () => getStorages(),
   });
+
+  useEffect(() => {
+    if (productDetailsError && productDetailsErrorObj) {
+      showError(productDetailsErrorObj);
+    }
+  }, [productDetailsError, productDetailsErrorObj]);
+
+  useEffect(() => {
+    if (storagesError && storagesErrorObj) {
+      showError(storagesErrorObj);
+    }
+  }, [storagesError, storagesErrorObj]);
 
   const form = useForm({
     defaultValues: {
@@ -73,6 +112,7 @@ export const ProductQuickView = () => {
       setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ["product", variables.uuid] });
     },
+    onError: showError,
   });
 
   useEffect(() => {
@@ -271,13 +311,11 @@ export const ProductQuickView = () => {
                             variant="outlined"
                             className="rounded-2xl bg-white/90"
                           >
-                            {storages?.map(
-                              (storage: { uuid: string; name: string }) => (
-                                <Option key={storage.uuid} value={storage.uuid}>
-                                  {storage.name}
-                                </Option>
-                              ),
-                            )}
+                            {storages?.map((storage) => (
+                              <Option key={storage.uuid} value={storage.uuid}>
+                                {storage.name}
+                              </Option>
+                            ))}
                           </Select>
                         )}
                       </form.Field>
@@ -299,6 +337,17 @@ export const ProductQuickView = () => {
                 {t("save")}
               </Button>
             </div>
+            {alert.isAlert && (
+              <Alert
+                color={alert.type}
+                variant="soft"
+                className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
+              >
+                {alert.header}
+                <br />
+                {alert.text}
+              </Alert>
+            )}
             {success && (
               <Alert
                 color="success"

@@ -9,9 +9,10 @@ import { useTranslation } from "react-i18next";
 
 interface StorageRowProps {
   storage: Storage;
+  onError: (error: unknown) => void;
 }
 
-export const StorageRow = ({ storage }: StorageRowProps) => {
+export const StorageRow = ({ storage, onError }: StorageRowProps) => {
   const { t } = useTranslation();
 
   const queryClient = useQueryClient();
@@ -22,6 +23,7 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["storages"] });
     },
+    onError,
   });
 
   const deleteMutation = useMutation({
@@ -29,6 +31,7 @@ export const StorageRow = ({ storage }: StorageRowProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["storages"] });
     },
+    onError,
   });
 
   const form = useForm({

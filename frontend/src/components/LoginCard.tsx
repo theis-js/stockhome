@@ -1,13 +1,21 @@
 import { useForm } from "@tanstack/react-form";
-import { Input, Button } from "@mui/joy";
+import { Input, Button, Alert } from "@mui/joy";
 import { useMutation } from "@tanstack/react-query";
 import { signInUser } from "../utils/api/auth";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import type { AlertInterface } from "../misc/interfaces";
 
 export const LoginCard = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [alert, setAlert] = useState<AlertInterface>({
+    isAlert: false,
+    type: "neutral",
+    header: "",
+    text: "",
+  });
 
   const form = useForm({
     defaultValues: {
@@ -29,8 +37,23 @@ export const LoginCard = () => {
     }) => signInUser(username, password, t),
     onSuccess: (result) => {
       if (result.ok) {
+        setAlert({
+          isAlert: false,
+          type: "neutral",
+          header: "",
+          text: "",
+        });
         navigate({ to: "/app/inventory" });
       }
+    },
+    onError: (error: unknown) => {
+      const errorCode = (error as { code?: string })?.code;
+      setAlert({
+        isAlert: true,
+        type: "danger",
+        header: t("error"),
+        text: errorCode ? t(errorCode) : t("unknown-error"),
+      });
     },
   });
 
@@ -53,6 +76,17 @@ export const LoginCard = () => {
               form.handleSubmit();
             }}
           >
+            {alert.isAlert && (
+              <Alert
+                variant="soft"
+                color={alert.type}
+                className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
+              >
+                {alert.header}
+                <br />
+                {alert.text}
+              </Alert>
+            )}
             <form.Field name="username">
               {(field) => (
                 <Input

@@ -1,6 +1,7 @@
 import { API_BASE } from "../../config/api.config";
 import Cookies from "js-cookie";
 import type { ProductFormValues } from "../../misc/interfaces";
+import { createApiError } from "./apiError";
 
 export const getProducts = async () => {
   const result = await fetch(`${API_BASE}/products/all-products`, {
@@ -12,13 +13,11 @@ export const getProducts = async () => {
   });
   const response = await result.json();
 
-  if (response.code === "ep002") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "sp002") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Get products failed");
 };
 
 export const getProductDetails = async (uuid: string) => {
@@ -32,13 +31,11 @@ export const getProductDetails = async (uuid: string) => {
 
   const response = await result.json();
 
-  if (response.code === "ep003") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "sp003") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Get product details failed");
 };
 
 export const mutateProduct = async (
@@ -66,13 +63,11 @@ export const mutateProduct = async (
 
   const response = await result.json();
 
-  if (response.code === "ep004") {
-    return { success: false, code: response.code };
-  }
-
-  if (response.code === "sp004") {
+  if (response.code === "sp005") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Update product failed");
 };
 
 export const deleteSelectedProducts = async (uuids: string[]) => {
@@ -88,7 +83,11 @@ export const deleteSelectedProducts = async (uuids: string[]) => {
 
   const response = await result.json();
 
-  console.log(response);
+  if (response.code === "sp006") {
+    return { success: true };
+  }
+
+  throw createApiError(response.code, "Delete products failed");
 };
 
 export const createProduct = async (values: ProductFormValues) => {
@@ -114,11 +113,9 @@ export const createProduct = async (values: ProductFormValues) => {
 
   const response = await result.json();
 
-  if (response.code === "ep001") {
-    return { success: false, code: response.code };
-  }
-
   if (response.code === "sp001") {
     return response.data;
   }
+
+  throw createApiError(response.code, "Create product failed");
 };
