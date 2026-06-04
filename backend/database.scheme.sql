@@ -47,4 +47,4 @@ CREATE TABLE IF NOT EXISTS app_settings (
     updated_at      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO app_settings (name, value) VALUES ("app-name", null), ("currency", null);
+INSERT INTO app_settings (name, value) VALUES ("app-name", null), ("currency", null), ("first-startup", "true");

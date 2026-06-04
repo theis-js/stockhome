@@ -52,9 +52,22 @@ If you want to be always up to date, you can clone this repository by running:
 git clone https://git.the1s.de/theis.gaedigk/stockhome.git
 ```
 
-> **NOTE**: To do this, you must have git installed. [How to install git?](https://git-scm.com/install/)
+> **NOTE:** To do this, you must have git installed. [How to install git?](https://git-scm.com/install/)
 
-### 3. Run Stockhome
+### 3. Create `.env` file
+
+In the root directory of this repository create an .env file and enter the following records:
+
+```txt
+MYSQL_ROOT_PASSWORD=
+AUTH_SIGNATURE=
+```
+
+Make sure that you have set an secure root password and a secure signature.
+
+> **NOTE:** These two values cannot contain special characters.
+
+### 4. Start Stockhome
 
 First, navigate into the root directory of this repository and run:
 
@@ -64,7 +77,7 @@ docker compose up -d --build
 
 The database and all necessary services are started and initialised automatically.
 
-### 4. First login
+### 5. First login
 
 The default admin credentials are always:
 
