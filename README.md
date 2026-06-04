@@ -14,7 +14,7 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=flat)
 ![Nginx](https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=fff&style=flat)
 
-The problem solver for every home in the world: **STOCKHOME**! Have you ever spent too long searching for things in your freezer or pantry? If so, this open-source project is just the right thing for your home server!
+The problem solver for every household in the world: **STOCKHOME**! Have you ever spent too long searching for things in your freezer or pantry? If so, this open-source project is just the right thing for your home server!
 
 <p align="center">
   <img src="./.github/assets/Arc_Inventory.low.jpg" width="802" alt="Inventory Screenshot" />
@@ -24,7 +24,8 @@ The problem solver for every home in the world: **STOCKHOME**! Have you ever spe
 
 - Organize your food at home
 - Keep track of the Expiry and Bottling date of your food
-- Organzize your food and products into different storages (Storage locations)
+- Generate QR codes for your food and products to easily scan them with your smartphone to see all the details
+- Organize your food and products into different storages (Storage locations)
 - Rename your app and change the currency
 - Keep track of the stored amount of your food
 - Keep track of the costs for your food
@@ -46,7 +47,7 @@ If you haven't installed git, download the source code from this repository from
 
 **OR**
 
-_Recommended because it is easier to update then_
+**_Recommended because it is easier to update then:_**
 
 If you want to be always up to date, you can clone this repository by running:
 
@@ -58,7 +59,7 @@ git clone https://git.the1s.de/theis.gaedigk/stockhome.git
 
 ### 3. Create `.env` file
 
-In the root directory of this repository create an .env file and enter the following records:
+In the root directory of this repository create an `.env` file and enter the following records:
 
 ```txt
 MYSQL_ROOT_PASSWORD=
@@ -70,7 +71,7 @@ Make sure that you have set an secure root password and a secure signature.
 
 > **NOTE:** These three values cannot contain special characters.
 
-The host can be set to the IP address of your server or to `localhost` if you are running the app on your local machine.
+The `BACKEND_HOST` can be set to the IP address of your server or to `localhost` if you are running the app on your local machine.
 
 > **Change Docker Config:** If you want to run the stack for example in a docker network or want to change something at the docker config, visit the [Docker docs](./.github/docs/docker/README.md) for this project.
 
