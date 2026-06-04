@@ -55,5 +55,7 @@
     "new-password": "Neues Passwort",
     "new-password-rep": "Neues Passwort wiederholen",
     "change": "Ändern",
-    "error": "Fehler"
+    "error": "Fehler",
+    "success": "Erfolg",
+    "submit": "Absenden"
 }
