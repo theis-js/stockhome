@@ -48,5 +48,11 @@
     "menu": "Menu",
     "close": "Close",
     "product-details-quick": "Fast product details",
-    "download-qr-code": "Download QR-Code"
+    "download-qr-code": "Download QR-Code",
+    "change-password": "Change password",
+    "new-password-title": "Here you can change your password.",
+    "current-password": "Current password",
+    "new-password": "New password",
+    "new-password-rep": "Repeat new password",
+    "change": "Change"
 }

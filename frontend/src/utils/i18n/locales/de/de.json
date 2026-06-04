@@ -21,7 +21,7 @@
     "save": "Speichern",
     "profile": "Profil",
     "settings": "Einstellungen",
-    "storage-delete-info": "WARNUNG: Wenn Sie einen Lagerort entfernen, werden alle darin gespeicherten Artikel/Produkte ebenfalls entfernt. Das kann nicht rückgaengig gemacht werden!",
+    "storage-delete-info": "WARNUNG: Wenn Sie einen Lagerort entfernen, werden alle darin gespeicherten Artikel/Produkte ebenfalls entfernt. Das kann nicht rückgängig gemacht werden!",
     "storage-name": "Lagername",
     "created-at": "Erstellt am",
     "updated-at": "Aktualisiert am",
@@ -48,5 +48,11 @@
     "menu": "Menü",
     "close": "Schließen",
     "product-details-quick": "Schnelle Produktdetails",
-    "download-qr-code": "QR-Code herunterladen"
+    "download-qr-code": "QR-Code herunterladen",
+    "change-password": "Passwort ändern",
+    "new-password-title": "Hier ändern Sie Ihr Passwort.",
+    "current-password": "Aktuelles Passwort",
+    "new-password": "Neues Passwort",
+    "new-password-rep": "Neues Passwort wiederholen",
+    "change": "Ändern"
 }

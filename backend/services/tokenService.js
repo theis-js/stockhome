@@ -10,7 +10,6 @@ export async function generateToken(payload) {
     .setIssuedAt()
     .setExpirationTime("24h") // Token valid for 24 hours
     .sign(secret);
-  console.log("Generated token: ", newToken);
   return newToken;
 }
 
