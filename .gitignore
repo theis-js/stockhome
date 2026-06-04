@@ -48,3 +48,4 @@ ToDo.txt
 .docker/volumes
 .tanstack/tmp
 local/
+docker-compose.override.yml

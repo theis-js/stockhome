@@ -21,6 +21,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
     environment:
       DB_HOST: stockhome-mysql
       DB_USER: root
@@ -35,9 +37,12 @@ services:
 
   frontend:
     container_name: stockhome-frontend
+    ports:
+      - "80:80"
     build: ./frontend
     environment:
-      VITE_BACKEND_URL: http://localhost:8004
+      HOST: ${BACKEND_HOST}
+      VITE_BACKEND_URL: /backend
     depends_on:
       - backend
     restart: unless-stopped

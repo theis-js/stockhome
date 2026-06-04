@@ -46,6 +46,8 @@ If you haven't installed git, download the source code from this repository from
 
 **OR**
 
+_Recommended because it is easier to update then_
+
 If you want to be always up to date, you can clone this repository by running:
 
 ```shell
@@ -61,11 +63,16 @@ In the root directory of this repository create an .env file and enter the follo
 ```txt
 MYSQL_ROOT_PASSWORD=
 AUTH_SIGNATURE=
+BACKEND_HOST=localhost
 ```
 
 Make sure that you have set an secure root password and a secure signature.
 
-> **NOTE:** These two values cannot contain special characters.
+> **NOTE:** These three values cannot contain special characters.
+
+The host can be set to the IP address of your server or to `localhost` if you are running the app on your local machine.
+
+> **Change Docker Config:** If you want to run the stack for example in a docker network or want to change something at the docker config, visit the [Docker docs](./.github/docs/docker/README.md) for this project.
 
 ### 4. Start Stockhome
 
@@ -87,6 +94,19 @@ Password: admin
 ```
 
 _Keep in mind that you should change the password later in the settings page._
+
+> **NOTE:** If errors occur get yourself some help in the [error code page](./.github/docs/error/README.md).
+
+> _I'd be grateful if you could report any bugs as issues here in the repository!_
+
+## Update
+
+To update the stack, navigate into the root directory of this repository and run:
+
+```shell
+docker compose pull
+docker compose up -d --build
+```
 
 ## Development
 
