@@ -47,5 +47,6 @@
     "new-storage-content": "Enter the details for a new storage location here.",
     "menu": "Menu",
     "close": "Close",
-    "product-details-quick": "Fast product details"
+    "product-details-quick": "Fast product details",
+    "download-qr-code": "Download QR-Code"
 }

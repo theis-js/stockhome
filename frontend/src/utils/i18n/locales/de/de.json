@@ -47,5 +47,6 @@
     "new-storage-content": "Geben Sie hier die Daten für einen neuen Lagerort ein.",
     "menu": "Menü",
     "close": "Schließen",
-    "product-details-quick": "Schnelle Produktdetails"
+    "product-details-quick": "Schnelle Produktdetails",
+    "download-qr-code": "QR-Code herunterladen"
 }
