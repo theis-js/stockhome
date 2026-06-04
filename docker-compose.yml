@@ -41,7 +41,7 @@ services:
       - "80:80"
     build: ./frontend
     environment:
-      HOST: ${BACKEND_HOST}
+      BACKEND_HOST: ${BACKEND_HOST}
       VITE_BACKEND_URL: /backend
     depends_on:
       - backend
