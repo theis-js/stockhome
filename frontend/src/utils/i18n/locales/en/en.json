@@ -54,5 +54,6 @@
     "current-password": "Current password",
     "new-password": "New password",
     "new-password-rep": "Repeat new password",
-    "change": "Change"
+    "change": "Change",
+    "error": "Error"
 }
