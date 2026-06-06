@@ -100,7 +100,7 @@ _Keep in mind that you should change the password later in the settings page._
 
 ## Feedback and bug reports - Troubleshooting
 
-I'd be grateful if you could report any bugs as issues here in the repository! [Report a bug](https://github.com/theis-js/stockhome/issues)
+I'd be grateful if you could report any bugs as issues here in the repository! [Report a bug](https://github.com/theis-js/stockhome/issues/new/choose)
 
 ## Update
 
