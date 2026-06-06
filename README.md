@@ -43,17 +43,17 @@ exit
 
 ### 2. Clone repository
 
-If you haven't installed git, download the source code from this repository from the release page and unpack the `.zip` file.
+**_Recommended because it is easy to update_**
 
-**OR**
-
-**_Recommended because it is easier to update then:_**
-
-If you want to be always up to date, you can clone this repository by running:
+Clone this repository by running:
 
 ```shell
-git clone https://git.the1s.de/theis.gaedigk/stockhome.git
+git clone --branch v0.1 --single-branch https://github.com/theis-js/stockhome.git
 ```
+
+You can replace `v0.1` with the latest release tag to get the latest version of the stack. You can also use `dev` to get the latest development version, but keep in mind that it may contain bugs and errors.
+
+View the available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
 
 > **NOTE:** To do this, you must have git installed. [How to install git?](https://git-scm.com/install/)
 
@@ -98,14 +98,28 @@ _Keep in mind that you should change the password later in the settings page._
 
 > **NOTE:** If errors occur get yourself some help in the [error code page](./.github/docs/error/README.md).
 
-> _I'd be grateful if you could report any bugs as issues here in the repository!_
+## Feedback and bug reports - Troubleshooting
+
+I'd be grateful if you could report any bugs as issues here in the repository! [Report a bug](https://github.com/theis-js/stockhome/issues)
 
 ## Update
 
-To update the stack, navigate into the root directory of this repository and run:
+To update stockhome to the latest version, navigate into the root directory of this repository and run:
 
 ```shell
-docker compose pull
+git pull
+latesttag=$(git describe --tags)
+git checkout ${latesttag}
+docker compose up -d --build
+```
+
+To update to a specific version, replace `latesttag` with the version tag you want to update to. You can view the available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
+
+**Example to downgrade/update to version `v0.1`:**
+
+```shell
+git pull
+git checkout v0.1
 docker compose up -d --build
 ```
 
@@ -114,7 +128,7 @@ docker compose up -d --build
 ### Prerequisites
 
 - Docker
-- Visual Studio Code
+- Visual Studio Code (or any other IDE)
 - Cloned the repository
 
 ### Start backend and database
