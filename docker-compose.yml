@@ -42,7 +42,6 @@ services:
     build: ./frontend
     environment:
       BACKEND_HOST: ${BACKEND_HOST}
-      VITE_BACKEND_URL: /backend
     depends_on:
       - backend
     restart: unless-stopped
