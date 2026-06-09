@@ -55,7 +55,7 @@ You can replace `v0.1` with the latest release tag to get the latest version of 
 
 View the available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
 
-> **NOTE:** To do this, you must have git installed. [How to install git?](https://git-scm.com/install/)
+> **Note** To do this, you must have git installed. [How to install git?](https://git-scm.com/install/)
 
 ### 3. Create `.env` file
 
@@ -69,7 +69,7 @@ BACKEND_HOST=localhost
 
 Make sure that you have set an secure root password and a secure signature.
 
-> **NOTE:** These three values cannot contain special characters.
+> **Note** These three values cannot contain special characters.
 
 The `BACKEND_HOST` can be set to the IP address of your server or to `localhost` if you are running the app on your local machine.
 
@@ -96,7 +96,7 @@ Password: admin
 
 _Keep in mind that you should change the password later in the settings page._
 
-> **NOTE:** If errors occur get yourself some help in the [error code page](./.github/docs/error/README.md).
+> **Note** If errors occur get yourself some help in the [error code page](./.github/docs/error/README.md).
 
 ## Feedback and bug reports - Troubleshooting
 
