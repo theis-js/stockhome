@@ -1,16 +1,15 @@
-import bodyParser from "body-parser";
-import { SignJWT, jwtVerify } from "jose";
+import {jwtVerify, SignJWT} from "jose";
 import env from "dotenv";
+
 env.config();
 const secret = new TextEncoder().encode(process.env.SECRET_KEY);
 
 export async function generateToken(payload) {
-  const newToken = await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("24h") // Token valid for 24 hours
-    .sign(secret);
-  return newToken;
+  return await new SignJWT(payload)
+      .setProtectedHeader({alg: "HS256"})
+      .setIssuedAt()
+      .setExpirationTime("24h") // Token valid for 24 hours
+      .sign(secret);
 }
 
 export async function authenticate(req, res, next) {

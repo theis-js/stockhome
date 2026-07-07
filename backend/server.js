@@ -94,7 +94,7 @@ const runStartup = async (port) => {
   }
 
   console.log("Everything is settet up successfully!");
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Backend is running on http://localhost:${port}`);
 };
 
 const insertFirstData = async () => {

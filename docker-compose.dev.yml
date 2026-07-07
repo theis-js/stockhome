@@ -3,7 +3,7 @@ services:
     container_name: stockhome-mysql
     image: mysql:8.0
     ports:
-      - "3312:3306"
+      - "3306:3306"
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -16,23 +16,4 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 3s
-      retries: 20
-
-  backend:
-    container_name: stockhome-backend
-    ports:
-      - "8004:8004"
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    environment:
-      DB_HOST: stockhome-mysql
-      DB_USER: root
-      DB_NAME: stockhome
-      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      SECRET_KEY: ${AUTH_SIGNATURE}
-      NODE_ENV: production
-    depends_on:
-      database:
-        condition: service_healthy
-    restart: unless-stopped
+      retries: 10
