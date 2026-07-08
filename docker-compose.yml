@@ -11,7 +11,7 @@ services:
       - ./.docker/volumes/stockhome_mysql:/var/lib/mysql
       - ./mysql-timezone.cnf:/etc/mysql/conf.d/timezone.cnf:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -19,8 +19,8 @@ services:
   backend:
     container_name: stockhome-backend
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "8004:8004"
     environment:
@@ -39,7 +39,9 @@ services:
     container_name: stockhome-frontend
     ports:
       - "80:80"
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     environment:
       BACKEND_HOST: ${BACKEND_HOST}
     depends_on:

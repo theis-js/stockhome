@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import {authenticate} from "../../services/tokenService.js";
-import {allStorages, deleteStorage, newStorage, updateStorage,} from "./database/storage.database.ts";
+import {authenticate} from "../../services/tokenService";
+import {allStorages, deleteStorage, newStorage, updateStorage,} from "./database/storage.database";
 import {GENERAL_ERROR_CODE, STORAGE_ERROR_CODE} from "@stockhome/shared";
 
 dotenv.config();

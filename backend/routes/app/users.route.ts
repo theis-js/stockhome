@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import {authenticate, generateToken} from "../../services/tokenService.ts";
-import {changePassword, findUser, getSettings, loginUser, updateSettings,} from "./database/users.database.ts";
+import {authenticate, generateToken} from "../../services/tokenService";
+import {changePassword, findUser, getSettings, loginUser, updateSettings,} from "./database/users.database";
 import {GENERAL_ERROR_CODE, USER_ERROR_CODE} from "@stockhome/shared";
 
 dotenv.config();

@@ -4,15 +4,14 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/server.js",
     "dev": "tsx --watch server.ts",
-    "build": "babel server.ts routes services --extensions .ts --out-dir dist --copy-files"
+    "build": "tsc -b",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@stockhome/shared": "1.0.0",
     "cors": "^2.8.5",
@@ -23,12 +22,9 @@
     "mysql2": "^3.16.0"
   },
   "devDependencies": {
-    "@babel/cli": "^8.0.1",
-    "@babel/core": "^8.0.1",
-    "@babel/preset-env": "^8.0.2",
-    "@babel/preset-typescript": "^8.0.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.0",
+    "typescript": "~6.0.2",
     "tsx": "^4.23.0"
   }
 }

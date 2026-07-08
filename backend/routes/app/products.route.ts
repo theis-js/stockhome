@@ -1,14 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
-import {authenticate} from "../../services/tokenService.ts";
+import {authenticate} from "../../services/tokenService";
 import {
-  allProducts,
-  deleteProduct,
-  newProduct,
-  productDetails,
-  setAmount,
-  updateItem,
-} from "./database/products.database.ts";
+    allProducts,
+    deleteProduct,
+    newProduct,
+    productDetails,
+    setAmount,
+    updateItem,
+} from "./database/products.database";
 import {GENERAL_ERROR_CODE, PRODUCT_ERROR_CODE} from "@stockhome/shared";
 
 dotenv.config();

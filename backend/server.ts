@@ -5,9 +5,10 @@ import dotenv from "dotenv";
 import mysql, {type ResultSetHeader, type RowDataPacket} from "mysql2";
 import {readFile} from "fs/promises";
 // frontend routes
-import userRouter from "./routes/app/users.route.ts";
-import productRouter from "./routes/app/products.route.ts";
-import storageRouter from "./routes/app/storage.route.ts";
+import userRouter from "./routes/app/users.route";
+import productRouter from "./routes/app/products.route";
+import storageRouter from "./routes/app/storage.route";
+import path from "node:path";
 
 dotenv.config();
 const app = express();
@@ -55,7 +56,7 @@ const runStartup = async (port: number) => {
     }
 
     if (firstStartupValue !== "false") {
-        const schemaPath = new URL("./database.scheme.sql", import.meta.url);
+        const schemaPath = path.join(__dirname, "database.scheme.sql");
         const schemaSql = await readFile(schemaPath, "utf8");
         const statements = schemaSql
             .split(";")
