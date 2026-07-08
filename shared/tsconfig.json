@@ -1,7 +1,16 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["src/**/*.ts"],
   "compilerOptions": {
-    "noEmit": true
-  }
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist/refs",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src/**/*.ts"]
 }
