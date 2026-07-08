@@ -14,7 +14,8 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=flat)
 ![Nginx](https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=fff&style=flat)
 
-The problem solver for every household in the world: **STOCKHOME**! Have you ever spent too long searching for things in your freezer or pantry? If so, this open-source project is just the right thing for your home server!
+The problem solver for every household in the world: **STOCKHOME**! Have you ever spent too long searching for things in
+your freezer or pantry? If so, this open-source project is just the right thing for your home server!
 
 <p align="center">
   <img src="./.github/assets/Arc_Inventory.low.jpg" width="802" alt="Inventory Screenshot" />
@@ -51,7 +52,8 @@ Clone this repository by running:
 git clone --branch v0.1 --single-branch https://github.com/theis-js/stockhome.git
 ```
 
-You can replace `v0.1` with the latest release tag to get the latest version of the stack. You can also use `dev` to get the latest development version, but keep in mind that it may contain bugs and errors.
+You can replace `v0.1` with the latest release tag to get the latest version of the stack. You can also use `dev` to get
+the latest development version, but keep in mind that it may contain bugs and errors.
 
 View the available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
 
@@ -64,16 +66,18 @@ In the root directory of this repository create an `.env` file and enter the fol
 ```txt
 MYSQL_ROOT_PASSWORD=
 AUTH_SIGNATURE=
-BACKEND_HOST=localhost
+BACKEND_HOST=stockhome-backend
 ```
 
 Make sure that you have set an secure root password and a secure signature.
 
 > **Note** These three values cannot contain special characters.
 
-The `BACKEND_HOST` can be set to the IP address of your server or to `localhost` if you are running the app on your local machine.
+The `BACKEND_HOST` can be set to the IP address of your server or to `localhost` if you are running the app on your
+local machine.
 
-> **Change Docker Config:** If you want to run the stack for example in a docker network or want to change something at the docker config, visit the [Docker docs](./.github/docs/docker/README.md) for this project.
+> **Change Docker Config:** If you want to run the stack for example in a docker network or want to change something at
+> the docker config, visit the [Docker docs](./.github/docs/docker/README.md) for this project.
 
 ### 4. Start Stockhome
 
@@ -100,7 +104,8 @@ _Keep in mind that you should change the password later in the settings page._
 
 ## Feedback and bug reports - Troubleshooting
 
-I'd be grateful if you could report any bugs as issues here in the repository! [Report a bug](https://github.com/theis-js/stockhome/issues/new/choose)
+I'd be grateful if you could report any bugs as issues here in the
+repository! [Report a bug](https://github.com/theis-js/stockhome/issues/new/choose)
 
 ## Update
 
@@ -113,7 +118,8 @@ git checkout ${latesttag}
 docker compose up -d --build
 ```
 
-To update to a specific version, replace `latesttag` with the version tag you want to update to. You can view the available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
+To update to a specific version, replace `latesttag` with the version tag you want to update to. You can view the
+available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
 
 **Example to downgrade/update to version `v0.1`:**
 
