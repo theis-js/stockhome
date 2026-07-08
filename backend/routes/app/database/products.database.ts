@@ -1,5 +1,8 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
+import {PRODUCT_ERROR_CODE} from "@stockhome/shared";
+import {returnErrorCode} from "../../../services/helperFuncs.js";
+
 dotenv.config();
 
 const pool = mysql
@@ -20,12 +23,7 @@ export const newProduct = async (
   expiry_date,
   bottling_date,
 ) => {
-  let newPrice;
-  if (price == "") {
-    newPrice = null;
-  } else {
-    newPrice = price;
-  }
+  const newPrice = price !== "" ? price : null;
 
   const [result] = await pool.query(
     "INSERT INTO products (name, description, price, amount, storage_location, expiry_date, bottling_date) VALUES (?, ?, ?, ?, UUID_TO_BIN(?), ?, ?)",
@@ -41,10 +39,10 @@ export const newProduct = async (
   );
 
   if (result.affectedRows > 0) {
-    return { code: "sp001" }; // success
-  } else {
-    return { code: "ep001" }; // error
+    return { code: "sp001" };
   }
+
+  return returnErrorCode(PRODUCT_ERROR_CODE.PRODUCT_NOT_CREATED);
 };
 
 export const productDetails = async (uuid) => {
@@ -68,9 +66,9 @@ export const productDetails = async (uuid) => {
 
   if (result.length > 0) {
     return { code: "sp003", data: result[0] };
-  } else {
-    return { code: "ep003" };
   }
+
+  return returnErrorCode(PRODUCT_ERROR_CODE.PRODUCT_NOT_FOUND);
 };
 
 export const allProducts = async () => {
@@ -95,9 +93,9 @@ export const allProducts = async () => {
 
   if (result.length > 0) {
     return { code: "sp002", data: result };
-  } else {
-    return { code: "ep002" };
   }
+
+  return returnErrorCode(PRODUCT_ERROR_CODE.NO_PRODUCTS_FOUND);
 };
 
 export const setAmount = async (itemUUID, amount) => {
@@ -109,10 +107,10 @@ export const setAmount = async (itemUUID, amount) => {
   );
 
   if (result.affectedRows > 0) {
-    return { code: "sp004" }; // success
-  } else {
-    return { code: "ep004" }; // error
+    return { code: "sp004" };
   }
+
+  return returnErrorCode(PRODUCT_ERROR_CODE.PRODUCT_AMOUNT_NOT_UPDATED);
 };
 
 export const updateItem = async (itemUUID, newValues) => {
@@ -133,10 +131,10 @@ export const updateItem = async (itemUUID, newValues) => {
   );
 
   if (result.affectedRows > 0) {
-    return { code: "sp005" }; // success
-  } else {
-    return { code: "ep005" }; // error
+    return { code: "sp005" };
   }
+
+  return returnErrorCode(PRODUCT_ERROR_CODE.PRODUCT_NOT_UPDATED);
 };
 
 export const deleteProduct = async (uuid) => {
@@ -146,8 +144,8 @@ export const deleteProduct = async (uuid) => {
   );
 
   if (result.affectedRows > 0) {
-    return { code: "sp006" }; // success
-  } else {
-    return { code: "ep006" }; // error
+    return { code: "sp006" };
   }
+
+  return returnErrorCode(PRODUCT_ERROR_CODE.PRODUCT_NOT_DELETED);
 };

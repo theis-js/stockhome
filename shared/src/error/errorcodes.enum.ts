@@ -1,0 +1,4 @@
+export enum ERROR_CODE {
+    WRONG_USER_NAME_PASSWORD = 'EU001',
+    UNEXPECTED_FORMAT = 'ES001',
+}

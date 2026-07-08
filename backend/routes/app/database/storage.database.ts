@@ -1,5 +1,7 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
+import {STORAGE_ERROR_CODE} from "@stockhome/shared";
+import {returnErrorCode} from "../../../services/helperFuncs.js";
 dotenv.config();
 
 const pool = mysql
@@ -18,9 +20,9 @@ export const allStorages = async () => {
 
   if (result.length > 0) {
     return { code: "ss001", data: result };
-  } else {
-    return { code: "es001" };
   }
+
+  return returnErrorCode(STORAGE_ERROR_CODE.NO_STORAGE_LOCATIONS_FOUND);
 };
 
 export const newStorage = async (name, description) => {
@@ -31,9 +33,9 @@ export const newStorage = async (name, description) => {
 
   if (result.affectedRows > 0) {
     return { code: "ss002" };
-  } else {
-    return { code: "es002" };
   }
+
+  return returnErrorCode(STORAGE_ERROR_CODE.STORAGE_NOT_CREATED);
 };
 
 export const updateStorage = async (uuid, values) => {
@@ -44,9 +46,9 @@ export const updateStorage = async (uuid, values) => {
 
   if (result.affectedRows > 0) {
     return { code: "ss003" };
-  } else {
-    return { code: "es003" };
   }
+
+  return returnErrorCode(STORAGE_ERROR_CODE.STORAGE_NOT_UPDATED);
 };
 
 export const deleteStorage = async (uuid) => {
@@ -57,7 +59,7 @@ export const deleteStorage = async (uuid) => {
 
   if (result.affectedRows > 0) {
     return { code: "ss004" };
-  } else {
-    return { code: "es004" };
   }
+
+  return returnErrorCode(STORAGE_ERROR_CODE.STORAGE_NOT_DELETED);
 };
