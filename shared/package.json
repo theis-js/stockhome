@@ -1,0 +1,17 @@
+{
+  "name": "@stockhome/shared",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "prebuild": "barrelsby --directory src --delete --single",
+    "build": "tsc",
+    "lint": "eslint ."
+  },
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "devDependencies": {
+    "barrelsby": "^2.8.1",
+    "vite-plugin-dts": "^5.0.3"
+  }
+}

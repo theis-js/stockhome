@@ -44,6 +44,8 @@ Temporary Items
 
 ToDo.txt
 .idea
+dist
+index.ts
 
 .env
 .docker/volumes
