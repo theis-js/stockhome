@@ -7,7 +7,7 @@
     "prebuild": "barrelsby --directory src --delete --single",
     "build:esm": "tsc -p tsconfig.esm.json && node scripts/postbuild-esm.cjs",
     "build:cjs": "tsc -p tsconfig.cjs.json && find dist/cjs -name \"*.js\" -type f -exec sh -c 'mv \"$1\" \"${1%.js}.cjs\"' _ {} \\; && node scripts/postbuild.cjs",
-    "build": "npm run prebuild && npm run build:esm && npm run build:cjs",
+    "build": "rm -rf dist && npm run prebuild && npm run build:esm && npm run build:cjs",
     "lint": "eslint ."
   },
   "exports": {
