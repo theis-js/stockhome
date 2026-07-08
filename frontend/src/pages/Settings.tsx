@@ -82,6 +82,12 @@ export const Settings = () => {
   const { mutate } = useMutation({
     mutationFn: (values: SettingsIntf) => mutateSettings(values),
     onSuccess() {
+      setAlert({
+        isAlert: true,
+        type: "success",
+        header: t("success"),
+        text: t("SE001"),
+      });
       queryClient.invalidateQueries({ queryKey: ["settings"] });
     },
     onError: showError,

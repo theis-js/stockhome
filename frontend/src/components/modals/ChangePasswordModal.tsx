@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  DialogTitle,
-  Input,
-  Modal,
-  ModalDialog,
-  Stack,
-} from "@mui/joy";
+import { Alert, Button, DialogTitle, Input, Modal, ModalDialog, Stack, } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -39,7 +31,10 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
     onSubmit: async ({ value }) => {
       console.log(value);
 
-      if (value.newPassword === value.newPasswordRep) {
+      if (
+        value.newPassword === value.newPasswordRep &&
+        value.newPassword !== ""
+      ) {
         mutate(value);
       } else {
         setAlert({

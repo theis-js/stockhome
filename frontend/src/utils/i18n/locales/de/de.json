@@ -58,6 +58,7 @@
   "success": "Erfolg",
   "submit": "Absenden",
   "SU005": "Das Passwort wurde erfolgreich geändert!",
+  "SE001": "Die Einstellungen wurden erfolgreich geändert!",
   "EG001": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
   "EU001": "Falscher Benutzername oder Passwort!",
   "EU002": "Ihr Konto wurde deaktiviert. Bitte wenden Sie sich an einen Administrator.",
