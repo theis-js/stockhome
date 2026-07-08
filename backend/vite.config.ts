@@ -1,29 +1,29 @@
-import {defineConfig} from 'vite'
-import path from 'path'
-import {dirname} from "node:path"
-import {fileURLToPath} from "node:url"
+import { defineConfig } from "vite";
+import path from "path";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
-    root: 'src',
-    build: {
-        outDir: '../dist',
-        emptyOutDir: true,
-        sourcemap: true,
-        minify: 'esbuild',
-        assetsDir: 'assets',
-        rollupOptions: {
-            input: path.resolve(__dirname, 'src/index.html'),
-            output: {
-                assetFileNames: 'assets/[name]-[hash][extname]',
-            },
-        },
+  root: "src",
+  build: {
+    outDir: "../dist",
+    emptyOutDir: true,
+    sourcemap: true,
+    minify: "esbuild",
+    assetsDir: "assets",
+    rollupOptions: {
+      input: path.resolve(__dirname, "src/index.html"),
+      output: {
+        assetFileNames: "assets/[name]-[hash][extname]",
+      },
     },
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src'),
-        },
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
     },
-})
+  },
+});

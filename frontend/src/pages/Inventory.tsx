@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import {
-  Typography,
+  Alert,
+  Avatar,
   Button,
+  Checkbox,
+  Chip,
   CircularProgress,
   Sheet,
   Table,
-  Avatar,
-  Chip,
-  Checkbox,
-  Alert,
+  Typography,
 } from "@mui/joy";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -17,8 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteSelectedProducts, getProducts } from "../utils/api/products";
 import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";
-import type { ProductRow } from "../misc/interfaces";
-import type { AlertInterface } from "../misc/interfaces";
+import type { AlertInterface, ProductRow } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
 
 export const InventoryPage = () => {

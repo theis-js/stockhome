@@ -1,26 +1,26 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages.ts";
 import {
-  CircularProgress,
-  Typography,
-  Select,
-  Option,
-  Input,
+  Alert,
+  Box,
   Button,
   Chip,
+  CircularProgress,
   Divider,
-  Box,
-  Alert,
+  Input,
+  Option,
+  Select,
+  Typography,
 } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { mutateProduct, getProductDetails } from "../utils/api/products.ts";
+import { getProductDetails, mutateProduct } from "../utils/api/products.ts";
 import { toInputDate } from "../utils/uxFncs";
 import type {
-  ProductFormValues,
-  productDetailsInterface,
   AlertInterface,
+  productDetailsInterface,
+  ProductFormValues,
   Storage,
 } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";

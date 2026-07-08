@@ -1,26 +1,26 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages.ts";
 import {
-  CircularProgress,
-  Typography,
-  Select,
-  Option,
-  Input,
+  Alert,
+  Box,
   Button,
   Chip,
+  CircularProgress,
   Divider,
-  Box,
-  Alert,
+  Input,
+  Option,
+  Select,
+  Typography,
 } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { mutateProduct, getProductDetails } from "../utils/api/products.ts";
+import { getProductDetails, mutateProduct } from "../utils/api/products.ts";
 import { toInputDate } from "../utils/uxFncs";
 import type {
-  ProductFormValues,
-  productDetailsInterface,
   AlertInterface,
+  productDetailsInterface,
+  ProductFormValues,
   Storage,
 } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
@@ -342,28 +342,32 @@ export const ViewProduct = (props: ViewProductProps) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <Typography level="body-sm" className="text-slate-500">
-                {t("product-details")}
-              </Typography>
-              <Button
-                startDecorator={<QrCodeIcon />}
-                loading={isPending}
-                onClick={() => downloadQRcode()}
-                size="lg"
-                className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
-              >
-                {t("download-qr-code")}
-              </Button>
-              <Button
-                type="submit"
-                loading={isPending}
-                size="lg"
-                className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
-              >
-                {t("save")}
-              </Button>
+            <div>
+              <div className="flex gap-3 items-center">
+                <Typography level="body-sm" className="text-slate-500">
+                  {t("product-details")}
+                </Typography>
+                <div className="grow"></div>
+                <Button
+                  startDecorator={<QrCodeIcon />}
+                  loading={isPending}
+                  onClick={() => downloadQRcode()}
+                  size="lg"
+                  className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                >
+                  {t("download-qr-code")}
+                </Button>
+                <Button
+                  type="submit"
+                  loading={isPending}
+                  size="lg"
+                  className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                >
+                  {t("save")}
+                </Button>
+              </div>
             </div>
+
             {alert.isAlert && (
               <Alert
                 color={alert.type}

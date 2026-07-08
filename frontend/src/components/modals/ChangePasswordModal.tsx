@@ -1,22 +1,24 @@
 import {
+  Alert,
+  Button,
+  DialogTitle,
+  Input,
   Modal,
   ModalDialog,
-  DialogTitle,
   Stack,
-  Input,
-  Button,
-  Alert,
 } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import type { ChangePasswordIntf, AlertInterface } from "../../misc/interfaces";
+import type { AlertInterface, ChangePasswordIntf } from "../../misc/interfaces";
 import { mutatePassword } from "../../utils/api/auth";
 import { useState } from "react";
+import { USER_ERROR_CODE } from "@stockhome/shared";
 
 interface ChangePasswordProps {
   isOpen: boolean;
   setOpen: (value: boolean) => void;
+  alert: (alert: AlertInterface) => void;
 }
 
 export const ChangePasswordModal = (props: ChangePasswordProps) => {
@@ -35,7 +37,18 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
       newPasswordRep: "",
     },
     onSubmit: async ({ value }) => {
-      mutate(value);
+      console.log(value);
+
+      if (value.newPassword === value.newPasswordRep) {
+        mutate(value);
+      } else {
+        setAlert({
+          isAlert: true,
+          type: "danger",
+          header: t("error"),
+          text: t(USER_ERROR_CODE.PASSWORDS_NOT_MATCHED[0]),
+        });
+      }
     },
   });
 
@@ -50,6 +63,21 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
       });
     },
     onSuccess: () => {
+      // Sets the success alert in the settings page via component props
+      props.alert({
+        isAlert: true,
+        type: "success",
+        header: t("success"),
+        text: t("SU005"),
+      });
+
+      // Sets the success alert locally (in the modal itself)
+      setAlert({
+        isAlert: true,
+        type: "success",
+        header: t("success"),
+        text: t("SU005"),
+      });
       props.setOpen(false);
     },
   });

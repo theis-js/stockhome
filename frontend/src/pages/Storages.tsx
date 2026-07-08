@@ -1,16 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages";
 import {
-  Sheet,
-  Table,
+  Alert,
   Button,
   CircularProgress,
+  Sheet,
+  Table,
   Typography,
-  Alert,
 } from "@mui/joy";
 import { useTranslation } from "react-i18next";
-import type { Storage } from "../misc/interfaces";
-import type { AlertInterface } from "../misc/interfaces";
+import type { AlertInterface, Storage } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
 import { StorageRow } from "../components/StorageRow";
 import { useEffect, useState } from "react";

@@ -16,8 +16,8 @@ import { useForm } from "@tanstack/react-form";
 import { createProduct } from "../utils/api/products";
 import { getStorages } from "../utils/api/storages";
 import type {
-  ProductFormValues,
   AlertInterface,
+  ProductFormValues,
   Storage,
 } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
@@ -272,10 +272,11 @@ export const AddProduct = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex gap-3 items-center">
             <Typography level="body-sm" className="text-slate-500">
               {t("product-details")}
             </Typography>
+            <div className="grow"></div>
             <Button
               type="submit"
               loading={isPending}

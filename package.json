@@ -9,12 +9,15 @@
   "version": "0.1.0-dev",
   "description": "",
   "scripts": {
+    "build:shared": "npm run build --workspace=@stockhome/shared",
+    "build:backend": "npm run build --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
     "dev:frontend": "npm run dev --workspace=frontend",
-    "dev:backend": "npm run dev --workspace=backend",
+    "dev:backend": "npm run build:shared && npm run dev --workspace=backend",
     "dev:docker": "docker compose -f docker-compose.dev.yml up -d --wait",
     "dev": "npm run dev:docker && concurrently --kill-others \"npm:dev:frontend\" \"npm:dev:backend\"",
     "dev:stop": "docker compose -f docker-compose.dev.yml down",
-    "buildProd": "npm run build --workspace=frontend && npm run build --workspace=backend"
+    "buildProd": "npm run build:shared && npm run build:backend && npm run build:frontend"
   },
   "repository": {
     "type": "git",

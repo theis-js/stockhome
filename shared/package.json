@@ -2,14 +2,22 @@
   "name": "@stockhome/shared",
   "private": true,
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "prebuild": "barrelsby --directory src --delete --single",
-    "build": "tsc -b",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build": "npm run prebuild && npm run build:esm && npm run build:cjs",
     "lint": "eslint ."
   },
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "types": "./dist/types/index.d.ts",
   "devDependencies": {
     "barrelsby": "^2.8.1",
     "typescript": "~6.0.2"

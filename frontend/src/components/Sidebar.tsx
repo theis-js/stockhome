@@ -9,7 +9,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import TranslateIcon from "@mui/icons-material/Translate";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate, useMatchRoute } from "@tanstack/react-router";
+import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import Cookies from "js-cookie";
 import { changeTranslation } from "../utils/uxFncs";
 

@@ -1,21 +1,20 @@
 import {
-  Input,
-  Button,
-  CircularProgress,
-  Typography,
-  Sheet,
-  Chip,
-  Divider,
   Alert,
+  Button,
+  Chip,
+  CircularProgress,
+  Divider,
+  Input,
+  Sheet,
+  Typography,
 } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
-import type { SettingsIntf } from "../misc/interfaces";
-import type { AlertInterface } from "../misc/interfaces";
+import type { AlertInterface, SettingsIntf } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
-import { mutateSettings, fetchSettings } from "../utils/api/settings";
+import { fetchSettings, mutateSettings } from "../utils/api/settings";
 import { useEffect, useState } from "react";
 import { ChangePasswordModal } from "../components/modals/ChangePasswordModal";
 
@@ -90,7 +89,7 @@ export const Settings = () => {
 
   return (
     <>
-      <ChangePasswordModal isOpen={modal} setOpen={setModal} />
+      <ChangePasswordModal alert={setAlert} isOpen={modal} setOpen={setModal} />
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <div className="space-y-1">
