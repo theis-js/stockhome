@@ -58,6 +58,8 @@
   "success": "Erfolg",
   "submit": "Absenden",
   "logout-success-text": "Logout erfolgreich!",
+  "not-found-header": "404 - Nicht gefunden",
+  "not-found-body": "Die Seite nach der du gesucht hast, gibt es nicht.",
   "SU005": "Das Passwort wurde erfolgreich geändert!",
   "SE001": "Die Einstellungen wurden erfolgreich geändert!",
   "EG001": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
