@@ -1,13 +1,4 @@
-import {
-  Alert,
-  Button,
-  Chip,
-  CircularProgress,
-  Divider,
-  Input,
-  Sheet,
-  Typography,
-} from "@mui/joy";
+import { Button, Chip, CircularProgress, Divider, Input, Sheet, Typography, } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
@@ -17,6 +8,7 @@ import type { ApiError } from "../utils/api/apiError";
 import { fetchSettings, mutateSettings } from "../utils/api/settings";
 import { useEffect, useState } from "react";
 import { ChangePasswordModal } from "../components/modals/ChangePasswordModal";
+import { MyAlert } from "../components/MyAlert.tsx";
 
 export const Settings = () => {
   const { t } = useTranslation();
@@ -118,15 +110,7 @@ export const Settings = () => {
 
       <Sheet className="mt-6 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(12,38,78,0.12)] backdrop-blur">
         {alert.isAlert && (
-          <Alert
-            variant="soft"
-            color={alert.type}
-            className="mb-6 rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-          >
-            {alert.header}
-            <br />
-            {alert.text}
-          </Alert>
+          <MyAlert type={alert.type} header={alert.header} text={alert.text} />
         )}
         {settingsPending ? (
           <div className="flex items-center justify-center py-16">

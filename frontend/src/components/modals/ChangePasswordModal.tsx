@@ -1,4 +1,11 @@
-import { Alert, Button, DialogTitle, Input, Modal, ModalDialog, Stack, } from "@mui/joy";
+import {
+  Button,
+  DialogTitle,
+  Input,
+  Modal,
+  ModalDialog,
+  Stack,
+} from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -6,6 +13,7 @@ import type { AlertInterface, ChangePasswordIntf } from "../../misc/interfaces";
 import { mutatePassword } from "../../utils/api/auth";
 import { useState } from "react";
 import { USER_ERROR_CODE } from "@stockhome/shared";
+import { MyAlert } from "../MyAlert.tsx";
 
 interface ChangePasswordProps {
   isOpen: boolean;
@@ -140,15 +148,11 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
             </Stack>
           </form>
           {alert.isAlert && (
-            <Alert
-              variant="soft"
-              color={alert.type}
-              className="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-            >
-              {alert.header}
-              <br />
-              {alert.text}
-            </Alert>
+            <MyAlert
+              type={alert.type}
+              header={alert.header}
+              text={alert.text}
+            />
           )}
         </ModalDialog>
       </Modal>

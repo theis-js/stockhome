@@ -1,19 +1,11 @@
-import {
-  Alert,
-  Button,
-  DialogContent,
-  DialogTitle,
-  Input,
-  Modal,
-  ModalDialog,
-  Stack,
-} from "@mui/joy";
+import { Button, DialogContent, DialogTitle, Input, Modal, ModalDialog, Stack, } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import type { AlertInterface, NewStorage } from "../../misc/interfaces";
 import { mutateNewStorage } from "../../utils/api/storages";
 import { useState } from "react";
+import { MyAlert } from "../MyAlert.tsx";
 
 interface AddStorageModalProps {
   isOpen: boolean;
@@ -107,15 +99,11 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
             </Stack>
           </form>
           {alert.isAlert && (
-            <Alert
-              variant="soft"
-              color={alert.type}
-              className="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-            >
-              {alert.header}
-              <br />
-              {alert.text}
-            </Alert>
+            <MyAlert
+              type={alert.type}
+              header={alert.header}
+              text={alert.text}
+            />
           )}
         </ModalDialog>
       </Modal>

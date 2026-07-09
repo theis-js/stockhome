@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages.ts";
 import {
-  Alert,
   Box,
   Button,
   Chip,
@@ -27,6 +26,7 @@ import type { ApiError } from "../utils/api/apiError";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Cookies from "js-cookie";
 import QRCode from "qrcode";
+import { MyAlert } from "../components/MyAlert.tsx";
 
 interface ViewProductProps {
   uuid: string;
@@ -369,28 +369,11 @@ export const ViewProduct = (props: ViewProductProps) => {
             </div>
 
             {alert.isAlert && (
-              <Alert
-                color={alert.type}
-                variant="soft"
-                className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-              >
-                {alert.header}
-                <br />
-                {alert.text}
-              </Alert>
-            )}
-            {success && (
-              <Alert
-                color="success"
-                variant="soft"
-                className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 text-emerald-700 shadow-[0_14px_30px_rgba(16,185,129,0.18)]"
-              >
-                <div className="flex w-full items-center justify-between">
-                  <Typography level="body-sm" className="text-emerald-700">
-                    {t("success")}
-                  </Typography>
-                </div>
-              </Alert>
+              <MyAlert
+                type={alert.type}
+                header={alert.header}
+                text={alert.text}
+              />
             )}
           </form>
         </Box>

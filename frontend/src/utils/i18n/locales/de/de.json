@@ -57,6 +57,7 @@
   "error": "Fehler",
   "success": "Erfolg",
   "submit": "Absenden",
+  "logout-success-text": "Logout erfolgreich!",
   "SU005": "Das Passwort wurde erfolgreich geändert!",
   "SE001": "Die Einstellungen wurden erfolgreich geändert!",
   "EG001": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",

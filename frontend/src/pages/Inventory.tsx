@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Alert,
-  Avatar,
-  Button,
-  Checkbox,
-  Chip,
-  CircularProgress,
-  Sheet,
-  Table,
-  Typography,
-} from "@mui/joy";
+import { Avatar, Button, Checkbox, Chip, CircularProgress, Sheet, Table, Typography, } from "@mui/joy";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import AddIcon from "@mui/icons-material/Add";
@@ -19,6 +9,8 @@ import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";
 import type { AlertInterface, ProductRow } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
+import CategoryIcon from "@mui/icons-material/category";
+import { MyAlert } from "../components/MyAlert.tsx";
 
 export const InventoryPage = () => {
   const { t } = useTranslation();
@@ -127,20 +119,12 @@ export const InventoryPage = () => {
         {productsIsLoading && <CircularProgress size="sm" />}
       </div>
       {alert.isAlert && (
-        <Alert
-          variant="soft"
-          color={alert.type}
-          className="mt-4 rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-        >
-          {alert.header}
-          <br />
-          {alert.text}
-        </Alert>
+        <MyAlert type={alert.type} header={alert.header} text={alert.text} />
       )}
 
       <Sheet
         variant="outlined"
-        className="mt-6 flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
+        className="mt-6 flex min-h-0 w-full max-w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
       >
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 text-slate-700">
           <Typography level="body-lg" fontWeight="bold">
@@ -163,8 +147,9 @@ export const InventoryPage = () => {
             stripe="odd"
             variant="plain"
             hoverRow
-            className="min-w-240 text-slate-700"
+            className="w-full text-slate-700"
             sx={{
+              tableLayout: "fixed",
               "--TableCell-headBackground":
                 "var(--joy-palette-background-surface)",
               "& thead": {
@@ -176,23 +161,48 @@ export const InventoryPage = () => {
               "& thead tr": {
                 backgroundColor: "rgb(248 250 252)",
               },
-              "& thead th:nth-child(2)": {
-                width: "40%",
-              },
-              "& thead th:nth-child(3)": {
-                width: "14%",
-              },
               "& thead th": {
                 zIndex: 2,
                 backgroundColor: "rgb(248 250 252)",
                 backgroundImage: "none",
+              },
+              "& thead th:nth-child(1)": {
+                width: "44px",
+              },
+              "& thead th:nth-child(2)": {
+                width: "22%",
+                minWidth: "160px",
+              },
+              "& thead th:nth-child(3)": {
+                width: "9%",
+                minWidth: "70px",
+              },
+              "& thead th:nth-child(4)": {
+                width: "12%",
+                minWidth: "90px",
+              },
+              "& thead th:nth-child(5)": {
+                width: "17%",
+                minWidth: "120px",
+              },
+              "& thead th:nth-child(6)": {
+                width: "13%",
+                minWidth: "100px",
+              },
+              "& thead th:nth-child(7)": {
+                width: "13%",
+                minWidth: "100px",
+              },
+              "& thead th:nth-child(8)": {
+                width: "14%",
+                minWidth: "100px",
               },
               "& tr > *:nth-child(n+4)": { textAlign: "left" },
             }}
           >
             <thead>
               <tr className="text-slate-600">
-                <th className="px-4 py-4">
+                <th className="px-2 py-4">
                   <Checkbox
                     checked={rows.length > 0 && selected.length === rows.length}
                     indeterminate={
@@ -203,13 +213,13 @@ export const InventoryPage = () => {
                     sx={{ verticalAlign: "sub" }}
                   />
                 </th>
-                <th className="px-6 py-4">{t("product-name")}</th>
-                <th className="px-6 py-4">{t("price")}</th>
-                <th className="px-6 py-4">{t("stock")}</th>
-                <th className="px-6 py-4">{t("storage-place")}</th>
-                <th className="px-6 py-4">{t("expiry-date")}</th>
-                <th className="px-6 py-4">{t("bottling-date")}</th>
-                <th className="px-6 py-4 text-right">{t("actions")}</th>
+                <th className="px-3 py-4">{t("product-name")}</th>
+                <th className="px-3 py-4">{t("price")}</th>
+                <th className="px-3 py-4">{t("stock")}</th>
+                <th className="px-3 py-4">{t("storage-place")}</th>
+                <th className="px-3 py-4">{t("expiry-date")}</th>
+                <th className="px-3 py-4">{t("bottling-date")}</th>
+                <th className="px-3 py-4 text-right">{t("actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -225,61 +235,81 @@ export const InventoryPage = () => {
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                   >
-                    <th scope="row" className="px-4 py-5">
+                    <th scope="row" className="px-2 py-5">
                       <Checkbox
                         checked={isItemSelected}
                         slotProps={{ input: { "aria-labelledby": labelId } }}
                         sx={{ verticalAlign: "top" }}
                       />
                     </th>
-                    <th id={labelId} scope="row" className="px-6 py-5">
-                      <div className="flex items-center gap-4">
-                        <Avatar size="lg" variant="soft" src={row.imageUrl} />
+                    <th
+                      id={labelId}
+                      scope="row"
+                      className="px-3 py-5 overflow-hidden"
+                    >
+                      <div className="flex min-w-0 items-center gap-3">
+                        <Avatar size="lg" variant="soft" className="shrink-0">
+                          <CategoryIcon />
+                        </Avatar>
                         <div className="min-w-0">
                           <Typography
                             level="title-md"
-                            className="text-slate-900"
+                            className="text-slate-900 truncate"
                           >
                             {row.name}
                           </Typography>
                           <Typography
                             level="body-sm"
-                            className="text-slate-500"
+                            className="text-slate-500 truncate"
                           >
                             {row.description}
                           </Typography>
                         </div>
                       </div>
                     </th>
-                    <td className="px-6 py-5">
-                      <Typography level="title-md">{row.price}</Typography>
-                      <Typography level="body-sm" className="text-slate-400">
+                    <td className="px-3 py-5 overflow-hidden">
+                      <Typography level="title-md" className="truncate">
+                        {row.price}
+                      </Typography>
+                      <Typography
+                        level="body-sm"
+                        className="truncate text-slate-400"
+                      >
                         {Cookies.get("currency")}
                       </Typography>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-3 py-5 overflow-hidden">
                       <Chip
                         variant="soft"
                         color="neutral"
                         size="lg"
-                        className="px-3"
+                        className="max-w-full px-3"
                       >
-                        {row.stock}
+                        <span className="truncate">{row.stock}</span>
                       </Chip>
                     </td>
-                    <td className="px-6 py-5">
-                      <Typography level="title-md">{row.location}</Typography>
-                      <Typography level="body-sm" className="text-slate-500">
+                    <td className="px-3 py-5 overflow-hidden">
+                      <Typography level="title-md" className="truncate">
+                        {row.location}
+                      </Typography>
+                      <Typography
+                        level="body-sm"
+                        className="truncate text-slate-500"
+                      >
                         {row.locationDetail}
                       </Typography>
                     </td>
-                    <td className="px-6 py-5">
-                      <Typography level="title-md">{row.expiryDate}</Typography>
+                    <td className="px-3 py-5 overflow-hidden">
+                      <Typography level="title-md" className="truncate">
+                        {row.expiryDate}
+                      </Typography>
                     </td>
-                    <td className="px-6 py-5">
-                      <Typography level="title-md">{row.refillDate}</Typography>
+                    <td className="px-3 py-5 overflow-hidden">
+                      <Typography level="title-md" className="truncate">
+                        {row.refillDate}
+                      </Typography>
                     </td>
-                    <td className="px-6 py-5 text-right">
+                    <td className="px-3 py-5 text-right">
                       <Button
                         onClick={() =>
                           navigate({

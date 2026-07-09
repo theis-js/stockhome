@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  Alert,
   Box,
   Button,
   Chip,
@@ -22,10 +21,10 @@ import type {
 } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
 import Cookies from "js-cookie";
+import { MyAlert } from "../components/MyAlert.tsx";
 
 export const AddProduct = () => {
   const { t } = useTranslation();
-  const [success, setSuccess] = useState(false);
   const [alert, setAlert] = useState<AlertInterface>({
     isAlert: false,
     type: "neutral",
@@ -69,7 +68,6 @@ export const AddProduct = () => {
       storage_location_uuid: "",
     },
     onSubmit: async ({ value }) => {
-      setSuccess(false);
       mutate(value);
     },
   });
@@ -77,7 +75,12 @@ export const AddProduct = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (values: ProductFormValues) => createProduct(values),
     onSuccess: () => {
-      setSuccess(true);
+      setAlert({
+        isAlert: true,
+        type: "success",
+        header: "",
+        text: "",
+      });
     },
     onError: showError,
   });
@@ -287,28 +290,11 @@ export const AddProduct = () => {
             </Button>
           </div>
           {alert.isAlert && (
-            <Alert
-              color={alert.type}
-              variant="soft"
-              className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-            >
-              {alert.header}
-              <br />
-              {alert.text}
-            </Alert>
-          )}
-          {success && (
-            <Alert
-              color="success"
-              variant="soft"
-              className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 text-emerald-700 shadow-[0_14px_30px_rgba(16,185,129,0.18)]"
-            >
-              <div className="flex w-full items-center justify-between">
-                <Typography level="body-sm" className="text-emerald-700">
-                  {t("success")}
-                </Typography>
-              </div>
-            </Alert>
+            <MyAlert
+              type={alert.type}
+              header={alert.header}
+              text={alert.text}
+            />
           )}
         </form>
       </Box>

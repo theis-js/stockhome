@@ -50,7 +50,7 @@ export const Sidebar = () => {
         <Button
           variant="soft"
           size="sm"
-          className="lg:hidden transition-transform duration-200 ease-out"
+          className="transition-transform duration-200 ease-out"
           onClick={() => setIsOpen((open) => !open)}
           startDecorator={
             <span
@@ -61,7 +61,10 @@ export const Sidebar = () => {
               {isOpen ? <CloseIcon /> : <MenuIcon />}
             </span>
           }
-          sx={{ display: { lg: "none" } }}
+          sx={{
+            display: "inline-flex",
+            "@media (min-width: 1024px)": { display: "none" },
+          }}
         >
           {isOpen ? t("close") : t("menu")}
         </Button>
@@ -110,7 +113,7 @@ export const Sidebar = () => {
           <Button
             onClick={() => {
               Cookies.remove("token");
-              handleNavigate("/login");
+              handleNavigate("/login?logout=true");
             }}
             color="danger"
             startDecorator={<ExitToAppIcon />}

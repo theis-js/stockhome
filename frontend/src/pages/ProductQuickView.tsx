@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages.ts";
 import {
-  Alert,
   Box,
   Button,
   Chip,
@@ -26,6 +25,7 @@ import type {
 import type { ApiError } from "../utils/api/apiError";
 import Cookies from "js-cookie";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
+import { MyAlert } from "../components/MyAlert.tsx";
 
 export const ProductQuickView = () => {
   const uuid = window.location.search.split("uuid=")[1];
@@ -165,7 +165,7 @@ export const ProductQuickView = () => {
               form.handleSubmit();
             }}
           >
-            <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
+            <div className="gap-5 lg:grid-cols-[1.2fr_1fr]">
               <div className="space-y-4">
                 <div className="space-y-1">
                   <Typography level="title-md" className="text-slate-900">
@@ -338,28 +338,11 @@ export const ProductQuickView = () => {
               </Button>
             </div>
             {alert.isAlert && (
-              <Alert
-                color={alert.type}
-                variant="soft"
-                className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-              >
-                {alert.header}
-                <br />
-                {alert.text}
-              </Alert>
-            )}
-            {success && (
-              <Alert
-                color="success"
-                variant="soft"
-                className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 text-emerald-700 shadow-[0_14px_30px_rgba(16,185,129,0.18)]"
-              >
-                <div className="flex w-full items-center justify-between">
-                  <Typography level="body-sm" className="text-emerald-700">
-                    {t("success")}
-                  </Typography>
-                </div>
-              </Alert>
+              <MyAlert
+                type={alert.type}
+                header={alert.header}
+                text={alert.text}
+              />
             )}
           </form>
         </Box>

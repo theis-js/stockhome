@@ -1,11 +1,12 @@
 import { useForm } from "@tanstack/react-form";
-import { Alert, Button, Input } from "@mui/joy";
+import { Button, Input } from "@mui/joy";
 import { useMutation } from "@tanstack/react-query";
 import { signInUser } from "../utils/api/auth";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { AlertInterface } from "../misc/interfaces";
+import { MyAlert } from "./MyAlert.tsx";
 
 export const LoginCard = () => {
   const { t } = useTranslation();
@@ -16,6 +17,15 @@ export const LoginCard = () => {
     header: "",
     text: "",
   });
+
+  useEffect(() => {
+    setAlert({
+      isAlert: true,
+      type: "primary",
+      header: t("success"),
+      text: t("logout-success-text"),
+    });
+  }, []);
 
   const form = useForm({
     defaultValues: {
@@ -77,15 +87,11 @@ export const LoginCard = () => {
             }}
           >
             {alert.isAlert && (
-              <Alert
-                variant="soft"
-                color={alert.type}
-                className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-              >
-                {alert.header}
-                <br />
-                {alert.text}
-              </Alert>
+              <MyAlert
+                type={alert.type}
+                header={alert.header}
+                text={alert.text}
+              />
             )}
             <form.Field name="username">
               {(field) => (

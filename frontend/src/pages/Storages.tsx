@@ -1,13 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages";
-import {
-  Alert,
-  Button,
-  CircularProgress,
-  Sheet,
-  Table,
-  Typography,
-} from "@mui/joy";
+import { Button, CircularProgress, Sheet, Table, Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import type { AlertInterface, Storage } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
@@ -15,6 +8,7 @@ import { StorageRow } from "../components/StorageRow";
 import { useEffect, useState } from "react";
 import { AddStorageModal } from "../components/modals/AddStorageModal";
 import AddIcon from "@mui/icons-material/Add";
+import { MyAlert } from "../components/MyAlert.tsx";
 
 export const Storages = () => {
   const { t } = useTranslation();
@@ -74,21 +68,13 @@ export const Storages = () => {
           </Button>
         </div>
         {alert.isAlert && (
-          <Alert
-            variant="soft"
-            color={alert.type}
-            className="rounded-2xl border border-rose-200/70 bg-rose-50/80 text-rose-700 shadow-[0_12px_30px_rgba(220,38,38,0.12)]"
-          >
-            {alert.header}
-            <br />
-            {alert.text}
-          </Alert>
+          <MyAlert type={alert.type} header={alert.header} text={alert.text} />
         )}
       </div>
 
       <Sheet
         variant="outlined"
-        className="mt-6 flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
+        className="mt-6 flex min-h-0 w-full max-w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
       >
         <AddStorageModal isOpen={modal} setOpen={setModal} />
         {isLoading ? (
@@ -108,8 +94,9 @@ export const Storages = () => {
                 stripe="odd"
                 variant="plain"
                 hoverRow
-                className="min-w-240 text-slate-700"
+                className="w-full text-slate-700"
                 sx={{
+                  tableLayout: "fixed",
                   "--TableCell-headBackground":
                     "var(--joy-palette-background-surface)",
                   "& thead": {
@@ -121,27 +108,41 @@ export const Storages = () => {
                   "& thead tr": {
                     backgroundColor: "rgb(248 250 252)",
                   },
-                  "& thead th:nth-child(2)": {
-                    width: "40%",
-                  },
-                  "& thead th:nth-child(3)": {
-                    width: "14%",
-                  },
                   "& thead th": {
                     zIndex: 2,
                     backgroundColor: "rgb(248 250 252)",
                     backgroundImage: "none",
                   },
-                  "& tr > *:nth-child(n+4)": { textAlign: "left" },
+                  "& thead th:nth-child(1)": {
+                    width: "26%",
+                    minWidth: "140px",
+                  },
+                  "& thead th:nth-child(2)": {
+                    width: "34%",
+                    minWidth: "160px",
+                  },
+                  "& thead th:nth-child(3)": {
+                    width: "16%",
+                    minWidth: "110px",
+                  },
+                  "& thead th:nth-child(4)": {
+                    width: "16%",
+                    minWidth: "110px",
+                  },
+                  "& thead th:nth-child(5)": {
+                    width: "8%",
+                    minWidth: "80px",
+                  },
+                  "& tr > *:nth-child(n+3)": { textAlign: "left" },
                 }}
               >
                 <thead>
                   <tr className="text-slate-600">
-                    <th className="px-6 py-4">{t("storage-name")}</th>
-                    <th className="px-6 py-4">{t("description")}</th>
-                    <th className="px-6 py-4">{t("created-at")}</th>
-                    <th className="px-6 py-4">{t("updated-at")}</th>
-                    <th className="px-6 py-4 text-right"></th>
+                    <th className="px-3 py-4">{t("storage-name")}</th>
+                    <th className="px-3 py-4">{t("description")}</th>
+                    <th className="px-3 py-4">{t("created-at")}</th>
+                    <th className="px-3 py-4">{t("updated-at")}</th>
+                    <th className="px-3 py-4 text-right"></th>
                   </tr>
                 </thead>
                 <tbody>
