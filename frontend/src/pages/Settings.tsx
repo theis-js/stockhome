@@ -178,7 +178,7 @@ export const Settings = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-end gap-3">
               <Button
                 type="submit"
                 size="lg"
