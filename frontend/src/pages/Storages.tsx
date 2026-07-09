@@ -50,10 +50,16 @@ export const Storages = () => {
     <>
       <div className="flex flex-col gap-4">
         <div className="min-w-65 space-y-2">
-          <Typography level="h2" className="text-slate-900">
+          <Typography
+            level="h2"
+            sx={{ color: "var(--joy-palette-text-primary)" }}
+          >
             {t("storages")}
           </Typography>
-          <Typography level="body-lg" className="text-slate-500">
+          <Typography
+            level="body-lg"
+            sx={{ color: "var(--joy-palette-text-tertiary)" }}
+          >
             {t("storage-delete-info")}
           </Typography>
         </div>
@@ -74,7 +80,12 @@ export const Storages = () => {
 
       <Sheet
         variant="outlined"
-        className="mt-6 flex min-h-0 w-full max-w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
+        className="mt-6 flex min-h-0 w-full max-w-full flex-col overflow-hidden rounded-2xl shadow-sm sm:h-[calc(100vh-260px)]"
+        sx={{
+          border: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.surface",
+        }}
       >
         <AddStorageModal isOpen={modal} setOpen={setModal} />
         {isLoading ? (
@@ -83,7 +94,13 @@ export const Storages = () => {
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 text-slate-700">
+            <div
+              className="flex items-center justify-between px-6 py-4"
+              style={{
+                borderBottom: "1px solid var(--joy-palette-divider)",
+                color: "var(--joy-palette-text-secondary)",
+              }}
+            >
               <Typography level="body-lg" fontWeight="bold">
                 {t("storages")}
               </Typography>
@@ -94,24 +111,26 @@ export const Storages = () => {
                 stripe="odd"
                 variant="plain"
                 hoverRow
-                className="w-full text-slate-700"
+                className="w-full"
                 sx={{
                   tableLayout: "fixed",
+                  color: "var(--joy-palette-text-secondary)",
                   "--TableCell-headBackground":
-                    "var(--joy-palette-background-surface)",
+                    "var(--joy-palette-background-level1)",
                   "& thead": {
                     position: "sticky",
                     top: 0,
                     zIndex: 3,
-                    backgroundColor: "rgb(248 250 252)",
+                    backgroundColor: "var(--joy-palette-background-level1)",
                   },
                   "& thead tr": {
-                    backgroundColor: "rgb(248 250 252)",
+                    backgroundColor: "var(--joy-palette-background-level1)",
                   },
                   "& thead th": {
                     zIndex: 2,
-                    backgroundColor: "rgb(248 250 252)",
+                    backgroundColor: "var(--joy-palette-background-level1)",
                     backgroundImage: "none",
+                    color: "var(--joy-palette-text-secondary)",
                   },
                   "& thead th:nth-child(1)": {
                     width: "26%",
@@ -134,10 +153,13 @@ export const Storages = () => {
                     minWidth: "80px",
                   },
                   "& tr > *:nth-child(n+3)": { textAlign: "left" },
+                  "& tbody tr": {
+                    borderTop: "1px solid var(--joy-palette-divider)",
+                  },
                 }}
               >
                 <thead>
-                  <tr className="text-slate-600">
+                  <tr>
                     <th className="px-3 py-4">{t("storage-name")}</th>
                     <th className="px-3 py-4">{t("description")}</th>
                     <th className="px-3 py-4">{t("created-at")}</th>

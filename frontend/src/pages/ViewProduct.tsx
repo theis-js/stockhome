@@ -1,27 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStorages } from "../utils/api/storages.ts";
-import {
-  Box,
-  Button,
-  Chip,
-  CircularProgress,
-  Divider,
-  Input,
-  Option,
-  Select,
-  Typography,
-} from "@mui/joy";
+import { Box, Button, Chip, CircularProgress, Divider, Input, Option, Select, Typography, } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { getProductDetails, mutateProduct } from "../utils/api/products.ts";
 import { toInputDate } from "../utils/uxFncs";
-import type {
-  AlertInterface,
-  productDetailsInterface,
-  ProductFormValues,
-  Storage,
-} from "../misc/interfaces";
+import type { AlertInterface, productDetailsInterface, ProductFormValues, Storage, } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Cookies from "js-cookie";
@@ -160,7 +145,10 @@ export const ViewProduct = (props: ViewProductProps) => {
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <div className="space-y-1">
-            <Typography level="h2" className="text-slate-900">
+            <Typography
+              level="h2"
+              sx={{ color: "var(--joy-palette-text-primary)" }}
+            >
               {t("product-details")}
             </Typography>
           </div>
@@ -175,7 +163,16 @@ export const ViewProduct = (props: ViewProductProps) => {
         {productDetailsLoading && <CircularProgress size="sm" />}
       </div>
       {isSuccess && (
-        <Box className="mt-6 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(12,38,78,0.12)] backdrop-blur">
+        <Box
+          className="mt-6 rounded-3xl p-6 backdrop-blur"
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            bgcolor: "background.surface",
+            boxShadow:
+              "0 24px 60px color-mix(in srgb, var(--joy-palette-primary-800) 12%, transparent)",
+          }}
+        >
           <form
             className="space-y-6"
             onSubmit={(e) => {
@@ -186,7 +183,10 @@ export const ViewProduct = (props: ViewProductProps) => {
             <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <Typography level="title-md" className="text-slate-900">
+                  <Typography
+                    level="title-md"
+                    sx={{ color: "var(--joy-palette-text-primary)" }}
+                  >
                     {t("product-name")}
                   </Typography>
                   <form.Field name="name">
@@ -198,13 +198,20 @@ export const ViewProduct = (props: ViewProductProps) => {
                         onBlur={field.handleBlur}
                         size="lg"
                         variant="outlined"
-                        className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                        className="rounded-2xl"
+                        sx={{
+                          bgcolor: "var(--joy-palette-background-surface)",
+                          boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                        }}
                       />
                     )}
                   </form.Field>
                 </div>
                 <div className="space-y-1">
-                  <Typography level="title-md" className="text-slate-900">
+                  <Typography
+                    level="title-md"
+                    sx={{ color: "var(--joy-palette-text-primary)" }}
+                  >
                     {t("description")}
                   </Typography>
                   <form.Field name="description">
@@ -216,14 +223,21 @@ export const ViewProduct = (props: ViewProductProps) => {
                         onBlur={field.handleBlur}
                         size="lg"
                         variant="outlined"
-                        className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                        className="rounded-2xl"
+                        sx={{
+                          bgcolor: "var(--joy-palette-background-surface)",
+                          boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                        }}
                       />
                     )}
                   </form.Field>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1">
-                    <Typography level="title-md" className="text-slate-900">
+                    <Typography
+                      level="title-md"
+                      sx={{ color: "var(--joy-palette-text-primary)" }}
+                    >
                       {t("expiry-date")}
                     </Typography>
                     <form.Field name="expiry_date">
@@ -235,13 +249,19 @@ export const ViewProduct = (props: ViewProductProps) => {
                           onBlur={field.handleBlur}
                           size="lg"
                           variant="outlined"
-                          className="rounded-2xl bg-white/90"
+                          className="rounded-2xl"
+                          sx={{
+                            bgcolor: "var(--joy-palette-background-surface)",
+                          }}
                         />
                       )}
                     </form.Field>
                   </div>
                   <div className="space-y-1">
-                    <Typography level="title-md" className="text-slate-900">
+                    <Typography
+                      level="title-md"
+                      sx={{ color: "var(--joy-palette-text-primary)" }}
+                    >
                       {t("bottling-date")}
                     </Typography>
                     <form.Field name="bottling_date">
@@ -253,7 +273,10 @@ export const ViewProduct = (props: ViewProductProps) => {
                           onBlur={field.handleBlur}
                           size="lg"
                           variant="outlined"
-                          className="rounded-2xl bg-white/90"
+                          className="rounded-2xl"
+                          sx={{
+                            bgcolor: "var(--joy-palette-background-surface)",
+                          }}
                         />
                       )}
                     </form.Field>
@@ -261,14 +284,28 @@ export const ViewProduct = (props: ViewProductProps) => {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="rounded-2xl border border-white/70 bg-linear-to-br from-[#f7fbff] via-[#f2f6fb] to-[#eef3f9] p-5 shadow-[0_16px_40px_rgba(12,38,78,0.08)]">
-                  <Typography level="title-lg" className="text-slate-900">
+                <div
+                  className="rounded-2xl p-5"
+                  style={{
+                    border: "1px solid var(--joy-palette-divider)",
+                    background:
+                      "linear-gradient(to bottom right, var(--joy-palette-primary-50), var(--joy-palette-background-level1), var(--joy-palette-background-level2))",
+                    boxShadow: "0 16px 40px var(--joy-palette-divider)",
+                  }}
+                >
+                  <Typography
+                    level="title-lg"
+                    sx={{ color: "var(--joy-palette-text-primary)" }}
+                  >
                     {t("inventory")}
                   </Typography>
                   <Divider className="my-3" />
                   <div className="grid gap-4">
                     <div className="space-y-1">
-                      <Typography level="title-md" className="text-slate-900">
+                      <Typography
+                        level="title-md"
+                        sx={{ color: "var(--joy-palette-text-primary)" }}
+                      >
                         {t("amount")}
                       </Typography>
                       <form.Field name="amount">
@@ -288,13 +325,19 @@ export const ViewProduct = (props: ViewProductProps) => {
                               );
                             }}
                             onBlur={field.handleBlur}
-                            className="rounded-2xl bg-white/80"
+                            className="rounded-2xl"
+                            sx={{
+                              bgcolor: "var(--joy-palette-background-surface)",
+                            }}
                           />
                         )}
                       </form.Field>
                     </div>
                     <div className="space-y-1">
-                      <Typography level="title-md" className="text-slate-900">
+                      <Typography
+                        level="title-md"
+                        sx={{ color: "var(--joy-palette-text-primary)" }}
+                      >
                         {t("price")}
                       </Typography>
                       <form.Field name="price">
@@ -306,16 +349,25 @@ export const ViewProduct = (props: ViewProductProps) => {
                             onBlur={field.handleBlur}
                             size="lg"
                             variant="outlined"
-                            className="rounded-2xl bg-white/90"
+                            className="rounded-2xl"
+                            sx={{
+                              bgcolor: "var(--joy-palette-background-surface)",
+                            }}
                           />
                         )}
                       </form.Field>
-                      <Typography level="body-sm" className="text-slate-500">
+                      <Typography
+                        level="body-sm"
+                        sx={{ color: "var(--joy-palette-text-tertiary)" }}
+                      >
                         {Cookies.get("currency")}
                       </Typography>
                     </div>
                     <div className="space-y-1">
-                      <Typography level="title-md" className="text-slate-900">
+                      <Typography
+                        level="title-md"
+                        sx={{ color: "var(--joy-palette-text-primary)" }}
+                      >
                         {t("storage-place")}
                       </Typography>
                       <form.Field name="storage_location_uuid">
@@ -327,7 +379,10 @@ export const ViewProduct = (props: ViewProductProps) => {
                             }
                             size="lg"
                             variant="outlined"
-                            className="rounded-2xl bg-white/90"
+                            className="rounded-2xl"
+                            sx={{
+                              bgcolor: "var(--joy-palette-background-surface)",
+                            }}
                           >
                             {storages?.map((storage) => (
                               <Option key={storage.uuid} value={storage.uuid}>
@@ -344,7 +399,10 @@ export const ViewProduct = (props: ViewProductProps) => {
             </div>
             <div>
               <div className="flex gap-3 items-center">
-                <Typography level="body-sm" className="text-slate-500">
+                <Typography
+                  level="body-sm"
+                  sx={{ color: "var(--joy-palette-text-tertiary)" }}
+                >
                   {t("product-details")}
                 </Typography>
                 <div className="grow"></div>
@@ -353,7 +411,13 @@ export const ViewProduct = (props: ViewProductProps) => {
                   loading={isPending}
                   onClick={() => downloadQRcode()}
                   size="lg"
-                  className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                  color="primary"
+                  variant="solid"
+                  className="rounded-2xl transition hover:-translate-y-0.5"
+                  sx={{
+                    boxShadow:
+                      "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+                  }}
                 >
                   {t("download-qr-code")}
                 </Button>
@@ -361,7 +425,13 @@ export const ViewProduct = (props: ViewProductProps) => {
                   type="submit"
                   loading={isPending}
                   size="lg"
-                  className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                  color="primary"
+                  variant="solid"
+                  className="rounded-2xl transition hover:-translate-y-0.5"
+                  sx={{
+                    boxShadow:
+                      "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+                  }}
                 >
                   {t("save")}
                 </Button>

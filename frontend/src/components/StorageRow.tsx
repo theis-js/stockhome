@@ -50,7 +50,7 @@ export const StorageRow = ({ storage, onError }: StorageRowProps) => {
     (values.description ?? "") !== (storage.description ?? "");
 
   return (
-    <tr key={storage.uuid} className="border-t border-slate-200 align-top">
+    <tr key={storage.uuid} className="align-top">
       <td className="px-6 py-5">
         <form.Field name="name">
           {(field) => (
@@ -60,7 +60,12 @@ export const StorageRow = ({ storage, onError }: StorageRowProps) => {
               onBlur={field.handleBlur}
               size="sm"
               variant="outlined"
-              className="rounded-xl bg-slate-50/80 text-slate-700 shadow-none ring-1 ring-inset ring-slate-200 focus-within:ring-2 focus-within:ring-slate-300"
+              className="rounded-xl shadow-none"
+              sx={{
+                bgcolor: "var(--joy-palette-background-level1)",
+                color: "var(--joy-palette-text-secondary)",
+                "--Input-focusedHighlight": "var(--joy-palette-neutral-300)",
+              }}
             />
           )}
         </form.Field>
@@ -74,15 +79,26 @@ export const StorageRow = ({ storage, onError }: StorageRowProps) => {
               onBlur={field.handleBlur}
               size="sm"
               variant="outlined"
-              className="rounded-xl bg-slate-50/80 text-slate-700 shadow-none ring-1 ring-inset ring-slate-200 focus-within:ring-2 focus-within:ring-slate-300"
+              className="rounded-xl shadow-none"
+              sx={{
+                bgcolor: "var(--joy-palette-background-level1)",
+                color: "var(--joy-palette-text-secondary)",
+                "--Input-focusedHighlight": "var(--joy-palette-neutral-300)",
+              }}
             />
           )}
         </form.Field>
       </td>
-      <td className="px-6 py-5 text-sm text-slate-500">
+      <td
+        className="px-6 py-5 text-sm"
+        style={{ color: "var(--joy-palette-text-tertiary)" }}
+      >
         {formatDate(storage.created_at)}
       </td>
-      <td className="px-6 py-5 text-sm text-slate-500">
+      <td
+        className="px-6 py-5 text-sm"
+        style={{ color: "var(--joy-palette-text-tertiary)" }}
+      >
         {formatDate(storage.updated_at)}
       </td>
       <td className="px-6 py-5 text-right">

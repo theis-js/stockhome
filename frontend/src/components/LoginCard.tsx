@@ -68,14 +68,34 @@ export const LoginCard = () => {
   });
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-[radial-gradient(1200px_circle_at_20%_10%,#e6f2ff_0%,#f7f9fc_40%,#f1f5fb_100%)] px-6 py-10">
+    <div
+      className="flex min-h-screen w-full items-center justify-center px-6 py-10"
+      style={{
+        background:
+          "radial-gradient(1200px circle at 20% 10%, var(--joy-palette-primary-100) 0%, var(--joy-palette-background-body) 40%, var(--joy-palette-background-level1) 100%)",
+      }}
+    >
       <div className="mx-auto flex w-full max-w-4xl items-center justify-center">
-        <div className="w-full max-w-md rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_24px_60px_rgba(12,38,78,0.18)] backdrop-blur">
+        <div
+          className="w-full max-w-md rounded-3xl p-8 backdrop-blur"
+          style={{
+            border: "1px solid var(--joy-palette-divider)",
+            backgroundColor: "var(--joy-palette-background-surface)",
+            boxShadow:
+              "0 24px 60px color-mix(in srgb, var(--joy-palette-primary-800) 18%, transparent)",
+          }}
+        >
           <div className="mb-8 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#0b6bcb]">
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.3em]"
+              style={{ color: "var(--joy-palette-primary-solidBg)" }}
+            >
               Stockhome
             </p>
-            <h1 className="text-3xl font-semibold text-slate-900">
+            <h1
+              className="text-3xl font-semibold"
+              style={{ color: "var(--joy-palette-text-primary)" }}
+            >
               {t("login")}
             </h1>
           </div>
@@ -101,7 +121,11 @@ export const LoginCard = () => {
                   placeholder={t("username")}
                   variant="outlined"
                   size="lg"
-                  className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                  className="rounded-2xl"
+                  sx={{
+                    bgcolor: "var(--joy-palette-background-surface)",
+                    boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                  }}
                 />
               )}
             </form.Field>
@@ -114,7 +138,11 @@ export const LoginCard = () => {
                   placeholder={t("password")}
                   variant="outlined"
                   size="lg"
-                  className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                  className="rounded-2xl"
+                  sx={{
+                    bgcolor: "var(--joy-palette-background-surface)",
+                    boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                  }}
                 />
               )}
             </form.Field>
@@ -122,7 +150,13 @@ export const LoginCard = () => {
               type="submit"
               loading={isPending}
               size="lg"
-              className="w-full rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+              color="primary"
+              variant="solid"
+              className="w-full rounded-2xl transition hover:-translate-y-0.5"
+              sx={{
+                boxShadow:
+                  "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+              }}
             >
               {t("login")}
             </Button>

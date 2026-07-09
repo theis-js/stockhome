@@ -51,11 +51,20 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
   return (
     <>
       <Modal open={props.isOpen} onClose={() => props.setOpen(false)}>
-        <ModalDialog className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-[0_30px_70px_rgba(12,38,78,0.2)] backdrop-blur">
-          <DialogTitle className="text-slate-900">
+        <ModalDialog
+          className="rounded-3xl p-6 backdrop-blur"
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            bgcolor: "background.surface",
+            boxShadow:
+              "0 30px 70px color-mix(in srgb, var(--joy-palette-primary-800) 20%, transparent)",
+          }}
+        >
+          <DialogTitle sx={{ color: "var(--joy-palette-text-primary)" }}>
             {t("new-storage-title")}
           </DialogTitle>
-          <DialogContent className="text-slate-500">
+          <DialogContent sx={{ color: "var(--joy-palette-text-tertiary)" }}>
             {t("new-storage-content")}
           </DialogContent>
           <form
@@ -73,7 +82,11 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
                     placeholder={t("storage-name")}
                     variant="outlined"
                     size="lg"
-                    className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                    className="rounded-2xl"
+                    sx={{
+                      bgcolor: "var(--joy-palette-background-surface)",
+                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                    }}
                   />
                 )}
               </form.Field>
@@ -85,14 +98,24 @@ export const AddStorageModal = (props: AddStorageModalProps) => {
                     placeholder={t("description")}
                     variant="outlined"
                     size="lg"
-                    className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                    className="rounded-2xl"
+                    sx={{
+                      bgcolor: "var(--joy-palette-background-surface)",
+                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                    }}
                   />
                 )}
               </form.Field>
               <Button
                 type="submit"
                 size="lg"
-                className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                color="primary"
+                variant="solid"
+                className="rounded-2xl transition hover:-translate-y-0.5"
+                sx={{
+                  boxShadow:
+                    "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+                }}
               >
                 {t("submit")}
               </Button>

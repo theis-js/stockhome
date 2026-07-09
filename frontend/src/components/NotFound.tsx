@@ -9,7 +9,10 @@ export const NotFound = () => {
       <Typography color={"primary"} level={"h1"}>
         {t("not-found-header")}
       </Typography>
-      <Typography className={"text-slate-900"} level={"body-lg"}>
+      <Typography
+        sx={{ color: "var(--joy-palette-text-primary)" }}
+        level={"body-lg"}
+      >
         {t("not-found-body")}
       </Typography>
     </div>

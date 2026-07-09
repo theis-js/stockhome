@@ -124,9 +124,20 @@ export const InventoryPage = () => {
 
       <Sheet
         variant="outlined"
-        className="mt-6 flex min-h-0 w-full max-w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-sm sm:h-[calc(100vh-260px)]"
+        className="mt-6 flex min-h-0 w-full max-w-full flex-col overflow-hidden rounded-2xl shadow-sm sm:h-[calc(100vh-260px)]"
+        sx={{
+          border: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.surface",
+        }}
       >
-        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 text-slate-700">
+        <div
+          className="flex items-center justify-between px-6 py-4"
+          style={{
+            borderBottom: "1px solid var(--joy-palette-divider)",
+            color: "var(--joy-palette-text-secondary)",
+          }}
+        >
           <Typography level="body-lg" fontWeight="bold">
             {t("inventory")}
           </Typography>
@@ -147,24 +158,26 @@ export const InventoryPage = () => {
             stripe="odd"
             variant="plain"
             hoverRow
-            className="w-full text-slate-700"
+            className="w-full"
             sx={{
               tableLayout: "fixed",
+              color: "var(--joy-palette-text-secondary)",
               "--TableCell-headBackground":
-                "var(--joy-palette-background-surface)",
+                "var(--joy-palette-background-level1)",
               "& thead": {
                 position: "sticky",
                 top: 0,
                 zIndex: 3,
-                backgroundColor: "rgb(248 250 252)",
+                backgroundColor: "var(--joy-palette-background-level1)",
               },
               "& thead tr": {
-                backgroundColor: "rgb(248 250 252)",
+                backgroundColor: "var(--joy-palette-background-level1)",
               },
               "& thead th": {
                 zIndex: 2,
-                backgroundColor: "rgb(248 250 252)",
+                backgroundColor: "var(--joy-palette-background-level1)",
                 backgroundImage: "none",
+                color: "var(--joy-palette-text-secondary)",
               },
               "& thead th:nth-child(1)": {
                 width: "44px",
@@ -198,10 +211,13 @@ export const InventoryPage = () => {
                 minWidth: "100px",
               },
               "& tr > *:nth-child(n+4)": { textAlign: "left" },
+              "& tbody tr": {
+                borderTop: "1px solid var(--joy-palette-divider)",
+              },
             }}
           >
             <thead>
-              <tr className="text-slate-600">
+              <tr>
                 <th className="px-2 py-4">
                   <Checkbox
                     checked={rows.length > 0 && selected.length === rows.length}
@@ -229,7 +245,6 @@ export const InventoryPage = () => {
                 return (
                   <tr
                     key={row.id}
-                    className="border-t border-slate-200"
                     onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
@@ -254,13 +269,15 @@ export const InventoryPage = () => {
                         <div className="min-w-0">
                           <Typography
                             level="title-md"
-                            className="text-slate-900 truncate"
+                            className="truncate"
+                            sx={{ color: "var(--joy-palette-text-primary)" }}
                           >
                             {row.name}
                           </Typography>
                           <Typography
                             level="body-sm"
-                            className="text-slate-500 truncate"
+                            className="truncate"
+                            sx={{ color: "var(--joy-palette-text-tertiary)" }}
                           >
                             {row.description}
                           </Typography>
@@ -273,7 +290,8 @@ export const InventoryPage = () => {
                       </Typography>
                       <Typography
                         level="body-sm"
-                        className="truncate text-slate-400"
+                        className="truncate"
+                        sx={{ color: "var(--joy-palette-neutral-400)" }}
                       >
                         {Cookies.get("currency")}
                       </Typography>
@@ -294,7 +312,8 @@ export const InventoryPage = () => {
                       </Typography>
                       <Typography
                         level="body-sm"
-                        className="truncate text-slate-500"
+                        className="truncate"
+                        sx={{ color: "var(--joy-palette-text-tertiary)" }}
                       >
                         {row.locationDetail}
                       </Typography>

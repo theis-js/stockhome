@@ -1,11 +1,4 @@
-import {
-  Button,
-  DialogTitle,
-  Input,
-  Modal,
-  ModalDialog,
-  Stack,
-} from "@mui/joy";
+import { Button, DialogTitle, Input, Modal, ModalDialog, Stack, } from "@mui/joy";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -66,7 +59,6 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
       });
     },
     onSuccess: () => {
-      // Sets the success alert in the settings page via component props
       props.alert({
         isAlert: true,
         type: "success",
@@ -74,7 +66,6 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
         text: t("SU005"),
       });
 
-      // Sets the success alert locally (in the modal itself)
       setAlert({
         isAlert: true,
         type: "success",
@@ -88,8 +79,17 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
   return (
     <>
       <Modal open={props.isOpen} onClose={() => props.setOpen(false)}>
-        <ModalDialog className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-[0_30px_70px_rgba(12,38,78,0.2)] backdrop-blur">
-          <DialogTitle className="text-slate-900">
+        <ModalDialog
+          className="rounded-3xl p-6 backdrop-blur"
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            bgcolor: "background.surface",
+            boxShadow:
+              "0 30px 70px color-mix(in srgb, var(--joy-palette-primary-800) 20%, transparent)",
+          }}
+        >
+          <DialogTitle sx={{ color: "var(--joy-palette-text-primary)" }}>
             {t("new-password-title")}
           </DialogTitle>
           <form
@@ -108,7 +108,11 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                     placeholder={t("current-password")}
                     variant="outlined"
                     size="lg"
-                    className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                    className="rounded-2xl"
+                    sx={{
+                      bgcolor: "var(--joy-palette-background-surface)",
+                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                    }}
                   />
                 )}
               </form.Field>
@@ -121,7 +125,11 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                     placeholder={t("new-password")}
                     variant="outlined"
                     size="lg"
-                    className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                    className="rounded-2xl"
+                    sx={{
+                      bgcolor: "var(--joy-palette-background-surface)",
+                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                    }}
                   />
                 )}
               </form.Field>
@@ -134,14 +142,24 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                     placeholder={t("new-password-rep")}
                     variant="outlined"
                     size="lg"
-                    className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                    className="rounded-2xl"
+                    sx={{
+                      bgcolor: "var(--joy-palette-background-surface)",
+                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                    }}
                   />
                 )}
               </form.Field>
               <Button
                 type="submit"
                 size="lg"
-                className="rounded-2xl bg-[#0b6bcb] text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                color="primary"
+                variant="solid"
+                className="rounded-2xl transition hover:-translate-y-0.5"
+                sx={{
+                  boxShadow:
+                    "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+                }}
               >
                 {t("change")}
               </Button>

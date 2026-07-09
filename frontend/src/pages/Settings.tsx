@@ -91,10 +91,16 @@ export const Settings = () => {
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <div className="space-y-1">
-            <Typography level="h2" className="text-slate-900">
+            <Typography
+              level="h2"
+              sx={{ color: "var(--joy-palette-text-primary)" }}
+            >
               {t("settings")}
             </Typography>
-            <Typography level="body-lg" className="text-slate-500">
+            <Typography
+              level="body-lg"
+              sx={{ color: "var(--joy-palette-text-tertiary)" }}
+            >
               {t("settings-sub")}
             </Typography>
           </div>
@@ -108,7 +114,16 @@ export const Settings = () => {
         </div>
       </div>
 
-      <Sheet className="mt-6 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(12,38,78,0.12)] backdrop-blur">
+      <Sheet
+        className="mt-6 rounded-3xl p-6 backdrop-blur"
+        sx={{
+          border: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.surface",
+          boxShadow:
+            "0 24px 60px rgba(var(--joy-palette-primary-900, 12 38 78) / 0.12)",
+        }}
+      >
         {alert.isAlert && (
           <MyAlert type={alert.type} header={alert.header} text={alert.text} />
         )}
@@ -124,13 +139,19 @@ export const Settings = () => {
               form.handleSubmit();
             }}
           >
-            <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr\_0.9fr]">
               <div className="space-y-5">
                 <div className="space-y-1">
-                  <Typography level="title-md" className="text-slate-900">
+                  <Typography
+                    level="title-md"
+                    sx={{ color: "var(--joy-palette-text-primary)" }}
+                  >
                     {t("app-name")}
                   </Typography>
-                  <Typography level="body-sm" className="text-slate-500">
+                  <Typography
+                    level="body-sm"
+                    sx={{ color: "var(--joy-palette-text-tertiary)" }}
+                  >
                     {t("app-name-sub")}
                   </Typography>
                   <form.Field name="app-name">
@@ -141,16 +162,26 @@ export const Settings = () => {
                         size="lg"
                         variant="outlined"
                         placeholder="Stockhome"
-                        className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                        className="rounded-2xl"
+                        sx={{
+                          bgcolor: "var(--joy-palette-background-surface)",
+                          boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                        }}
                       />
                     )}
                   </form.Field>
                 </div>
                 <div className="space-y-1">
-                  <Typography level="title-md" className="text-slate-900">
+                  <Typography
+                    level="title-md"
+                    sx={{ color: "var(--joy-palette-text-primary)" }}
+                  >
                     {t("currency")}
                   </Typography>
-                  <Typography level="body-sm" className="text-slate-500">
+                  <Typography
+                    level="body-sm"
+                    sx={{ color: "var(--joy-palette-text-tertiary)" }}
+                  >
                     {t("currency-sub")}
                   </Typography>
                   <form.Field name="currency">
@@ -161,18 +192,36 @@ export const Settings = () => {
                         size="lg"
                         variant="outlined"
                         placeholder="EUR"
-                        className="rounded-2xl bg-white/90 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                        className="rounded-2xl"
+                        sx={{
+                          bgcolor: "var(--joy-palette-background-surface)",
+                          boxShadow: "0 10px 24px var(--joy-palette-divider)",
+                        }}
                       />
                     )}
                   </form.Field>
                 </div>
               </div>
-              <div className="rounded-2xl border border-white/70 bg-linear-to-br from-[#f7fbff] via-[#f2f6fb] to-[#eef3f9] p-5 shadow-[0_16px_40px_rgba(12,38,78,0.08)]">
-                <Typography level="title-lg" className="text-slate-900">
+              <div
+                className="rounded-2xl p-5"
+                style={{
+                  border: "1px solid var(--joy-palette-divider)",
+                  background:
+                    "linear-gradient(to bottom right, var(--joy-palette-primary-50), var(--joy-palette-background-level1), var(--joy-palette-background-level2))",
+                  boxShadow: "0 16px 40px var(--joy-palette-divider)",
+                }}
+              >
+                <Typography
+                  level="title-lg"
+                  sx={{ color: "var(--joy-palette-text-primary)" }}
+                >
                   {t("quick-tips")}
                 </Typography>
                 <Divider className="my-3" />
-                <div className="space-y-3 text-md text-slate-600">
+                <div
+                  className="space-y-3 text-md"
+                  style={{ color: "var(--joy-palette-text-secondary)" }}
+                >
                   <p>{t("quick-tips-1")}</p>
                   <p>{t("quick-tips-2")}</p>
                 </div>
@@ -183,15 +232,23 @@ export const Settings = () => {
                 type="submit"
                 size="lg"
                 color="primary"
-                className="rounded-2xl text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                className="rounded-2xl transition hover:-translate-y-0.5"
+                sx={{
+                  boxShadow:
+                    "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+                }}
               >
                 {t("save")}
               </Button>
               <Button
                 onClick={() => setModal(true)}
                 size="lg"
-                color="warning"
-                className="rounded-2xl text-white shadow-[0_16px_36px_rgba(11,107,203,0.35)] transition hover:-translate-y-0.5 hover:bg-[#095aa7]"
+                color="primary"
+                className="rounded-2xl transition hover:-translate-y-0.5"
+                sx={{
+                  boxShadow:
+                    "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
+                }}
               >
                 {t("change-password")}
               </Button>
