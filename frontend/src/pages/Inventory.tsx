@@ -9,7 +9,7 @@ import { formatDate } from "../utils/uxFncs";
 import Cookies from "js-cookie";
 import type { AlertInterface, ProductRow } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
-import CategoryIcon from "@mui/icons-material/category";
+import CategoryIcon from "@mui/icons-material/Category";
 import { MyAlert } from "../components/MyAlert.tsx";
 
 export const InventoryPage = () => {
