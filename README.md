@@ -98,6 +98,12 @@ Username: admin
 Password: admin
 ```
 
+The docker config exposes the frontend on port `80`. Therefore, you can access the web page either on
+`http://localhost`, if you hosted it on your local machine, or under the IP-Adress or hostname of your server.
+
+If port `80` is occupied, you can change the docker-compose. Therefore, take a look
+at [Change Port Config](.github/docs/docker/README.md#ports).
+
 _Keep in mind that you should change the password later in the settings page._
 
 > **Note** If errors occur get yourself some help in the [error code page](./.github/docs/error/README.md).
