@@ -52,7 +52,7 @@ Clone this repository by running:
 git clone --branch v0.1 --single-branch https://github.com/theis-js/stockhome.git
 ```
 
-You can replace `v0.1` with the latest release tag to get the latest version of the stack. You can also use `dev` to get
+You can replace `v0.1` with any other release tag to get your desired version of the repo. You can also use `dev` to get
 the latest development version, but keep in mind that it may contain bugs and errors.
 
 View the available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
@@ -69,7 +69,7 @@ AUTH_SIGNATURE=
 BACKEND_HOST=stockhome-backend
 ```
 
-Make sure that you have set an secure root password and a secure signature.
+Make sure that you have set a secure root password and a secure signature.
 
 > **Note** These three values cannot contain special characters.
 
@@ -87,7 +87,7 @@ First, navigate into the root directory of this repository and run:
 docker compose up -d --build
 ```
 
-The database and all necessary services are started and initialised automatically.
+The database and all necessary services are started and initialized automatically.
 
 ### 5. First login
 
@@ -115,22 +115,25 @@ repository! [Report a bug](https://github.com/theis-js/stockhome/issues/new/choo
 
 ## Update
 
-To update stockhome to the latest version, navigate into the root directory of this repository and run:
+To update Stockhome to the latest version, navigate into the root directory of this repository and run:
 
 ```shell
-git pull
-latesttag=$(git describe --tags)
-git checkout ${latesttag}
+git fetch --all --tags && git checkout "$(git describe --tags "$(git rev-list --tags --max-count=1)")"
+```
+
+To rebuild the containers run:
+
+```shell
 docker compose up -d --build
 ```
 
-To update to a specific version, replace `latesttag` with the version tag you want to update to. You can view the
-available version tags here: [Releases](https://github.com/theis-js/stockhome/tags)
+To update/downgrade to a specific version, run the command below. You can replace `v0.1` with the tag/version you want.
+You can find all Releases her: [Releases](https://github.com/theis-js/stockhome/tags).
 
 **Example to downgrade/update to version `v0.1`:**
 
 ```shell
-git pull
+git fetch --all
 git checkout v0.1
 docker compose up -d --build
 ```
@@ -143,20 +146,20 @@ docker compose up -d --build
 - Visual Studio Code (or any other IDE)
 - Cloned the repository
 
-### Start backend and database
+### Initialize repository dependencies
 
 First, navigate into the root directory of this repository and run:
 
 ```shell
-docker compose -f docker-compose.dev.yml up -d --build
+npm install
 ```
 
-### Start frontend
+### Start development environment
 
-Navigate into the `frontend` directory and run:
+Stay in the root directory and run:
 
 ```shell
-npm install
+npm run build:shared
 npm run dev
 ```
 
