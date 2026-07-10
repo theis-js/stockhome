@@ -1,15 +1,11 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { isAuthenticated } from "../../../utils/api/auth";
+import { verifyLogin } from "../../../utils/api/auth";
 import { ViewProduct } from "../../../pages/ViewProduct";
 
 export const Route = createFileRoute("/app/_hiddenLayout/view-product")({
   beforeLoad: async () => {
-    if (!(await isAuthenticated())) {
-      throw redirect({
-        to: "/login",
-      });
-    }
+    await verifyLogin();
   },
   validateSearch: z.object({
     product: z.string(),

@@ -6,6 +6,7 @@ export const Route = createFileRoute("/")({
     if (!(await isAuthenticated())) {
       throw redirect({
         to: "/login",
+        search: { loggedOut: true },
       });
     } else {
       throw redirect({
