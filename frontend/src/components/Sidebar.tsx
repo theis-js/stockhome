@@ -14,10 +14,12 @@ import { useMatchRoute, useNavigate } from "@tanstack/react-router";
 import Cookies from "js-cookie";
 import { changeTranslation } from "../utils/uxFncs";
 import { useColorScheme } from "@mui/joy/styles";
+import { useLogout } from "../hooks/useLogout.ts";
 
 export const Sidebar = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { logout } = useLogout();
   const matchRoute = useMatchRoute();
   const { mode, setMode } = useColorScheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +31,7 @@ export const Sidebar = () => {
     !!matchRoute({ to, fuzzy: false }) ? "soft" : "plain";
 
   const handleNavigate = (to: string) => {
-    navigate({ to });
+    void navigate({ to });
     setIsOpen(false);
   };
 
@@ -154,10 +156,7 @@ export const Sidebar = () => {
             {t("settings")}
           </Button>
           <Button
-            onClick={() => {
-              Cookies.remove("token");
-              handleNavigate("/login?logout=true");
-            }}
+            onClick={logout}
             color="danger"
             startDecorator={<ExitToAppIcon />}
             className={btnClass}

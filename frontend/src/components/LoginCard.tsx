@@ -3,7 +3,7 @@ import { Button, Input } from "@mui/joy";
 import { useMutation } from "@tanstack/react-query";
 import { signInUser } from "../utils/api/auth";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { AlertInterface } from "../misc/interfaces";
 import { MyAlert } from "./MyAlert.tsx";
@@ -11,6 +11,7 @@ import { MyAlert } from "./MyAlert.tsx";
 export const LoginCard = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const search: { loggedOut?: boolean } = useSearch({ from: "/login" });
   const [alert, setAlert] = useState<AlertInterface>({
     isAlert: false,
     type: "neutral",
@@ -19,12 +20,16 @@ export const LoginCard = () => {
   });
 
   useEffect(() => {
-    setAlert({
-      isAlert: true,
-      type: "primary",
-      header: t("success"),
-      text: t("logout-success-text"),
-    });
+    console.log(search);
+    if (search.loggedOut) {
+      setAlert({
+        isAlert: true,
+        type: "primary",
+        header: t("success"),
+        text: t("logout-success-text"),
+      });
+    }
+    void navigate({ to: "/login" });
   }, []);
 
   const form = useForm({
@@ -53,7 +58,7 @@ export const LoginCard = () => {
           header: "",
           text: "",
         });
-        navigate({ to: "/app/inventory" });
+        void navigate({ to: "/app/inventory" });
       }
     },
     onError: (error: unknown) => {
