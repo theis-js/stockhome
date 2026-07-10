@@ -20,7 +20,6 @@ export const LoginCard = () => {
   });
 
   useEffect(() => {
-    console.log(search);
     if (search.loggedOut) {
       setAlert({
         isAlert: true,
