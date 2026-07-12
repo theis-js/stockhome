@@ -67,7 +67,14 @@ export const Sidebar = () => {
         <Button
           variant="soft"
           size="sm"
-          className="transition-transform duration-200 ease-out"
+          sx={{
+            display: "inline-flex",
+            "@media (min-width: 1024px)": { display: "none" },
+            "&:hover": {
+              backgroundColor: "var(--joy-palette-primary-900)",
+              color: "var(--joy-palette-primary-50)",
+            },
+          }}
           onClick={() => setIsOpen((open) => !open)}
           startDecorator={
             <span
@@ -78,10 +85,6 @@ export const Sidebar = () => {
               {isOpen ? <CloseIcon /> : <MenuIcon />}
             </span>
           }
-          sx={{
-            display: "inline-flex",
-            "@media (min-width: 1024px)": { display: "none" },
-          }}
         >
           {isOpen ? t("close") : t("menu")}
         </Button>
