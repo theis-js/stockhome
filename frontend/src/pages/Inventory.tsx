@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Avatar, Button, Checkbox, Chip, CircularProgress, Sheet, Table, Typography, } from "@mui/joy";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -73,12 +73,12 @@ export const InventoryPage = () => {
     mutationFn: (values: string[]) => deleteSelectedProducts(values),
     onSuccess: () => {
       setSelected([]);
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      void queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: showError,
   });
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       setSelected(rows.map((row) => row.id));
       return;
@@ -86,7 +86,7 @@ export const InventoryPage = () => {
     setSelected([]);
   };
 
-  const handleClick = (_event: React.MouseEvent<unknown>, id: string) => {
+  const handleClick = (_event: MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly string[] = [];
     if (selectedIndex === -1) {
