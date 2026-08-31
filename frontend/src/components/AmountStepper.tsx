@@ -17,14 +17,17 @@ export const AmountStepper = ({
   const step = (delta: number) => onChange(Math.max(min, (value || 0) + delta));
 
   return (
-    <div className="flex items-stretch overflow-hidden rounded-2xl border border-solid" style={{ borderColor: "var(--joy-palette-divider)" }}>
+    <div
+      className="flex rounded-2xl border border-solid"
+      style={{ borderColor: "var(--joy-palette-divider)" }}
+    >
       <IconButton
         type="button"
         variant="plain"
         size="lg"
         disabled={value <= min}
         onClick={() => step(-1)}
-        className="transition-transform active:scale-90"
+        className="flex-none transition-transform active:scale-90"
         sx={{ borderRadius: 0 }}
       >
         <Minus size={16} />
@@ -32,6 +35,7 @@ export const AmountStepper = ({
       <Input
         type="number"
         value={value}
+        className="grow"
         onChange={(e) => {
           const nextValue = Number(e.target.value);
           onChange(Number.isNaN(nextValue) ? min : Math.max(min, nextValue));
@@ -51,7 +55,7 @@ export const AmountStepper = ({
         variant="plain"
         size="lg"
         onClick={() => step(1)}
-        className="transition-transform active:scale-90"
+        className="flex-none transition-transform active:scale-90"
         sx={{ borderRadius: 0 }}
       >
         <Plus size={16} />
