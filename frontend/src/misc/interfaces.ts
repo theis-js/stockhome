@@ -59,6 +59,7 @@ export type ProductRow = {
   location: string;
   locationDetail: string;
   expiryDate: string;
+  expiryDateRaw: string | null;
   refillDate: string;
 };
 

@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-in {
+  animation: page-in 220ms ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 180ms ease-out;
+}
+
+.btn-lift {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.btn-lift:hover {
+  transform: translateY(-1px);
+}
+
+.btn-lift:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-page-in,
+  .animate-fade-in,
+  .btn-lift {
+    animation: none !important;
+    transition: none !important;
+  }
+}

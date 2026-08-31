@@ -23,6 +23,7 @@ tsconfig.tsbuildinfo
 
 # Icon must end with two \r
 
+.claude
 
 # Thumbnails
 ._*

@@ -85,13 +85,11 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
     <>
       <Modal open={props.isOpen} onClose={() => props.setOpen(false)}>
         <ModalDialog
-          className="rounded-3xl p-6 backdrop-blur"
+          className="rounded-3xl p-6"
           sx={{
             border: "1px solid",
             borderColor: "divider",
             bgcolor: "background.surface",
-            boxShadow:
-              "0 30px 70px color-mix(in srgb, var(--joy-palette-primary-800) 20%, transparent)",
           }}
         >
           <DialogTitle sx={{ color: "var(--joy-palette-text-primary)" }}>
@@ -114,10 +112,6 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                     variant="outlined"
                     size="lg"
                     className="rounded-2xl"
-                    sx={{
-                      bgcolor: "var(--joy-palette-background-surface)",
-                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                    }}
                   />
                 )}
               </form.Field>
@@ -131,10 +125,6 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                     variant="outlined"
                     size="lg"
                     className="rounded-2xl"
-                    sx={{
-                      bgcolor: "var(--joy-palette-background-surface)",
-                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                    }}
                   />
                 )}
               </form.Field>
@@ -148,10 +138,6 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                     variant="outlined"
                     size="lg"
                     className="rounded-2xl"
-                    sx={{
-                      bgcolor: "var(--joy-palette-background-surface)",
-                      boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                    }}
                   />
                 )}
               </form.Field>
@@ -160,11 +146,7 @@ export const ChangePasswordModal = (props: ChangePasswordProps) => {
                 size="lg"
                 color="primary"
                 variant="solid"
-                className="rounded-2xl transition hover:-translate-y-0.5"
-                sx={{
-                  boxShadow:
-                    "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
-                }}
+                className="btn-lift rounded-2xl"
               >
                 {t("change")}
               </Button>

@@ -2,9 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStorage, updateStorage } from "../utils/api/storages";
 import { useForm } from "@tanstack/react-form";
 import { useStore } from "@tanstack/react-store";
-import { Button, Input } from "@mui/joy";
+import { Button, IconButton, Input } from "@mui/joy";
+import { Trash2 } from "lucide-react";
 import type { Storage } from "../misc/interfaces";
 import { formatDate } from "../utils/uxFncs";
+import { Mono } from "./Mono.tsx";
 import { useTranslation } from "react-i18next";
 
 interface StorageRowProps {
@@ -93,36 +95,37 @@ export const StorageRow = ({ storage, onError }: StorageRowProps) => {
         className="px-6 py-5 text-sm"
         style={{ color: "var(--joy-palette-text-tertiary)" }}
       >
-        {formatDate(storage.created_at)}
+        <Mono>{formatDate(storage.created_at)}</Mono>
       </td>
       <td
         className="px-6 py-5 text-sm"
         style={{ color: "var(--joy-palette-text-tertiary)" }}
       >
-        {formatDate(storage.updated_at)}
+        <Mono>{formatDate(storage.updated_at)}</Mono>
       </td>
       <td className="px-6 py-5 text-right">
         <div className="flex flex-wrap justify-end gap-2">
-          <Button
-            color="primary"
-            onClick={form.handleSubmit}
-            disabled={
-              !isDirty || mutation.isPending || deleteMutation.isPending
-            }
-            size="sm"
-            className="rounded-xl"
-          >
-            {mutation.isPending ? "..." : t("save")}
-          </Button>
-          <Button
+          {isDirty && (
+            <Button
+              color="primary"
+              onClick={form.handleSubmit}
+              disabled={mutation.isPending || deleteMutation.isPending}
+              size="sm"
+              className="rounded-xl"
+            >
+              {mutation.isPending ? "..." : t("save")}
+            </Button>
+          )}
+          <IconButton
             color="danger"
+            variant="plain"
             onClick={() => deleteMutation.mutateAsync(storage.uuid)}
             disabled={mutation.isPending || deleteMutation.isPending}
             size="sm"
             className="rounded-xl"
           >
-            {deleteMutation.isPending ? "..." : t("delete")}
-          </Button>
+            <Trash2 size={16} />
+          </IconButton>
         </div>
       </td>
     </tr>

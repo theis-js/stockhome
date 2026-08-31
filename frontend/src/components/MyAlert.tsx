@@ -11,7 +11,7 @@ export const MyAlert = (props: MyAlertProps) => {
     <Alert
       variant="soft"
       color={props.type}
-      className="rounded-2xl drop-shadow-sm"
+      className="animate-fade-in rounded-2xl drop-shadow-sm"
     >
       {props.header}
       <br />

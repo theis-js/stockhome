@@ -1,27 +1,22 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  Box,
-  Button,
-  Chip,
-  Divider,
-  Input,
-  Option,
-  Select,
-  Typography,
-} from "@mui/joy";
+import { Button, Input, Option, Select, Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { createProduct } from "../utils/api/products";
 import { getStorages } from "../utils/api/storages";
-import type {
-  AlertInterface,
-  ProductFormValues,
-  Storage,
-} from "../misc/interfaces";
+import type { AlertInterface, ProductFormValues, Storage } from "../misc/interfaces";
 import type { ApiError } from "../utils/api/apiError";
 import Cookies from "js-cookie";
+import { AmountStepper } from "../components/AmountStepper.tsx";
+import { PageHeader } from "../components/PageHeader.tsx";
 import { MyAlert } from "../components/MyAlert.tsx";
+
+const cardSx = {
+  border: "1px solid",
+  borderColor: "divider",
+  bgcolor: "background.surface",
+} as const;
 
 export const AddProduct = () => {
   const { t } = useTranslation();
@@ -86,56 +81,23 @@ export const AddProduct = () => {
   });
 
   return (
-    <>
-      <div className="space-y-6">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="space-y-1">
-            <Typography
-              level="h2"
-              sx={{ color: "var(--joy-palette-text-primary)" }}
-            >
-              {t("add-product")}
-            </Typography>
-            <Typography
-              level="body-lg"
-              sx={{ color: "var(--joy-palette-text-tertiary)" }}
-            >
-              {t("add-product-subtitle")}
-            </Typography>
-          </div>
-          <Chip
-            variant="soft"
-            color="primary"
-            className="ml-auto rounded-full px-3"
-          >
-            {t("details")}
-          </Chip>
-        </div>
-      </div>
-      <Box
-        className="mt-6 rounded-3xl p-6 backdrop-blur"
-        sx={{
-          border: "1px solid",
-          borderColor: "divider",
-          bgcolor: "background.surface",
-          boxShadow:
-            "0 24px 60px color-mix(in srgb, var(--joy-palette-primary-800) 12%, transparent)",
+    <div className="space-y-6">
+      <PageHeader title={t("add-product")} subtitle={t("add-product-subtitle")} />
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
         }}
       >
-        <form
-          className="space-y-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}
-        >
-          <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-            <div className="space-y-4">
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="rounded-3xl p-6" style={cardSx}>
+            <Typography level="title-lg" sx={{ color: "var(--joy-palette-text-primary)" }}>
+              {t("product")}
+            </Typography>
+            <div className="mt-4 space-y-4">
               <div className="space-y-1">
-                <Typography
-                  level="title-md"
-                  sx={{ color: "var(--joy-palette-text-primary)" }}
-                >
+                <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
                   {t("product-name")}
                 </Typography>
                 <form.Field name="name">
@@ -143,75 +105,39 @@ export const AddProduct = () => {
                     <Input
                       type="text"
                       required
+                      placeholder={t("product-name-placeholder")}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                       onBlur={field.handleBlur}
                       size="lg"
                       variant="outlined"
                       className="rounded-2xl"
-                      sx={{
-                        bgcolor: "var(--joy-palette-background-surface)",
-                        boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                      }}
                     />
                   )}
                 </form.Field>
               </div>
               <div className="space-y-1">
-                <Typography
-                  level="title-md"
-                  sx={{ color: "var(--joy-palette-text-primary)" }}
-                >
+                <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
                   {t("description")}
                 </Typography>
                 <form.Field name="description">
                   {(field) => (
                     <Input
                       type="text"
+                      placeholder={t("description-placeholder")}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                       onBlur={field.handleBlur}
                       size="lg"
                       variant="outlined"
                       className="rounded-2xl"
-                      sx={{
-                        bgcolor: "var(--joy-palette-background-surface)",
-                        boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                      }}
                     />
                   )}
                 </form.Field>
               </div>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1">
-                  <Typography
-                    level="title-md"
-                    sx={{ color: "var(--joy-palette-text-primary)" }}
-                  >
-                    {t("expiry-date")}
-                  </Typography>
-                  <form.Field name="expiry_date">
-                    {(field) => (
-                      <Input
-                        type="date"
-                        value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        onBlur={field.handleBlur}
-                        size="lg"
-                        variant="outlined"
-                        className="rounded-2xl"
-                        sx={{
-                          bgcolor: "var(--joy-palette-background-surface)",
-                        }}
-                      />
-                    )}
-                  </form.Field>
-                </div>
-                <div className="space-y-1">
-                  <Typography
-                    level="title-md"
-                    sx={{ color: "var(--joy-palette-text-primary)" }}
-                  >
+                  <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
                     {t("bottling-date")}
                   </Typography>
                   <form.Field name="bottling_date">
@@ -224,162 +150,122 @@ export const AddProduct = () => {
                         size="lg"
                         variant="outlined"
                         className="rounded-2xl"
-                        sx={{
-                          bgcolor: "var(--joy-palette-background-surface)",
-                        }}
+                      />
+                    )}
+                  </form.Field>
+                </div>
+                <div className="space-y-1">
+                  <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
+                    {t("expiry-date")}
+                  </Typography>
+                  <form.Field name="expiry_date">
+                    {(field) => (
+                      <Input
+                        type="date"
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        size="lg"
+                        variant="outlined"
+                        className="rounded-2xl"
                       />
                     )}
                   </form.Field>
                 </div>
               </div>
             </div>
-            <div className="space-y-4">
-              <div
-                className="rounded-2xl p-5"
-                style={{
-                  border: "1px solid var(--joy-palette-divider)",
-                  background:
-                    "linear-gradient(to bottom right, var(--joy-palette-primary-50), var(--joy-palette-background-level1), var(--joy-palette-background-level2))",
-                  boxShadow: "0 16px 40px var(--joy-palette-divider)",
-                }}
-              >
-                <Typography
-                  level="title-md"
-                  sx={{ color: "var(--joy-palette-text-primary)" }}
-                >
-                  {t("inventory")}
+          </div>
+
+          <div className="rounded-3xl p-6" style={cardSx}>
+            <Typography level="title-lg" sx={{ color: "var(--joy-palette-text-primary)" }}>
+              {t("inventory")}
+            </Typography>
+            <div className="mt-4 space-y-4">
+              <div className="space-y-1">
+                <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
+                  {t("amount")}
                 </Typography>
-                <Divider className="my-3" />
-                <div className="grid gap-4">
-                  <div className="space-y-1">
-                    <Typography
-                      level="title-md"
-                      sx={{ color: "var(--joy-palette-text-primary)" }}
-                    >
-                      {t("amount")}
-                    </Typography>
-                    <form.Field name="amount">
-                      {(field) => (
-                        <Input
-                          type="number"
-                          color="neutral"
-                          id="amountInput"
-                          placeholder={t("amount")}
-                          value={field.state.value}
-                          variant="soft"
-                          size="lg"
-                          onChange={(e) => {
-                            const nextValue = Number(e.target.value);
-                            field.handleChange(
-                              Number.isNaN(nextValue) ? 0 : nextValue,
-                            );
-                          }}
-                          onBlur={field.handleBlur}
-                          className="rounded-2xl"
-                          sx={{
-                            bgcolor: "var(--joy-palette-background-surface)",
-                          }}
-                        />
-                      )}
-                    </form.Field>
-                  </div>
-                  <div className="space-y-1">
-                    <Typography
-                      level="title-md"
-                      sx={{ color: "var(--joy-palette-text-primary)" }}
-                    >
-                      {t("price")}
-                    </Typography>
-                    <form.Field name="price">
-                      {(field) => (
-                        <Input
-                          type="text"
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          size="lg"
-                          variant="outlined"
-                          className="rounded-2xl"
-                          sx={{
-                            bgcolor: "var(--joy-palette-background-surface)",
-                          }}
-                        />
-                      )}
-                    </form.Field>
-                    <Typography
-                      level="body-sm"
-                      sx={{ color: "var(--joy-palette-text-tertiary)" }}
-                    >
-                      {Cookies.get("currency")}
-                    </Typography>
-                  </div>
-                  <div className="space-y-1">
-                    <Typography
-                      level="title-md"
-                      sx={{ color: "var(--joy-palette-text-primary)" }}
-                    >
-                      {t("storage-place")}
-                    </Typography>
-                    <form.Field name="storage_location_uuid">
-                      {(field) => (
-                        <Select
-                          required
-                          value={field.state.value}
-                          onChange={(_event, value) =>
-                            field.handleChange(value ?? "")
-                          }
-                          size="lg"
-                          variant="outlined"
-                          className="rounded-2xl"
-                          sx={{
-                            bgcolor: "var(--joy-palette-background-surface)",
-                          }}
-                        >
-                          {storages?.map((storage) => (
-                            <Option key={storage.uuid} value={storage.uuid}>
-                              {storage.name}
-                            </Option>
-                          ))}
-                        </Select>
-                      )}
-                    </form.Field>
-                  </div>
-                </div>
+                <form.Field name="amount">
+                  {(field) => (
+                    <AmountStepper
+                      value={field.state.value}
+                      onChange={field.handleChange}
+                      onBlur={field.handleBlur}
+                    />
+                  )}
+                </form.Field>
               </div>
+              <div className="space-y-1">
+                <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
+                  {t("price")}
+                </Typography>
+                <form.Field name="price">
+                  {(field) => (
+                    <Input
+                      type="text"
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      onBlur={field.handleBlur}
+                      size="lg"
+                      variant="outlined"
+                      className="rounded-2xl"
+                      endDecorator={
+                        <Typography level="body-sm" sx={{ color: "var(--joy-palette-text-tertiary)" }}>
+                          {Cookies.get("currency")}
+                        </Typography>
+                      }
+                    />
+                  )}
+                </form.Field>
+              </div>
+              <div className="space-y-1">
+                <Typography level="title-md" sx={{ color: "var(--joy-palette-text-primary)" }}>
+                  {t("storage-place")}
+                </Typography>
+                <form.Field name="storage_location_uuid">
+                  {(field) => (
+                    <Select
+                      required
+                      placeholder={t("choose-storage")}
+                      value={field.state.value}
+                      onChange={(_event, value) => field.handleChange(value ?? "")}
+                      size="lg"
+                      variant="outlined"
+                      className="rounded-2xl"
+                    >
+                      {storages?.map((storage) => (
+                        <Option key={storage.uuid} value={storage.uuid}>
+                          {storage.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </form.Field>
+              </div>
+              <Typography level="body-sm" className="normal-case font-normal" sx={{ color: "var(--joy-palette-text-tertiary)" }}>
+                {t("amount-price-optional-hint")}
+              </Typography>
             </div>
           </div>
-          <div className="flex gap-3 items-center">
-            <Typography
-              level="body-sm"
-              sx={{ color: "var(--joy-palette-text-tertiary)" }}
-            >
-              {t("product-details")}
-            </Typography>
-            <div className="grow"></div>
-            <Button
-              type="submit"
-              loading={isPending}
-              size="lg"
-              color="primary"
-              variant="solid"
-              className="rounded-2xl transition hover:-translate-y-0.5"
-              sx={{
-                boxShadow:
-                  "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
-              }}
-            >
-              {t("save")}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <Typography level="body-sm" className="normal-case font-normal" sx={{ color: "var(--joy-palette-text-tertiary)" }}>
+            {t("all-fields-editable-later")}
+          </Typography>
+          <div className="flex gap-3">
+            <Button type="submit" loading={isPending} size="lg" color="primary" variant="solid" className="btn-lift rounded-2xl">
+              {t("save-product")}
             </Button>
           </div>
-          {alert.isAlert && (
-            <MyAlert
-              type={alert.type}
-              header={alert.header}
-              text={alert.text}
-            />
-          )}
-        </form>
-      </Box>
-    </>
+        </div>
+
+        {alert.isAlert && (
+          <div className="mt-4">
+            <MyAlert type={alert.type} header={alert.header} text={alert.text} />
+          </div>
+        )}
+      </form>
+    </div>
   );
 };

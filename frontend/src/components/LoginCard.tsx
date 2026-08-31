@@ -5,12 +5,16 @@ import { signInUser } from "../utils/api/auth";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useColorScheme } from "@mui/joy/styles";
+import { Layers } from "lucide-react";
 import type { AlertInterface } from "../misc/interfaces";
+import { changeTranslation } from "../utils/uxFncs";
 import { MyAlert } from "./MyAlert.tsx";
 
 export const LoginCard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { mode, setMode } = useColorScheme();
   const search: { loggedOut?: boolean } = useSearch({ from: "/login" });
   const [alert, setAlert] = useState<AlertInterface>({
     isAlert: false,
@@ -72,37 +76,59 @@ export const LoginCard = () => {
   });
 
   return (
-    <div
-      className="flex min-h-screen w-full items-center justify-center px-6 py-10"
-      style={{
-        background:
-          "radial-gradient(1200px circle at 20% 10%, var(--joy-palette-primary-100) 0%, var(--joy-palette-background-body) 40%, var(--joy-palette-background-level1) 100%)",
-      }}
-    >
-      <div className="mx-auto flex w-full max-w-4xl items-center justify-center">
-        <div
-          className="w-full max-w-md rounded-3xl p-8 backdrop-blur"
-          style={{
-            border: "1px solid var(--joy-palette-divider)",
-            backgroundColor: "var(--joy-palette-background-surface)",
-            boxShadow:
-              "0 24px 60px color-mix(in srgb, var(--joy-palette-primary-800) 18%, transparent)",
-          }}
-        >
-          <div className="mb-8 space-y-2">
+    <div className="flex min-h-screen w-full flex-col lg:flex-row">
+      <div
+        className="hidden flex-col justify-between px-12 py-10 lg:flex lg:w-1/2"
+        style={{ backgroundColor: "#0e1116", color: "#e8ecf2" }}
+      >
+        <div className="flex items-center gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: "#5b8def" }}>
+            <Layers size={16} color="white" />
+          </span>
+          <span className="text-lg font-bold">{t("app-title")}</span>
+        </div>
+        <div className="max-w-md space-y-3">
+          <h2 className="text-3xl font-bold" style={{ letterSpacing: "-0.03em" }}>
+            {t("login-tagline-1")}
+          </h2>
+          <p className="text-sm" style={{ color: "#8590a0" }}>
+            {t("login-tagline-2")}
+          </p>
+        </div>
+        <p className="text-xs" style={{ color: "#8590a0" }}>
+          v0.9 MVP
+        </p>
+      </div>
+
+      <div
+        className="flex flex-1 items-center justify-center px-6 py-10"
+        style={{ backgroundColor: "var(--joy-palette-background-body)" }}
+      >
+        <div className="w-full max-w-md space-y-6">
+          <div className="flex items-center gap-2 lg:hidden">
+            <span
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
+              style={{ backgroundColor: "var(--joy-palette-primary-solidBg)" }}
+            >
+              <Layers size={16} color="white" />
+            </span>
+            <span className="text-lg font-bold" style={{ color: "var(--joy-palette-text-primary)" }}>
+              {t("app-title")}
+            </span>
+          </div>
+
+          <div className="space-y-2">
             <p
               className="text-xs font-semibold uppercase tracking-[0.3em]"
               style={{ color: "var(--joy-palette-primary-solidBg)" }}
             >
-              Stockhome
+              {t("app-title")}
             </p>
-            <h1
-              className="text-3xl font-semibold"
-              style={{ color: "var(--joy-palette-text-primary)" }}
-            >
+            <h1 className="text-3xl font-bold" style={{ color: "var(--joy-palette-text-primary)" }}>
               {t("login")}
             </h1>
           </div>
+
           <form
             className="space-y-5"
             onSubmit={(e) => {
@@ -111,11 +137,7 @@ export const LoginCard = () => {
             }}
           >
             {alert.isAlert && (
-              <MyAlert
-                type={alert.type}
-                header={alert.header}
-                text={alert.text}
-              />
+              <MyAlert type={alert.type} header={alert.header} text={alert.text} />
             )}
             <form.Field name="username">
               {(field) => (
@@ -126,10 +148,6 @@ export const LoginCard = () => {
                   variant="outlined"
                   size="lg"
                   className="rounded-2xl"
-                  sx={{
-                    bgcolor: "var(--joy-palette-background-surface)",
-                    boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                  }}
                 />
               )}
             </form.Field>
@@ -143,10 +161,6 @@ export const LoginCard = () => {
                   variant="outlined"
                   size="lg"
                   className="rounded-2xl"
-                  sx={{
-                    bgcolor: "var(--joy-palette-background-surface)",
-                    boxShadow: "0 10px 24px var(--joy-palette-divider)",
-                  }}
                 />
               )}
             </form.Field>
@@ -156,15 +170,28 @@ export const LoginCard = () => {
               size="lg"
               color="primary"
               variant="solid"
-              className="w-full rounded-2xl transition hover:-translate-y-0.5"
-              sx={{
-                boxShadow:
-                  "0 16px 36px color-mix(in srgb, var(--joy-palette-primary-solidBg) 35%, transparent)",
-              }}
+              className="btn-lift w-full rounded-2xl"
             >
               {t("login")}
             </Button>
           </form>
+
+          <div
+            className="flex items-center justify-center gap-3 text-sm"
+            style={{ color: "var(--joy-palette-text-tertiary)" }}
+          >
+            <button type="button" onClick={changeTranslation} className="hover:underline">
+              {i18n.language === "de" ? "English" : "Deutsch"}
+            </button>
+            <span>|</span>
+            <button
+              type="button"
+              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+              className="hover:underline"
+            >
+              {mode === "dark" ? t("theme-light") : t("theme-dark")}
+            </button>
+          </div>
         </div>
       </div>
     </div>

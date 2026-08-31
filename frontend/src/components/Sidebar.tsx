@@ -1,39 +1,41 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Typography } from "@mui/joy";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import StorageIcon from "@mui/icons-material/Storage";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import TranslateIcon from "@mui/icons-material/Translate";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import { useMatchRoute, useNavigate } from "@tanstack/react-router";
+import { Button, Chip, Typography } from "@mui/joy";
+import { Package, Plus, Layers, Settings, Menu, X, ChevronRight } from "lucide-react";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { changeTranslation } from "../utils/uxFncs";
-import { useColorScheme } from "@mui/joy/styles";
-import { useLogout } from "../hooks/useLogout.ts";
+import { getProducts } from "../utils/api/products.ts";
+import { getStorages } from "../utils/api/storages.ts";
 
 export const Sidebar = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { logout } = useLogout();
-  const matchRoute = useMatchRoute();
-  const { mode, setMode } = useColorScheme();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [isOpen, setIsOpen] = useState(false);
 
-  const btnClass =
-    "h-11 w-full justify-start! rounded-2xl px-4 text-left text-sm font-semibold transition [&_.MuiButton-startDecorator]:mr-3! [&_.MuiButton-startDecorator]:ml-0!";
+  const { data: products } = useQuery({ queryKey: ["products"], queryFn: getProducts });
+  const { data: storages } = useQuery({ queryKey: ["storages"], queryFn: getStorages });
 
-  const variant = (to: string) =>
-    !!matchRoute({ to, fuzzy: false }) ? "soft" : "plain";
+  const btnClass =
+    "h-11 w-full justify-start! rounded-2xl px-4 text-left text-sm font-semibold transition-colors duration-150 [&_.MuiButton-startDecorator]:mr-3! [&_.MuiButton-startDecorator]:ml-0! [&_.MuiButton-endDecorator]:ml-auto!";
+
+  const isActive = (to: string) => pathname === to || pathname.startsWith(`${to}/`);
 
   const handleNavigate = (to: string) => {
     void navigate({ to });
     setIsOpen(false);
   };
+
+  const appName = Cookies.get("app-name") || t("app-title");
+  const initials = appName.slice(0, 2).toUpperCase();
+
+  const navItems = [
+    { to: "/app/inventory", label: t("inventory"), icon: <Package size={18} />, count: products?.length },
+    { to: "/app/add-product", label: t("add"), icon: <Plus size={18} /> },
+    { to: "/app/storages", label: t("storages"), icon: <Layers size={18} />, count: storages?.length },
+    { to: "/app/app-settings", label: t("settings"), icon: <Settings size={18} /> },
+  ];
 
   return (
     <aside
@@ -41,50 +43,35 @@ export const Sidebar = () => {
       style={{
         borderBottom: "1px solid var(--joy-palette-divider)",
         borderRightColor: "var(--joy-palette-divider)",
-        background:
-          "linear-gradient(to bottom, var(--joy-palette-primary-50), var(--joy-palette-background-level1), var(--joy-palette-background-level2))",
-        boxShadow:
-          "0 20px 60px color-mix(in srgb, var(--joy-palette-primary-solidBg) 8%, transparent)",
+        backgroundColor: "var(--joy-palette-background-surface)",
       }}
     >
       <div className="flex items-center justify-between gap-4">
-        <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span
+            className="flex h-8 w-8 items-center justify-center rounded-lg"
+            style={{ backgroundColor: "var(--joy-palette-primary-solidBg)" }}
+          >
+            <Layers size={16} color="white" />
+          </span>
           <Typography
-            level="h2"
-            className="text-[22px] font-semibold"
-            sx={{ color: "var(--joy-palette-primary-solidBg)" }}
+            level="title-lg"
+            className="text-[17px] font-bold"
+            sx={{ color: "var(--joy-palette-text-primary)" }}
           >
             {t("app-title")}
-          </Typography>
-          <Typography
-            level="body-lg"
-            className="text-sm font-medium"
-            sx={{ color: "var(--joy-palette-text-tertiary)" }}
-          >
-            {Cookies.get("app-name") ? Cookies.get("app-name") : ""}
           </Typography>
         </div>
         <Button
           variant="soft"
+          color="neutral"
           size="sm"
           sx={{
             display: "inline-flex",
             "@media (min-width: 1024px)": { display: "none" },
-            "&:hover": {
-              backgroundColor: "var(--joy-palette-primary-900)",
-              color: "var(--joy-palette-primary-50)",
-            },
           }}
           onClick={() => setIsOpen((open) => !open)}
-          startDecorator={
-            <span
-              className={`inline-flex transition-transform duration-200 ease-out ${
-                isOpen ? "rotate-180" : "rotate-0"
-              }`}
-            >
-              {isOpen ? <CloseIcon /> : <MenuIcon />}
-            </span>
-          }
+          startDecorator={isOpen ? <X size={16} /> : <Menu size={16} />}
         >
           {isOpen ? t("close") : t("menu")}
         </Button>
@@ -97,112 +84,68 @@ export const Sidebar = () => {
             : "max-h-0 opacity-0 pointer-events-none"
         } lg:max-h-none lg:opacity-100 lg:pointer-events-auto`}
       >
-        <div className="flex flex-1 flex-col gap-2">
-          <Button
-            onClick={() => handleNavigate("/app/inventory")}
-            variant={variant("/app/inventory")}
-            startDecorator={<InventoryIcon />}
-            className={btnClass}
-            sx={{
-              color: "var(--joy-palette-text-secondary)",
-              "&:hover": {
-                bgcolor: "var(--joy-palette-background-surface)",
-                color: "var(--joy-palette-primary-solidBg)",
-              },
-            }}
-          >
-            {t("inventory")}
-          </Button>
-          <Button
-            onClick={() => handleNavigate("/app/add-product")}
-            variant={variant("/app/add-product")}
-            startDecorator={<AddBoxIcon />}
-            className={btnClass}
-            sx={{
-              color: "var(--joy-palette-text-secondary)",
-              "&:hover": {
-                bgcolor: "var(--joy-palette-background-surface)",
-                color: "var(--joy-palette-primary-solidBg)",
-              },
-            }}
-          >
-            {t("add")}
-          </Button>
-          <Button
-            onClick={() => handleNavigate("/app/storages")}
-            variant={variant("/app/storages")}
-            startDecorator={<StorageIcon />}
-            className={btnClass}
-            sx={{
-              color: "var(--joy-palette-text-secondary)",
-              "&:hover": {
-                bgcolor: "var(--joy-palette-background-surface)",
-                color: "var(--joy-palette-primary-solidBg)",
-              },
-            }}
-          >
-            {t("storages")}
-          </Button>
-          <Button
-            onClick={() => handleNavigate("/app/app-settings")}
-            variant={variant("/app/app-settings")}
-            startDecorator={<SettingsIcon />}
-            className={btnClass}
-            sx={{
-              color: "var(--joy-palette-text-secondary)",
-              "&:hover": {
-                bgcolor: "var(--joy-palette-background-surface)",
-                color: "var(--joy-palette-primary-solidBg)",
-              },
-            }}
-          >
-            {t("settings")}
-          </Button>
-          <Button
-            onClick={logout}
-            color="danger"
-            startDecorator={<ExitToAppIcon />}
-            className={btnClass}
-          >
-            {t("logout")}
-          </Button>
-          <Button
-            onClick={() => {
-              changeTranslation();
-              setIsOpen(false);
-            }}
-            color="neutral"
-            startDecorator={<TranslateIcon />}
-            className={btnClass}
-          >
-            {t("change-translation")}
-          </Button>
-          <Button
-            onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-            color="neutral"
-            startDecorator={<Brightness4Icon />}
-            className={btnClass}
-          >
-            {mode === "dark" ? "Light Mode" : "Dark Mode"}
-          </Button>
+        <div className="flex flex-1 flex-col gap-1">
+          {navItems.map((item) => {
+            const active = isActive(item.to);
+            return (
+              <Button
+                key={item.to}
+                onClick={() => handleNavigate(item.to)}
+                variant={active ? "soft" : "plain"}
+                color="primary"
+                startDecorator={item.icon}
+                endDecorator={
+                  item.count !== undefined ? (
+                    <Chip size="sm" variant="soft" color={active ? "primary" : "neutral"}>
+                      {item.count}
+                    </Chip>
+                  ) : undefined
+                }
+                className={btnClass}
+                sx={{
+                  color: active
+                    ? "var(--joy-palette-primary-solidBg)"
+                    : "var(--joy-palette-text-secondary)",
+                  borderLeft: "3px solid",
+                  borderLeftColor: active ? "var(--joy-palette-primary-solidBg)" : "transparent",
+                  "&:hover": {
+                    bgcolor: active
+                      ? "var(--joy-palette-primary-softBg)"
+                      : "var(--joy-palette-background-level1)",
+                  },
+                }}
+              >
+                {item.label}
+              </Button>
+            );
+          })}
         </div>
 
-        <div
-          className="flex items-center gap-3 rounded-2xl px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em]"
+        <button
+          type="button"
+          onClick={() => handleNavigate("/app/app-settings")}
+          className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition"
           style={{
             border: "1px solid var(--joy-palette-divider)",
-            backgroundColor: "var(--joy-palette-background-surface)",
-            color: "var(--joy-palette-primary-solidBg)",
-            boxShadow: "0 12px 30px var(--joy-palette-divider)",
+            backgroundColor: "var(--joy-palette-background-level1)",
           }}
         >
-          <img
-            src="/favicon.png"
-            alt="Stockhome"
-            className="h-7 w-7 rounded-lg"
-          />
-          <span>Stockhome</span>
-        </div>
+          <span
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+            style={{
+              backgroundColor: "var(--joy-palette-primary-softBg)",
+              color: "var(--joy-palette-primary-softColor)",
+            }}
+          >
+            {initials}
+          </span>
+          <div className="min-w-0 flex-1">
+            <Typography level="title-md" className="truncate" sx={{ color: "var(--joy-palette-text-primary)" }}>
+              {appName}
+            </Typography>
+          </div>
+          <ChevronRight size={16} color="var(--joy-palette-text-tertiary)" />
+        </button>
       </div>
     </aside>
   );
