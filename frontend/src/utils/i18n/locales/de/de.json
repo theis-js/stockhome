@@ -129,5 +129,7 @@
   "filter-soon": "Bald",
   "filter-low": "Niedrig",
   "products": "Produkte",
-  "units": "Einheiten"
+  "units": "Einheiten",
+  "cancel": "Abbrechen",
+  "delete-confirmation-text": "Bist du dir sicher das du diesen Storage löschen willst: "
 }

@@ -129,5 +129,7 @@
   "filter-soon": "Soon",
   "filter-low": "Low",
   "products": "products",
-  "units": "units"
+  "units": "units",
+  "cancel": "Cancel",
+  "delete-confirmation-text": "Are you sure you want to delete this storage: "
 }
