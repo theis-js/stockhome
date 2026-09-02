@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStorage, updateStorage } from "../utils/api/storages";
 import { useForm } from "@tanstack/react-form";
-import { useStore } from "@tanstack/react-store";
 import { Button, IconButton, Input } from "@mui/joy";
 import { Trash2 } from "lucide-react";
 import type { Storage } from "../misc/interfaces";
@@ -55,11 +54,6 @@ export const StorageRow = ({ storage, onError }: StorageRowProps) => {
       await mutation.mutateAsync(value);
     },
   });
-
-  const values = useStore(form.baseStore, (state) => state.values);
-  const isDirty =
-    values.name !== storage.name ||
-    (values.description ?? "") !== (storage.description ?? "");
 
   return (
     <>
@@ -122,17 +116,26 @@ export const StorageRow = ({ storage, onError }: StorageRowProps) => {
         </td>
         <td className="px-6 py-5 text-right">
           <div className="flex flex-wrap justify-end gap-2">
-            {isDirty && (
-              <Button
-                color="primary"
-                onClick={form.handleSubmit}
-                disabled={mutation.isPending || deleteMutation.isPending}
-                size="sm"
-                className="rounded-xl"
-              >
-                {mutation.isPending ? "..." : t("save")}
-              </Button>
-            )}
+            <form.Subscribe
+              selector={(state) =>
+                state.values.name !== storage.name ||
+                (state.values.description ?? "") !== (storage.description ?? "")
+              }
+            >
+              {(isDirty) =>
+                isDirty && (
+                  <Button
+                    color="primary"
+                    onClick={form.handleSubmit}
+                    disabled={mutation.isPending || deleteMutation.isPending}
+                    size="sm"
+                    className="rounded-xl"
+                  >
+                    {mutation.isPending ? "..." : t("save")}
+                  </Button>
+                )
+              }
+            </form.Subscribe>
             <IconButton
               color="danger"
               variant="plain"
